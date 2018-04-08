@@ -4,5 +4,27 @@
 [[Installation of Libgdx in Intellij](https://www.youtube.com/watch?v=q0wM63_KNIs)]
 
 ### Versions
-#### 0.1
-- [x] This
+
+### 0.3
+- [ ] Player
+    - [ ] Sharpen movement
+- [ ] Ground level
+- [ ] Chests
+    - [ ] Texture and body..
+    - [ ] Open "animation"
+
+#### 0.2
+- [ ] Game menu
+- [ ] Player
+    - [ ] Jump
+
+#### 0.1 (Current)
+- [X] Project Structure
+- [X] GameInfo class
+- [X] Player
+    - [X] Hitbox
+    - [X] Movement (Left and right)
+- [X] Platforms
+
+
+#### Bugs
