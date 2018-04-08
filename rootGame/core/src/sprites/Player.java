@@ -9,11 +9,15 @@ public class Player extends Sprite {
 
     private World world; //We create the world in the place where we need physics
     private Body body; //The body of the player //THIS IS WHAT WE CONTROL AND MOVE
+    private String userData; //The "name" of the sprite
+
+    public boolean isInAir = false;
 
     public Player(World world, float x, float y){
         super(new Texture("img/hero.png"));
         setPosition( x - getWidth() / 2, y - getWidth() / 2);
         this.world = world;
+        this.userData = "Player";
         createBody();
     }
 
@@ -41,7 +45,7 @@ public class Player extends Sprite {
         fixtureDef.density = 1;
 
         Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData("Player"); //Can we called on contact
+        fixture.setUserData(this.userData); //Can we called on contact
 
         shape.dispose(); //It is no longer needed/used
     }
@@ -53,5 +57,9 @@ public class Player extends Sprite {
 
     public Body getBody(){
         return this.body;
+    }
+
+    public String getUserData() {
+        return userData;
     }
 }

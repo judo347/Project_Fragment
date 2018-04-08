@@ -5,26 +5,30 @@
 
 ### Versions
 
-### 0.3
-- [ ] Player
-    - [ ] Sharpen movement
-- [ ] Ground level
+#### 0.5 - Chest 
 - [ ] Chests
     - [ ] Texture and body..
     - [ ] Open "animation"
 
-#### 0.2
+#### 0.4 - Game menu
 - [ ] Game menu
-- [ ] Player
-    - [ ] Jump
 
-#### 0.1 (Current)
+#### 0.3 - Player
+- [ ] Player
+    - [ ] Sharpen movement
+    - [ ] player texture model and hitbox update
+    - [ ] Movement matching sprites
+
+
+#### 0.2 (Current)
+- [X] Multiple keystrokes
+- [X] Player
+    - [X] Jump
+
+#### 0.1
 - [X] Project Structure
 - [X] GameInfo class
 - [X] Player
     - [X] Hitbox
     - [X] Movement (Left and right)
 - [X] Platforms
-
-
-#### Bugs

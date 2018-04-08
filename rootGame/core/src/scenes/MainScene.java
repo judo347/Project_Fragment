@@ -54,17 +54,22 @@ public class MainScene implements Screen, ContactListener{
         platform2 = new Platform(world, GameInfo.WIDTH / 3f,GameInfo.HEIGHT / 3f);
         platform3 = new Platform(world, GameInfo.WIDTH / 3f * 2,GameInfo.HEIGHT / 3f);
         platform4 = new Platform(world, GameInfo.WIDTH / 3f * 2.5f, GameInfo.HEIGHT / 5f * 3);
+
+
     }
 
     void update(float deltaTime){
 
         //Handling user input
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            //player.getBody().applyLinearImpulse(new Vector2(-0.01f,0), player.getBody().getWorldCenter(), true);
-
             player.getBody().applyForce(new Vector2(-0.5f,0), player.getBody().getWorldCenter(), true); //2nd arg where the force is used, 3rd wake the elements and calculate
-        } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             player.getBody().applyForce(new Vector2(0.5f,0), player.getBody().getWorldCenter(), true); //Force = overtime, implulse = right away.
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            if(!player.isInAir)
+                player.getBody().applyForce(new Vector2(0,20), player.getBody().getWorldCenter(), true);
         }
     }
 
@@ -118,19 +123,42 @@ public class MainScene implements Screen, ContactListener{
 
     }
 
+    /** Getting called when app is terminated. Used to dispose textures. This is also called when changing menus*/
     @Override
     public void dispose() {
+
+        // Will free up memory
+        background.dispose();
+        player.getTexture().dispose();
+        platform1.getTexture().dispose();
+        platform2.getTexture().dispose();
+        platform3.getTexture().dispose();
+        platform4.getTexture().dispose();
 
     }
 
     @Override
     public void beginContact(Contact contact) {
 
+        /*
+        Fixture playerFixture;
+
+        //Get player fixture
+        if(contact.getFixtureA().getUserData() == this.player.getUserData()){
+            playerFixture = contact.getFixtureA();
+        }else
+            playerFixture = contact.getFixtureB();
+        */
+
+        if(contact.getFixtureA().getUserData() == this.player.getUserData() || contact.getFixtureB().getUserData() == this.player.getUserData())
+            player.isInAir = false;
+
     }
 
     @Override
     public void endContact(Contact contact) {
-
+        if(contact.getFixtureA().getUserData() == this.player.getUserData() || contact.getFixtureB().getUserData() == this.player.getUserData())
+            player.isInAir = true;
     }
 
     @Override
