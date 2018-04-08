@@ -1,7 +1,10 @@
 package sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 
@@ -13,8 +16,14 @@ public class Player extends Sprite {
 
     public boolean isInAir = false;
 
+    //Animations
+    private static final int FRAME_JUMP_IMAGES = 6;
+    private Animation<TextureRegion> jumpAnimation;
+    private Texture jumpSheet;
+
     public Player(World world, float x, float y){
         super(new Texture("img/hero.png"));
+
         setPosition( x - getWidth() / 2, y - getWidth() / 2);
         this.world = world;
         this.userData = "Player";
@@ -48,6 +57,18 @@ public class Player extends Sprite {
         fixture.setUserData(this.userData); //Can we called on contact
 
         shape.dispose(); //It is no longer needed/used
+
+        //Animation
+        jumpSheet = new Texture(Gdx.files.internal("img/tempHeroSpritSheetJump.png"));
+        TextureRegion[][] tmp = TextureRegion.split(jumpSheet, jumpSheet.getWidth() / FRAME_JUMP_IMAGES, jumpSheet.getHeight());
+        TextureRegion[] jumpFrames = new TextureRegion[FRAME_JUMP_IMAGES];
+        for (int i = 0; i < FRAME_JUMP_IMAGES; i++){
+            jumpFrames[i++] = tmp[0][i];
+        }
+
+        jumpAnimation = new Animation<TextureRegion>(0.025f, jumpFrames);
+
+        //jumpSheet.dispose();
     }
 
     /** Handles sprite movement with body. */
@@ -61,5 +82,9 @@ public class Player extends Sprite {
 
     public String getUserData() {
         return userData;
+    }
+
+    public Animation<TextureRegion> getJumpAnimation() {
+        return jumpAnimation;
     }
 }

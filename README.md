@@ -13,14 +13,14 @@
 #### 0.4 - Game menu
 - [ ] Game menu
 
-#### 0.3 - Player
+#### 0.3 - Player (Current)
 - [ ] Player
     - [ ] Sharpen movement
     - [ ] player texture model and hitbox update
     - [ ] Movement matching sprites
 
 
-#### 0.2 (Current)
+#### 0.2
 - [X] Multiple keystrokes
 - [X] Player
     - [X] Jump

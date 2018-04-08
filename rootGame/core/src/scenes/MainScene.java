@@ -1,12 +1,10 @@
 package scenes;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.mk.MainGame;
@@ -32,30 +30,30 @@ public class MainScene implements Screen, ContactListener{
     private OrthographicCamera box2DCamera;
     private Box2DDebugRenderer debugRenderer;
 
+    float stateTime;
+
     public MainScene(MainGame game){
         this.game = game;
+        background = new Texture("img/background.png");
 
         //What we see on the screen
         box2DCamera = new OrthographicCamera();
         box2DCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
-
         box2DCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
-
         debugRenderer = new Box2DDebugRenderer();
 
         world = new World(new Vector2(0,-9.8f), true); //Creating a world with gravity, true allows sleep = Dont calculate when nothing happens to elements.
-
         world.setContactListener(this); //add the contact listener to the world
 
-        background = new Texture("img/background.png");
+        stateTime = 0f;
+
+        //Creation of world elements
         player = new Player(world, GameInfo.WIDTH / 2, GameInfo.HEIGHT / 2 + 150);
 
         platform1 = new Platform(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2);
         platform2 = new Platform(world, GameInfo.WIDTH / 3f,GameInfo.HEIGHT / 3f);
         platform3 = new Platform(world, GameInfo.WIDTH / 3f * 2,GameInfo.HEIGHT / 3f);
         platform4 = new Platform(world, GameInfo.WIDTH / 3f * 2.5f, GameInfo.HEIGHT / 5f * 3);
-
-
     }
 
     void update(float deltaTime){
@@ -80,6 +78,9 @@ public class MainScene implements Screen, ContactListener{
 
     @Override
     public void render(float delta) {
+        stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+        TextureRegion currentFrame = player.getJumpAnimation().getKeyFrame(stateTime, true);
+
         update(delta);
 
         player.updatePlayer();
@@ -94,6 +95,8 @@ public class MainScene implements Screen, ContactListener{
         game.getBatch().draw(platform2, platform2.getX() - (platform2.getWidth() / 2), platform2.getY() - (platform2.getHeight() / 2));
         game.getBatch().draw(platform3, platform3.getX() - (platform3.getWidth() / 2), platform3.getY() - (platform3.getHeight() / 2));
         game.getBatch().draw(platform4, platform4.getX() - (platform4.getWidth() / 2), platform4.getY() - (platform4.getHeight() / 2));
+
+        game.getBatch().draw(currentFrame, 50, 50);
         game.getBatch().end();
 
         debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
@@ -101,6 +104,8 @@ public class MainScene implements Screen, ContactListener{
         //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
         // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+
+
     }
 
     @Override
