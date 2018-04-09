@@ -15,7 +15,6 @@ public class MainGame extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		setScreen(new MenuScene(this));
-		//setScreen(new MainScene(this));
 	}
 
 	/** Gets called every frame. */

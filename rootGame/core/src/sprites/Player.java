@@ -1,33 +1,46 @@
 package sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.sun.corba.se.impl.orbutil.ObjectUtility;
 import helpers.GameInfo;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
-public class Player extends Sprite {
+public class Player {
 
     private World world; //We create the world in the place where we need physics
     private Body body; //The body of the player //THIS IS WHAT WE CONTROL AND MOVE
     private String userData; //The "name" of the sprite
+    private Sprite sprite;
 
     public boolean isInAir = false;
 
-    //Animations
-    private static final int FRAME_JUMP_IMAGES = 6;
-    private Animation<TextureRegion> jumpAnimation;
-    private Texture jumpSheet;
+    Animation[] verticalMovement;
+    public static final float ANIMATION_SPEED = 0.5f;
+    public static final int HERO_WIDTH_PIXEL = 32;
+    public static final int HERO_HEIGHT_PIXEL = 64;
+    public static final int NUMBER_OF_FRAMES = 5;
+    public static final float WALK_TIMER_SWITCH_TIME = 0.15f;
+    private float walkTimer;
+    private int currentFrame;
 
     public Player(World world, float x, float y){
-        super(new Texture("img/hero/hero_stand.png"));
-
-        setPosition( x - getWidth() / 2, y - getWidth() / 2);
+        this.sprite = new Sprite(new Texture("img/hero/hero_stand.png")); //TODO: FILE SHOULD BE CHANGED
+        this.sprite.setPosition(x - this.sprite.getWidth() / 2, y - this.sprite.getWidth() / 2);
         this.world = world;
         this.userData = "Player";
+        this.walkTimer = 0;
+        this.currentFrame = 2;
+
+        this.verticalMovement = new Animation[NUMBER_OF_FRAMES]; //Number of images
+        TextureRegion[][] heroVerticalSpriteSheet = TextureRegion.split(new Texture("img/hero/hero_vertical.png"), HERO_WIDTH_PIXEL, HERO_HEIGHT_PIXEL);
+
+        for(int i = 0; i < NUMBER_OF_FRAMES; i++)
+            verticalMovement[i] = new Animation(ANIMATION_SPEED, heroVerticalSpriteSheet[0][i]); //TODO HANDLE EXCEPTION?
+
         createBody();
     }
 
@@ -58,27 +71,11 @@ public class Player extends Sprite {
         fixture.setUserData(this.userData); //Can we called on contact
 
         shape.dispose(); //It is no longer needed/used
-
-        //Animation
-        jumpSheet = new Texture(Gdx.files.internal("img/tempHeroSpritSheetJump.png"));
-        TextureRegion[][] tmp = TextureRegion.split(jumpSheet, jumpSheet.getWidth() / FRAME_JUMP_IMAGES, jumpSheet.getHeight());
-        TextureRegion[] jumpFrames = new TextureRegion[FRAME_JUMP_IMAGES];
-        for (int i = 0; i < FRAME_JUMP_IMAGES; i++){
-            jumpFrames[i++] = tmp[0][i];
-        }
-
-
-
-        //TextureAtlas aomdsa = new TextureAtlas("img/tempHeroSpritSheetJump.def");
-
-        jumpAnimation = new Animation<TextureRegion>(0.025f, jumpFrames);
-
-        //jumpSheet.dispose();
     }
 
     /** Handles sprite movement with body. */
     public void updatePlayer(){
-        this.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
+        this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
     }
 
     public Body getBody(){
@@ -89,7 +86,50 @@ public class Player extends Sprite {
         return userData;
     }
 
-    public Animation<TextureRegion> getJumpAnimation() {
-        return jumpAnimation;
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public float getWidth(){
+        return this.sprite.getWidth();
+    }
+
+    public float getHeight(){
+        return this.sprite.getHeight();
+    }
+
+    public float getX(){
+        return this.sprite.getX();
+    }
+
+    public float getY(){
+        return this.sprite.getY();
+    }
+
+    public TextureRegion getVerticalMovement(float stateTime) {
+        return (TextureRegion)verticalMovement[currentFrame].getKeyFrame(stateTime, true);
+    }
+
+
+    public float getWalkTimer() {
+        return walkTimer;
+    }
+
+    public void setWalkTimer(float walkTimer) {
+        this.walkTimer = walkTimer;
+    }
+
+    public void oneUpFrame(){
+        if(currentFrame < NUMBER_OF_FRAMES - 1)
+        currentFrame++;
+        else
+            currentFrame--;
+    }
+
+    public void oneDownFrame(){
+        if(currentFrame > 0)
+            currentFrame--;
+        else
+            currentFrame++;
     }
 }
