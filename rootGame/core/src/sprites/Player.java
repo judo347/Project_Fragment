@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
@@ -22,7 +23,7 @@ public class Player extends Sprite {
     private Texture jumpSheet;
 
     public Player(World world, float x, float y){
-        super(new Texture("img/hero.png"));
+        super(new Texture("img/hero/hero_stand.png"));
 
         setPosition( x - getWidth() / 2, y - getWidth() / 2);
         this.world = world;
@@ -65,6 +66,10 @@ public class Player extends Sprite {
         for (int i = 0; i < FRAME_JUMP_IMAGES; i++){
             jumpFrames[i++] = tmp[0][i];
         }
+
+
+
+        //TextureAtlas aomdsa = new TextureAtlas("img/tempHeroSpritSheetJump.def");
 
         jumpAnimation = new Animation<TextureRegion>(0.025f, jumpFrames);
 

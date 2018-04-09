@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import scenes.MainScene;
+import scenes.MenuScene;
 
 public class MainGame extends Game {
 	SpriteBatch batch; //You only have one sprite batch in a game!
@@ -13,7 +14,8 @@ public class MainGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setScreen(new MainScene(this));
+		setScreen(new MenuScene(this));
+		//setScreen(new MainScene(this));
 	}
 
 	/** Gets called every frame. */

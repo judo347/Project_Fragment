@@ -66,14 +66,14 @@ public class MainScene implements Screen, ContactListener{
 
         //Handling user input
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            player.getBody().applyForce(new Vector2(-0.5f,0), player.getBody().getWorldCenter(), true); //2nd arg where the force is used, 3rd wake the elements and calculate
+            player.getBody().applyForce(new Vector2(-1f,0), player.getBody().getWorldCenter(), true); //2nd arg where the force is used, 3rd wake the elements and calculate
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            player.getBody().applyForce(new Vector2(0.5f,0), player.getBody().getWorldCenter(), true); //Force = overtime, implulse = right away.
+            player.getBody().applyForce(new Vector2(1f,0), player.getBody().getWorldCenter(), true); //Force = overtime, implulse = right away.
         }
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             if(!player.isInAir)
-                player.getBody().applyForce(new Vector2(0,20), player.getBody().getWorldCenter(), true);
+                player.getBody().applyForce(new Vector2(0,30), player.getBody().getWorldCenter(), true);
         }
     }
 
@@ -97,6 +97,7 @@ public class MainScene implements Screen, ContactListener{
         game.getBatch().begin();
         game.getBatch().draw(background,0,0);
         game.getBatch().draw(player, player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
+
         game.getBatch().draw(platform1, platform1.getX() - (platform1.getWidth() / 2), platform1.getY() - (platform1.getHeight() / 2));
         game.getBatch().draw(platform2, platform2.getX() - (platform2.getWidth() / 2), platform2.getY() - (platform2.getHeight() / 2));
         game.getBatch().draw(platform3, platform3.getX() - (platform3.getWidth() / 2), platform3.getY() - (platform3.getHeight() / 2));
