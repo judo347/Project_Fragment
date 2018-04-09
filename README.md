@@ -5,20 +5,19 @@
 
 ### Versions
 
-#### 0.5 - Chest 
-- [ ] Chests
-    - [ ] Texture and body..
-    - [ ] Open "animation"
-
-#### 0.4 - Game menu
-- [ ] Game menu
-
-#### 0.3 - Player (Current)
+#### 0.5 - Player
 - [ ] Player
     - [ ] Sharpen movement
     - [ ] player texture model and hitbox update
     - [ ] Movement matching sprites
 
+#### 0.4 - Game menu
+- [ ] Game menu
+
+#### 0.3 - Chest (Current)
+- [X] Chests
+    - [X] Texture and body..
+    - [X] Open "animation"
 
 #### 0.2
 - [X] Multiple keystrokes
