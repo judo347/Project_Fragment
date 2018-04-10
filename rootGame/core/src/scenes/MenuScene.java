@@ -62,8 +62,8 @@ public class MenuScene implements Screen {
 
             if(Gdx.input.isTouched()){
                 this.dispose();
-                game.setScreen(new MainScene(game, world));
-                //game.setScreen(new TownScene(game, world));
+                //game.setScreen(new MainScene(game, world));
+                game.setScreen(new TownScene(game, world));
             }
             game.getBatch().draw(playButtonActive, playButtonX, PLAY_BUTTON_Y);
         } else {

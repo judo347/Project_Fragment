@@ -24,6 +24,10 @@ Genaration/Design
 nico: USE TILES (32x32). world generation from a .png. The color matches an object. Like black for wall and blue for creatures and gold for chest.
 [[Tiles libgdx wiki](https://github.com/libgdx/libgdx/wiki/Tile-maps)]
 
+######Screen size
+- 1280 resWide / 32pxTileSize = 40 tiles wide.
+- 8000 resHigh / 32pxTileSize = 25 tiles High.
+
 ##### The Player
 Movement and attacks
 
@@ -60,6 +64,8 @@ Bosses and mobs
 
 #### Improvements
 - Abstract Contact Listener / make player sensor? Or chest?
+- Platform needs to be scalable and hold its own height or width, or be rendered differently.
+- Should the Color/Tiles be an enum? YES? Containing: color, sprite/id.
 
 #### Bugs
 

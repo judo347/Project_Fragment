@@ -15,7 +15,8 @@ public class Platform extends Sprite{
         super(new Texture("img/ground.png"));
         this.world = world;
         this.userData = "Platform";
-        setPosition( x - getWidth() / 2, y - getWidth() / 2);
+        //setPosition( x, y);
+        setPosition( x + getWidth() / 2, y + getHeight() / 2);
         createBody();
     }
 
@@ -52,4 +53,5 @@ public class Platform extends Sprite{
     public String getUserData() {
         return userData;
     }
+
 }

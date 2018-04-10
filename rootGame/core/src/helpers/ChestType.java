@@ -16,9 +16,6 @@ public enum ChestType {
 
         this.spriteOpen = atlas.createSprite(chestOpen);
         this.spriteClosed = atlas.createSprite(chestClosed);
-
-        //TextureAtlas.AtlasRegion atlasRegion = atlas.findRegion(chestOpen);
-        //this.sprite = atlas.createSprite(chest);
         }
 
     public Sprite getSpriteOpen() {
