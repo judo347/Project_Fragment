@@ -35,8 +35,11 @@ public class MainScene implements Screen, ContactListener{
 
     float stateTime; //Will be added up every frame while performing a task // How long an animation has been running
 
-    public MainScene(MainGame game){
+    public MainScene(MainGame game, World world){
         this.game = game;
+        this.world = world;
+        stateTime = 0f;
+
         background = new Texture("img/background.png");
 
         //What we see on the screen
@@ -45,12 +48,14 @@ public class MainScene implements Screen, ContactListener{
         box2DCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
         debugRenderer = new Box2DDebugRenderer();
 
-        world = new World(new Vector2(0,-9.8f), true); //Creating a world with gravity, true allows sleep = Dont calculate when nothing happens to elements.
         world.setContactListener(this); //add the contact listener to the world
 
-        stateTime = 0f;
+        initializeGameElements();
+    }
 
-        //Creation of world elements
+    /** Initializes all game elements. */
+    void initializeGameElements(){
+
         player = new Player(world, GameInfo.WIDTH / 2, GameInfo.HEIGHT / 2 + 150);
 
         platform1 = new Platform(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2);
@@ -58,49 +63,14 @@ public class MainScene implements Screen, ContactListener{
         platform3 = new Platform(world, GameInfo.WIDTH / 3f * 2,GameInfo.HEIGHT / 3f);
         platform4 = new Platform(world, GameInfo.WIDTH / 3f * 2.5f, GameInfo.HEIGHT / 5f * 3);
 
-        chest = new Chest(world, ChestType.LEGENDARY, platform4.getX(), platform4.getY() + 25); //platform4.getHeight() * 2
-    }
-
-    void update(float deltaTime){
-
-        //Handling user input
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            player.getBody().applyForce(new Vector2(-1f,0), player.getBody().getWorldCenter(), true); //2nd arg where the force is used, 3rd wake the elements and calculate
-
-            //Update walk
-            player.setWalkTimer(player.getWalkTimer() - Gdx.graphics.getDeltaTime());
-            if(Math.abs(player.getWalkTimer()) > player.WALK_TIMER_SWITCH_TIME){
-                player.setWalkTimer(0);
-                player.oneDownFrame();
-            }
-
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            player.getBody().applyForce(new Vector2(1f,0), player.getBody().getWorldCenter(), true); //Force = overtime, implulse = right away.
-
-            //Update walk
-            player.setWalkTimer(player.getWalkTimer() - Gdx.graphics.getDeltaTime());
-            if(Math.abs(player.getWalkTimer()) > player.WALK_TIMER_SWITCH_TIME){
-                player.setWalkTimer(0);
-                player.oneUpFrame();
-            }
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            if(!player.isInAir)
-                player.getBody().applyForce(new Vector2(0,30), player.getBody().getWorldCenter(), true);
-        }
-
-        if(!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            player.resetVerticalAnimation();
-        }
+        chest = new Chest(world, ChestType.LEGENDARY, platform4.getX(), platform4.getY() + 25);
     }
 
     @Override
     public void render(float delta) {
 
-        update(delta);
-
         player.updatePlayer();
+        player.playerControls(delta);
 
         stateTime += delta;
 
@@ -108,6 +78,8 @@ public class MainScene implements Screen, ContactListener{
             player.inAirTime += delta;
 
         drawElements(delta);
+
+
 
         debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
 

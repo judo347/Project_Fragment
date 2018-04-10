@@ -26,10 +26,10 @@ public class TownScene implements Screen, ContactListener {
 
     float stateTime; //Will be added up every frame while performing a task // How long an animation has been running
 
-    public TownScene(MainGame game){
+    public TownScene(MainGame game, World world){
         this.game = game;
+        this.world = world;
 
-        this.game = game;
         background = new Texture("img/background.png");
 
         //What we see on the screen
@@ -38,7 +38,6 @@ public class TownScene implements Screen, ContactListener {
         box2DCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
         debugRenderer = new Box2DDebugRenderer();
 
-        world = new World(new Vector2(0,-9.8f), true); //Creating a world with gravity, true allows sleep = Dont calculate when nothing happens to elements.
         world.setContactListener(this); //add the contact listener to the world
 
         stateTime = 0f;

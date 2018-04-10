@@ -1,9 +1,12 @@
 package sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 
@@ -84,6 +87,42 @@ public class Player {
         fixture.setUserData(this.userData); //Can we called on contact
 
         shape.dispose(); //It is no longer needed/used
+    }
+
+    /** Handles player movement */
+    public void playerControls(float deltaTime){
+
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            getBody().applyForce(new Vector2(-1f,0), getBody().getWorldCenter(), true); //2nd arg where the force is used, 3rd wake the elements and calculate
+
+            //Update walk
+            setWalkTimer(getWalkTimer() - Gdx.graphics.getDeltaTime());
+            if(Math.abs(getWalkTimer()) > WALK_TIMER_SWITCH_TIME){
+                setWalkTimer(0);
+                oneDownFrame();
+            }
+
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            getBody().applyForce(new Vector2(1f,0), getBody().getWorldCenter(), true); //Force = overtime, implulse = right away.
+
+            //Update walk
+            setWalkTimer(getWalkTimer() - Gdx.graphics.getDeltaTime());
+            if(Math.abs(getWalkTimer()) > WALK_TIMER_SWITCH_TIME){
+                setWalkTimer(0);
+                oneUpFrame();
+            }
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            if(!isInAir)
+                getBody().applyForce(new Vector2(0,30), getBody().getWorldCenter(), true);
+        }
+
+        if(!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            resetVerticalAnimation();
+        }
     }
 
     /** Handles sprite movement with body. */

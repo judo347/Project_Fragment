@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.World;
 import dk.mk.MainGame;
 import helpers.GameInfo;
 
@@ -16,14 +17,16 @@ public class MenuScene implements Screen {
     private static final int EXIT_BUTTON_WIDTH = 160;
 
     private MainGame game;
+    private World world;
 
     private Texture playButtonActive;
     private Texture playButtonInactive;
     private Texture exitButtonActive;
     private Texture exitButtonInactive;
 
-    public MenuScene(MainGame game) {
+    public MenuScene(MainGame game, World world) {
         this.game = game;
+        this.world = world;
         playButtonActive = new Texture("img/menu/playActive.png");
         playButtonInactive = new Texture("img/menu/playInactive.png");
         exitButtonActive = new Texture("img/menu/exitActive.png");
@@ -59,7 +62,7 @@ public class MenuScene implements Screen {
 
             if(Gdx.input.isTouched()){
                 this.dispose();
-                game.setScreen(new MainScene(game));
+                game.setScreen(new MainScene(game, world));
             }
             game.getBatch().draw(playButtonActive, playButtonX, PLAY_BUTTON_Y);
         } else {
