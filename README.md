@@ -4,31 +4,71 @@
 [[Installation of Libgdx in Intellij](https://www.youtube.com/watch?v=q0wM63_KNIs)]
 [[YouTube: Really great tut!](https://www.youtube.com/channel/UC1o7w8Y9BgI7ZgqyaPUNINQ/playlists)]
 
-### Versions
+### Concept
+#### Background history
+this. . this this. . thisthis. . thisthis. . thisthis. . thisthis. . thisthis. . this
+ 
+#### Game concept
+The game will be an action side-scroller with loot. The name of the project is
+ Project Fragment and the idea is that you loot fragment and might use them to
+ craft loot.
+ 
+There will be a "town" where you can sell items/fragment, craft items and access inventory.
 
-#### 0.5 - Player
-- [ ] Player
-    - [ ] Sharpen movement
-    - [ ] player texture model and hitbox update
-    - [ ] Movement matching sprites
 
-#### 0.4 - Game menu
-- [ ] Game menu
 
-#### 0.3 - Chest (Current)
-- [X] Chests
-    - [X] Texture and body..
-    - [X] Open "animation"
+#### Mechanics
+##### The world
+Genaration/Design
 
-#### 0.2
-- [X] Multiple keystrokes
-- [X] Player
-    - [X] Jump
+nico: USE TILES (32x32). world generation from a .png. The color matches an object. Like black for wall and blue for creatures and gold for chest.
+[[Tiles libgdx wiki](https://github.com/libgdx/libgdx/wiki/Tile-maps)]
 
-#### 0.1
-- [X] Project Structure
-- [X] GameInfo class
-- [X] Player
-    - [X] Hitbox
-    - [X] Movement (Left and right)
-- [X] Platforms
+##### The Player
+Movement and attacks
+
+Chris: Attack hitbox, at roll = change hitbox to one that cannot get hit.
+##### The Enemy
+Movement and attacks
+Bosses and mobs
+##### Town
+<b>Level access</b> Som way to enter levels
+<b>Creating device</b> Som way of crafting using framents.
+<b>Merchant</b> Where you can trade. Should have an animation (Stand breathing or glimmering?).
+
+### Features
+#### New Features
+- Movement not based on FPS
+- Player movement
+    - Sharpen movement / weight
+    - Sprite update / animation
+    - Update hitbox?
+    - Deal damage mechanic?
+    - Health bar
+- Menu
+    - Options menu
+        - Screen resolution
+        - Sound options (toggle?)
+- Config file with resolution and other settings
+- Enemy creatures
+- Chest
+    - Loot
+    - Spawns
+- MAP GENERATION? Check concept.
+- Town
+    - Graphics: bricks with grass on top.
+
+#### Improvements
+- Handle player movement in player
+- Abstract base world creating (TownScene and MainScene's constructors handles the same code)
+
+
+#### Bugs
+
+#### Implemented
+- Basic Game menu
+- Basic player
+    - Player movement
+    - Hitbox and simple animation
+- Basic chests
+- Platforms
