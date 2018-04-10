@@ -69,17 +69,12 @@ public class MainScene implements Screen, ContactListener{
     @Override
     public void render(float delta) {
 
-        player.updatePlayer();
-        player.playerControls(delta);
-
         stateTime += delta;
 
-        if(player.isInAir)
-            player.inAirTime += delta;
+        player.updatePlayer(delta);
+        player.playerControls(delta);
 
         drawElements(delta);
-
-
 
         debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
 

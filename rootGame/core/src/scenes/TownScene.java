@@ -1,6 +1,8 @@
 package scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -29,6 +31,7 @@ public class TownScene implements Screen, ContactListener {
     public TownScene(MainGame game, World world){
         this.game = game;
         this.world = world;
+        stateTime = 0f;
 
         background = new Texture("img/background.png");
 
@@ -40,21 +43,48 @@ public class TownScene implements Screen, ContactListener {
 
         world.setContactListener(this); //add the contact listener to the world
 
-        stateTime = 0f;
-
-        //Creation of world elements
-        player = new Player(world, GameInfo.WIDTH / 2, GameInfo.HEIGHT / 2 + 150);
-
-
+        initializeGameElements();
     }
 
-    @Override
-    public void show() {
+    /** Initializes all game elements. */
+    void initializeGameElements(){
 
+        player = new Player(world, GameInfo.WIDTH / 2, GameInfo.HEIGHT / 2);
+
+        //TODO
     }
 
     @Override
     public void render(float delta) {
+
+        stateTime += delta;
+
+        player.updatePlayer(delta);
+        player.playerControls(delta);
+
+        drawElements(delta);
+
+        debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
+
+        //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
+        // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+    }
+
+    public void drawElements(float deltaTime){
+
+        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears the screen
+
+        game.getBatch().begin();
+
+        game.getBatch().draw(background,0,0);
+
+        game.getBatch().end();
+    }
+
+    @Override
+    public void show() {
 
     }
 

@@ -59,9 +59,7 @@ Bosses and mobs
     - Graphics: bricks with grass on top.
 
 #### Improvements
-- Handle player movement in player
-- Abstract base world creating (TownScene and MainScene's constructors handles the same code)
-
+- Abstract Contact Listener / make player sensor? Or chest?
 
 #### Bugs
 

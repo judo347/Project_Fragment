@@ -126,8 +126,10 @@ public class Player {
     }
 
     /** Handles sprite movement with body. */
-    public void updatePlayer(){
+    public void updatePlayer(float deltaTime){
         this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
+        if(this.isInAir)
+            inAirTime += deltaTime;
     }
 
     public Body getBody(){
@@ -161,7 +163,6 @@ public class Player {
     public TextureRegion getVerticalSprite(float stateTime) {
         return (TextureRegion)verticalMovement[currentWalkFrame].getKeyFrame(stateTime, true);
     }
-
 
     public float getWalkTimer() {
         return walkTimer;
