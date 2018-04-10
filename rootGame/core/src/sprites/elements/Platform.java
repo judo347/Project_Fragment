@@ -9,10 +9,12 @@ public class Platform extends Sprite{
 
     private World world;
     private Body body;
+    private String userData; //The "name" of the sprite
 
     public Platform(World world, float x, float y) {
         super(new Texture("img/ground.png"));
         this.world = world;
+        this.userData = "Platform";
         setPosition( x - getWidth() / 2, y - getWidth() / 2);
         createBody();
     }
@@ -45,5 +47,9 @@ public class Platform extends Sprite{
         //fixture.setSensor(true); //Detect collision but elements can pass through it.
 
         shape.dispose(); //It is no longer needed/used
+    }
+
+    public String getUserData() {
+        return userData;
     }
 }

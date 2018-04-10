@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
-import com.sun.corba.se.impl.orbutil.ObjectUtility;
 import helpers.GameInfo;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 public class Player {
 
@@ -22,10 +20,16 @@ public class Player {
     public static final float ANIMATION_SPEED = 0.5f;
     public static final int HERO_WIDTH_PIXEL = 32;
     public static final int HERO_HEIGHT_PIXEL = 64;
-    public static final int NUMBER_OF_FRAMES = 5;
+    public static final int NUMBER_OF_VERTICAL_FRAMES = 5;
     public static final float WALK_TIMER_SWITCH_TIME = 0.15f;
     private float walkTimer;
-    private int currentFrame;
+    private int currentWalkFrame;
+    private int standFrame = 2;
+    public float inAirTime;
+    private int currentJumpFame;
+
+    Animation[] jumpMovement;
+    public static final int NUMBER_OF_JUMP_FRAMES = 2;
 
     public Player(World world, float x, float y){
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png")); //TODO: FILE SHOULD BE CHANGED
@@ -33,13 +37,22 @@ public class Player {
         this.world = world;
         this.userData = "Player";
         this.walkTimer = 0;
-        this.currentFrame = 2;
+        this.currentWalkFrame = standFrame;
+        this.currentJumpFame = 0;
 
-        this.verticalMovement = new Animation[NUMBER_OF_FRAMES]; //Number of images
-        TextureRegion[][] heroVerticalSpriteSheet = TextureRegion.split(new Texture("img/hero/hero_vertical.png"), HERO_WIDTH_PIXEL, HERO_HEIGHT_PIXEL);
+        //Vertical movement animation
+        this.verticalMovement = new Animation[NUMBER_OF_VERTICAL_FRAMES]; //Number of images
+        TextureRegion[][] heroVerticalSpriteSheet = TextureRegion.split(new Texture("img/hero/hero_vertical.png"), HERO_WIDTH_PIXEL, HERO_HEIGHT_PIXEL); //TODO: Load atlas?
 
-        for(int i = 0; i < NUMBER_OF_FRAMES; i++)
+        for(int i = 0; i < NUMBER_OF_VERTICAL_FRAMES; i++)
             verticalMovement[i] = new Animation(ANIMATION_SPEED, heroVerticalSpriteSheet[0][i]); //TODO HANDLE EXCEPTION?
+
+        //Jump animation
+        this.jumpMovement = new Animation[NUMBER_OF_JUMP_FRAMES];
+        TextureRegion[][] heroJumpSpriteSheet = TextureRegion.split(new Texture("img/hero/hero_jump.png"), HERO_WIDTH_PIXEL, HERO_HEIGHT_PIXEL); //TODO: Load atlas?
+
+        for(int i = 0; i < NUMBER_OF_JUMP_FRAMES; i++)
+            jumpMovement[i] = new Animation(ANIMATION_SPEED, heroJumpSpriteSheet[0][i]); //TODO HANDLE EXCEPTION?
 
         createBody();
     }
@@ -106,8 +119,8 @@ public class Player {
         return this.sprite.getY();
     }
 
-    public TextureRegion getVerticalMovement(float stateTime) {
-        return (TextureRegion)verticalMovement[currentFrame].getKeyFrame(stateTime, true);
+    public TextureRegion getVerticalSprite(float stateTime) {
+        return (TextureRegion)verticalMovement[currentWalkFrame].getKeyFrame(stateTime, true);
     }
 
 
@@ -119,17 +132,25 @@ public class Player {
         this.walkTimer = walkTimer;
     }
 
-    public void oneUpFrame(){
-        if(currentFrame < NUMBER_OF_FRAMES - 1)
-        currentFrame++;
+    public void oneUpFrame() {
+        if(currentWalkFrame < NUMBER_OF_VERTICAL_FRAMES - 1)
+        currentWalkFrame++;
         else
-            currentFrame--;
+            currentWalkFrame--;
     }
 
-    public void oneDownFrame(){
-        if(currentFrame > 0)
-            currentFrame--;
+    public void oneDownFrame() {
+        if(currentWalkFrame > 0)
+            currentWalkFrame--;
         else
-            currentFrame++;
+            currentWalkFrame++;
+    }
+
+    public void resetVerticalAnimation(){
+        this.currentWalkFrame = standFrame;
+    }
+
+    public TextureRegion getJumpSprite(float stateTime) {
+        return (inAirTime > 0.14f) ? (TextureRegion)jumpMovement[1].getKeyFrame(stateTime, true) : (TextureRegion)jumpMovement[0].getKeyFrame(stateTime, true);
     }
 }

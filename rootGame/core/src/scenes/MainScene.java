@@ -4,7 +4,6 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.mk.MainGame;
@@ -90,6 +89,10 @@ public class MainScene implements Screen, ContactListener{
             if(!player.isInAir)
                 player.getBody().applyForce(new Vector2(0,30), player.getBody().getWorldCenter(), true);
         }
+
+        if(!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            player.resetVerticalAnimation();
+        }
     }
 
     @Override
@@ -100,6 +103,9 @@ public class MainScene implements Screen, ContactListener{
         player.updatePlayer();
 
         stateTime += delta;
+
+        if(player.isInAir)
+            player.inAirTime += delta;
 
         drawElements(delta);
 
@@ -119,7 +125,8 @@ public class MainScene implements Screen, ContactListener{
 
         game.getBatch().draw(background,0,0);
 
-        game.getBatch().draw(player.getVerticalMovement(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
+        //TODO: This if statement should be move to player
+        game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
 
         game.getBatch().draw(platform1, platform1.getX() - (platform1.getWidth() / 2), platform1.getY() - (platform1.getHeight() / 2));
         game.getBatch().draw(platform2, platform2.getX() - (platform2.getWidth() / 2), platform2.getY() - (platform2.getHeight() / 2));
@@ -157,8 +164,10 @@ public class MainScene implements Screen, ContactListener{
             playerFixture = contact.getFixtureB();
         */
 
-        if(contact.getFixtureA().getUserData() == this.player.getUserData() || contact.getFixtureB().getUserData() == this.player.getUserData())
-            player.isInAir = false;
+        if(contact.getFixtureA().getUserData() == this.player.getUserData() || contact.getFixtureB().getUserData() == this.player.getUserData()){
+            if(contact.getFixtureA().getUserData() == this.platform1.getUserData() || contact.getFixtureB().getUserData() == this.platform1.getUserData())
+                player.isInAir = false;
+        }
 
         if(contact.getFixtureA().getUserData() == this.chest.getUserData() || contact.getFixtureB().getUserData() == this.chest.getUserData())
             chest.openChest();
@@ -166,10 +175,13 @@ public class MainScene implements Screen, ContactListener{
 
     @Override
     public void endContact(Contact contact) {
-        if(contact.getFixtureA().getUserData() == this.player.getUserData() || contact.getFixtureB().getUserData() == this.player.getUserData())
-            player.isInAir = true;
+        if(contact.getFixtureA().getUserData() == this.player.getUserData() || contact.getFixtureB().getUserData() == this.player.getUserData()){
+            if(contact.getFixtureA().getUserData() == this.platform1.getUserData() || contact.getFixtureB().getUserData() == this.platform1.getUserData()){
+                player.isInAir = true;
+                player.inAirTime = 0;
+            }
+        }
     }
-
 
     //NOT USED-----
 
