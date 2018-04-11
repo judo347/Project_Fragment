@@ -1,3 +1,18 @@
+# CURRENT WORKING ON: #
+Game Object -> world generator -> scenes
+
+
+WorldGenerator 
+Tiles containing tilesheets and are not sprites
+Before this can work... make class for alle game elements?
+Player sensor..
+
+
+
+
+
+
+
 # Project_Fragment
 [[LibGdx wiki](https://github.com/libgdx/libgdx/wiki)]
 [[YouTube: Intro to LibGDX [10/10]](https://www.youtube.com/watch?v=IVtfZYbXuLg&list=PLZhNP5qJ2IA2RfQBxAC06xv2S07o-UBSd&index=3)]
@@ -14,13 +29,6 @@ The game will be an action side-scroller with loot. The name of the project is
  craft loot.
  
 There will be a "town" where you can sell items/fragment, craft items and access inventory.
-
-CURRENT WORKING ON:
-WorldGenerator 
-Tiles containing tilesheets and are not sprites
-Before this can work... make class for alle game elements?
-Player sensor..
-
 
 #### Mechanics
 ##### The world

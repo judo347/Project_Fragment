@@ -4,9 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public enum TileType {
     WHITE_SPACE(Constants.WHITE_SPACE_COLOR, null),
     GROUND_BRICK(Constants.GROUND_BRICK_COLOR, "img/tiles/brick.png"),

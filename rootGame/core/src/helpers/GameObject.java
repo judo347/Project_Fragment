@@ -1,34 +1,32 @@
-package sprites.elements;
+package helpers;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
-import helpers.GameInfo;
-import helpers.WorldGenerator;
 
-public class GroundTile extends Sprite {
+/** Should be used for non moving objects. Walls, merchants and chest etc. */
+public abstract class GameObject {
 
     private World world;
     private Body body;
     private String userData;
+    private float x, y;
+    private float width, height;
+    private Sprite sprite; //Could be tiles
 
-    public GroundTile(World world, float x, float y){
-        super(new Texture("img/tiles/brick.png"));
+    public GameObject(World world, float x, float y, Sprite sprite, String userData){ //The sprite might need to change
         this.world = world;
-        this.userData = "ground";
-        setPosition(x, y);
+        this.x = x;
+        this.y = y;
+        this.userData = userData;
+        this.width = sprite.getWidth();
+        this.height = sprite.getHeight();
         createBody();
-
     }
 
-    void createBody(){
-        BodyDef bodyDef = new BodyDef(); //Dynamic, static or kinamatic, sets the body relative to where the player is.
+    private void createBody(){
 
-        //Static = not affected by gravity or any other force.
-        //Kinematic = not affected by gravity but IS affected by other forces.
-        //Dynamic = affected by gravity and other forces
+        BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-
         bodyDef.position.set(((getX() + getWidth() / 2) / GameInfo.PPM), (getY() + getHeight() / 2) / GameInfo.PPM);
 
         //Add the body to the world
@@ -51,7 +49,36 @@ public class GroundTile extends Sprite {
         shape.dispose(); //It is no longer needed/used
     }
 
+
+    public World getWorld() {
+        return world;
+    }
+
+    public Body getBody() {
+        return body;
+    }
+
     public String getUserData() {
         return userData;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
     }
 }

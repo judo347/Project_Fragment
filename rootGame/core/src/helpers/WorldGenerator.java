@@ -46,10 +46,8 @@ public class WorldGenerator {
                 TileType tileType = TileType.getTypeFromColor(color);
 
                 if(tileType != tileType.WHITE_SPACE){
-                    //Sprite tempSprite = tileType.getSprite();
-                    //Sprite tempSprite = getSpriteFromType(tileType, x, y, world);
+
                     Sprite tempSprite = getSpriteFromType(tileType, x * TILE_SIZE, (tempPixmap.getHeight() - y) * TILE_SIZE - TILE_SIZE, world);
-                    //tempSprite.setPosition(x * TILE_SIZE, (tempPixmap.getHeight() - y) * TILE_SIZE - TILE_SIZE);
                     spriteArray.add(tempSprite);
                 }
             }
