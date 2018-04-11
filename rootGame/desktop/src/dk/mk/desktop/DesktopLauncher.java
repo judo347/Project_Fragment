@@ -13,6 +13,7 @@ public class DesktopLauncher {
 		config.width = GameInfo.WIDTH;
 		config.height = GameInfo.HEIGHT;
 		config.foregroundFPS = 60;
+		config.title = "Project Fragment";
 
 		new LwjglApplication(new MainGame(), config);
 	}

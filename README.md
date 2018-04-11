@@ -15,6 +15,9 @@ The game will be an action side-scroller with loot. The name of the project is
  
 There will be a "town" where you can sell items/fragment, craft items and access inventory.
 
+CURRENT WORKING ON:
+WorldGenerator 
+Tiles containing tilesheets and are not sprites
 
 
 #### Mechanics

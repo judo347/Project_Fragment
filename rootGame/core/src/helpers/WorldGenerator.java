@@ -46,9 +46,10 @@ public class WorldGenerator {
                 TileType tileType = TileType.getTypeFromColor(color);
 
                 if(tileType != tileType.WHITE_SPACE){
-                    Sprite tempSprite = tileType.getSprite();
+                    //Sprite tempSprite = tileType.getSprite();
                     //Sprite tempSprite = getSpriteFromType(tileType, x, y, world);
-                    tempSprite.setPosition(x * TILE_SIZE, (tempPixmap.getHeight() - y) * TILE_SIZE - TILE_SIZE);
+                    Sprite tempSprite = getSpriteFromType(tileType, x * TILE_SIZE, (tempPixmap.getHeight() - y) * TILE_SIZE - TILE_SIZE, world);
+                    //tempSprite.setPosition(x * TILE_SIZE, (tempPixmap.getHeight() - y) * TILE_SIZE - TILE_SIZE);
                     spriteArray.add(tempSprite);
                 }
             }
@@ -63,7 +64,7 @@ public class WorldGenerator {
             return new GroundTile(world, x, y);
         }
 
-        return type.getSprite();
+        return type.getSprite(); //TODO: NEVER GETS ITS COORDS SET
     }
 
 }

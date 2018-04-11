@@ -86,8 +86,6 @@ public class TownScene implements Screen, ContactListener {
 
         game.getBatch().draw(background,0,0);
 
-        System.out.println(elements.size());
-
         for(int i = 0; i < elements.size(); i++)
             game.getBatch().draw(elements.get(i), elements.get(i).getX(), elements.get(i).getY());
 

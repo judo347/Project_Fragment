@@ -16,7 +16,7 @@ public class GroundTile extends Sprite {
         super(new Texture("img/tiles/brick.png"));
         this.world = world;
         this.userData = "ground";
-        setPosition(x + getWidth() / 2, y + getHeight() / 2);
+        setPosition(x, y);
         createBody();
     }
 
@@ -28,7 +28,7 @@ public class GroundTile extends Sprite {
         //Dynamic = affected by gravity and other forces
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
-        bodyDef.position.set(getX() / GameInfo.PPM, getY() / GameInfo.PPM);
+        bodyDef.position.set(((getX() + getWidth() / 2) / GameInfo.PPM), (getY() + getHeight() / 2) / GameInfo.PPM);
 
         //Add the body to the world
         body = world.createBody(bodyDef);
