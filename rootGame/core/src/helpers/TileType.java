@@ -19,4 +19,24 @@ public enum TileType {
         //TODO: Load sprite/textregion from file;
         this.sprite = sprite;
     }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public static TileType getTypeFromColor(Color color){
+
+        if(color.equals(TileType.WHITE_SPACE.getColor()))
+            return WHITE_SPACE;
+        if(color.equals(TileType.GROUND_BRICK.getColor()))
+            return GROUND_BRICK;
+        if(color.equals(TileType.GROUND_GRASS.getColor()))
+            return GROUND_GRASS;
+
+        return null;
+    }
 }

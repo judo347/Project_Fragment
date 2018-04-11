@@ -15,6 +15,8 @@ import sprites.Player;
 import sprites.elements.Chest;
 import sprites.elements.Platform;
 
+import java.util.ArrayList;
+
 public class TownScene implements Screen, ContactListener {
 
     private MainGame game;
@@ -33,6 +35,8 @@ public class TownScene implements Screen, ContactListener {
 
     private Sprite testSprite;
 
+    private ArrayList<Sprite> elements;
+
     private World world;
 
     private OrthographicCamera box2DCamera;
@@ -47,7 +51,7 @@ public class TownScene implements Screen, ContactListener {
 
         background = new Texture("img/background.png");
 
-        testSprite = WorldGenerator.generateSpriteArray("img/levels/town.png");
+        elements = WorldGenerator.generateSpriteArray("img/levels/town.png");
         //testSprite = WorldGenerator.generateSpriteArray("img/hero/hero_vertical.png");
 
 
@@ -66,7 +70,8 @@ public class TownScene implements Screen, ContactListener {
     void initializeGameElements(){
 
         player = new Player(world, GameInfo.WIDTH / 2, GameInfo.HEIGHT / 2);
-        testSprite.setPosition(500,500);
+
+
 
         /*
         groundPlatform1 = new Platform(world, 0, 0);
@@ -106,6 +111,9 @@ public class TownScene implements Screen, ContactListener {
         game.getBatch().begin();
 
         game.getBatch().draw(background,0,0);
+
+        for(int i = 0; i < elements.size(); i++)
+            game.getBatch().draw(elements.get(i), elements.get(i).getX(),  elements.get(i).getY());
 
         game.getBatch().draw(testSprite,testSprite.getX(), testSprite.getY());
 
