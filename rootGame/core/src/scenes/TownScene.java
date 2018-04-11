@@ -25,16 +25,6 @@ public class TownScene implements Screen, ContactListener {
 
     private Player player;
 
-    private Platform groundPlatform1;
-    private Platform groundPlatform2;
-    private Platform groundPlatform3;
-    private Platform groundPlatform4;
-    private Platform groundPlatform5;
-    private Platform groundPlatform6;
-    private Platform groundPlatform7;
-
-    private Sprite testSprite;
-
     private ArrayList<Sprite> elements;
 
     private World world;
@@ -50,10 +40,6 @@ public class TownScene implements Screen, ContactListener {
         stateTime = 0f;
 
         background = new Texture("img/background.png");
-
-        elements = WorldGenerator.generateSpriteArray("img/levels/town.png");
-        //testSprite = WorldGenerator.generateSpriteArray("img/hero/hero_vertical.png");
-
 
         //What we see on the screen
         box2DCamera = new OrthographicCamera();
@@ -71,19 +57,7 @@ public class TownScene implements Screen, ContactListener {
 
         player = new Player(world, GameInfo.WIDTH / 2, GameInfo.HEIGHT / 2);
 
-
-
-        /*
-        groundPlatform1 = new Platform(world, 0, 0);
-        groundPlatform2 = new Platform(world, groundPlatform1.getWidth(), 0);
-        groundPlatform3 = new Platform(world, groundPlatform1.getWidth() * 2, 0);
-        groundPlatform4 = new Platform(world, groundPlatform1.getWidth() * 3, 0);
-        groundPlatform5 = new Platform(world, groundPlatform1.getWidth() * 4, 0);
-        groundPlatform6 = new Platform(world, groundPlatform1.getWidth() * 5, 0);
-        groundPlatform7 = new Platform(world, groundPlatform1.getWidth() * 6, 0);
-        */
-
-        //TODO
+        elements = WorldGenerator.generateSpriteArray("img/levels/town.png", world);
     }
 
     @Override
@@ -112,16 +86,13 @@ public class TownScene implements Screen, ContactListener {
 
         game.getBatch().draw(background,0,0);
 
-        for(int i = 0; i < elements.size(); i++)
-            game.getBatch().draw(elements.get(i), elements.get(i).getX(),  elements.get(i).getY());
+        System.out.println(elements.size());
 
-        game.getBatch().draw(testSprite,testSprite.getX(), testSprite.getY());
+        for(int i = 0; i < elements.size(); i++)
+            game.getBatch().draw(elements.get(i), elements.get(i).getX(), elements.get(i).getY());
 
         //TODO: This if statement should be move to player
         game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
-
-        //game.getBatch().draw(groundPlatform, groundPlatform.getX() + 100, groundPlatform.getY() + 100);
-
 
         game.getBatch().end();
     }

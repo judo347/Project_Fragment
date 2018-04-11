@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.World;
+import sprites.elements.GroundTile;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 //https://stackoverflow.com/questions/24034352/libgdx-change-color-of-texture-at-runtime
@@ -18,10 +18,10 @@ public class WorldGenerator {
 
     private static final int TILE_SIZE = 32;
 
-    public static ArrayList<Sprite> generateSpriteArray(String levelTileSheetLocation){
+    public static ArrayList<Sprite> generateSpriteArray(String levelTileSheetLocation, World world){
 
-        //TODO: THIS WORKS, YOU HAVE TO go through the levelTextureArray and create sprites based on the TileType enum.
-        //TODO: add them all to an arrayList<Sprite> and return that one to the class. He will drawn the array.
+        //TODO THE SPRITES HAS TO BE OBJECT AND CONTAINING TILESHEETS.
+        //TODO SO THE WALL WILL CHECK IF THERE IS WHITESPACE TO THE SIDE, AND CHANGE TEXUTERE BASED ON THAT.
 
         ArrayList<Sprite> spriteArray = new ArrayList<>();
 
@@ -46,17 +46,24 @@ public class WorldGenerator {
                 TileType tileType = TileType.getTypeFromColor(color);
 
                 if(tileType != tileType.WHITE_SPACE){
-                    tileType.getSprite().setPosition(x * TILE_SIZE, y * TILE_SIZE);
-                    spriteArray.add(tileType.getSprite());
+                    Sprite tempSprite = tileType.getSprite();
+                    //Sprite tempSprite = getSpriteFromType(tileType, x, y, world);
+                    tempSprite.setPosition(x * TILE_SIZE, (tempPixmap.getHeight() - y) * TILE_SIZE - TILE_SIZE);
+                    spriteArray.add(tempSprite);
                 }
             }
         }
 
-
-        //Sprite whut = new Sprite(levelTextureArray[24][0], levelTextureArray[0][0].getRegionX(),levelTextureArray[0][0].getRegionY(), levelTextureArray[0][0].getRegionWidth(), levelTextureArray[0][0].getRegionHeight());
-
         return spriteArray;
-
-        //Might need arrayList of sprites or other type
     }
+
+    //TODO: Could be changed to return an object based on an abstract?
+    private static Sprite getSpriteFromType(TileType type, float x, float y, World world){
+        if(type == TileType.GROUND_BRICK){
+            return new GroundTile(world, x, y);
+        }
+
+        return type.getSprite();
+    }
+
 }

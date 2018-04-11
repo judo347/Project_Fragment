@@ -1,27 +1,33 @@
 package helpers;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum TileType {
-    WHITE_SPACE(new Color(255,255,255,255), "whiteSpace"),
-    GROUND_BRICK(new Color(0,0,0,255), "groundBrick"),
-    GROUND_GRASS(new Color(0,255,0,255), "groundGrass");
+    WHITE_SPACE(Constants.WHITE_SPACE_COLOR, null),
+    GROUND_BRICK(Constants.GROUND_BRICK_COLOR, "img/tiles/brick.png"),
+    GROUND_GRASS_MIDDLE(Constants.GROUND_GRASS_MIDDLE_COLOR, "img/tiles/brickGrassMiddle.png");
+
+    //TODO THE SPRITES HAS TO BE OBJECT AND CONTAINING TILESHEETS.
+    //TODO SO THE WALL WILL CHECK IF THERE IS WHITESPACE TO THE SIDE, AND CHANGE TEXUTERE BASED ON THAT.
 
 
-    private Sprite sprite;
+    private Texture texture;
     private Color color;
 
     TileType(Color color, String pathToTile){
-
         this.color = color;
-
-        //TODO: Load sprite/textregion from file;
-        this.sprite = sprite;
+        if(pathToTile != null)
+            this.texture = new Texture(pathToTile);
     }
 
     public Sprite getSprite() {
-        return sprite;
+        //TODO: Handles sprite call when white type
+        return new Sprite(texture);
     }
 
     public Color getColor() {
@@ -34,9 +40,15 @@ public enum TileType {
             return WHITE_SPACE;
         if(color.equals(TileType.GROUND_BRICK.getColor()))
             return GROUND_BRICK;
-        if(color.equals(TileType.GROUND_GRASS.getColor()))
-            return GROUND_GRASS;
+        if(color.equals(TileType.GROUND_GRASS_MIDDLE.getColor()))
+            return GROUND_GRASS_MIDDLE;
 
         return null;
+    }
+
+    private static class Constants{
+        public static final Color WHITE_SPACE_COLOR = Color.valueOf("#FFFFFFFF");
+        public static final Color GROUND_BRICK_COLOR = Color.valueOf("#0000FF00");
+        public static final Color GROUND_GRASS_MIDDLE_COLOR = Color.valueOf("#FF00FF00");
     }
 }
