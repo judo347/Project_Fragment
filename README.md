@@ -18,6 +18,8 @@ There will be a "town" where you can sell items/fragment, craft items and access
 CURRENT WORKING ON:
 WorldGenerator 
 Tiles containing tilesheets and are not sprites
+Before this can work... make class for alle game elements?
+Player sensor..
 
 
 #### Mechanics
