@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import sprites.elements.Chest;
 import sprites.elements.GroundTile;
 
 import java.util.ArrayList;
@@ -43,7 +44,10 @@ public class WorldGenerator {
                 Color color = new Color();
                 Color.argb8888ToColor(color, tempPixmap.getPixel(x, y));
 
+                System.out.println(color.toString());
+
                 TileType tileType = TileType.getTypeFromColor(color);
+
 
                 if(tileType != tileType.WHITE_SPACE){
 
@@ -58,9 +62,16 @@ public class WorldGenerator {
 
     //TODO: Could be changed to return an object based on an abstract?
     private static Sprite getSpriteFromType(TileType type, float x, float y, World world){
-        if(type == TileType.GROUND_BRICK){
-            return new GroundTile(world, x, y);
-        }
+        if(type == TileType.GROUND_BRICK)
+            return new GroundTile(world, TileType.GROUND_BRICK, x, y);
+
+        if(type == TileType.GROUND_GRASS_MIDDLE)
+            return new GroundTile(world, TileType.GROUND_GRASS_MIDDLE, x, y);
+
+        if(type == TileType.CHEST)
+            return new Chest(world, ChestType.NORMAL, x, y).getSprite();
+
+
 
         return type.getSprite(); //TODO: NEVER GETS ITS COORDS SET
     }

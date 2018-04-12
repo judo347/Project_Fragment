@@ -69,8 +69,7 @@ public class MenuScene implements Screen {
 
             if(Gdx.input.isTouched()){
                 this.dispose();
-                //game.setScreen(new MainScene(game, world));
-                game.setScreen(new MainScene(game, world)); //TODO HERE
+                game.setScreen(new TownScene(game, world)); //TODO HERE
             }
             game.getBatch().draw(playButtonActive, playButtonX, PLAY_BUTTON_Y);
         } else {
@@ -83,7 +82,8 @@ public class MenuScene implements Screen {
                 Gdx.input.getY() < GameInfo.HEIGHT - OPTIONS_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - OPTIONS_BUTTON_Y - optionsButtonActive.getHeight()){
 
             if(Gdx.input.isTouched()){
-                game.setScreen(new OptionScene(game, world));
+                //game.setScreen(new OptionScene(game, world));
+                game.setScreen(new OptionScene(game, world, this));
             }
             game.getBatch().draw(optionsButtonActive, optionsButtonX, OPTIONS_BUTTON_Y, OPTIONS_BUTTON_WIDTH, OPTIONS_BUTTON_HEIGHT);
         } else {

@@ -19,6 +19,7 @@ public class OptionScene implements Screen{
 
     private MainGame game;
     private World world;
+    private Screen screen;
 
     private Texture backButtonActive;
     private Texture backButtonInactive;
@@ -26,9 +27,10 @@ public class OptionScene implements Screen{
     private Texture textSound;
     private Texture textMusic;
 
-    public OptionScene(MainGame game, World world){
+    public OptionScene(MainGame game, World world, Screen screen){
         this.game = game;
         this.world = world;
+        this.screen = screen;
         backButtonActive = new Texture("img/optionsMenu/backActive.png");
         backButtonInactive = new Texture("img/optionsMenu/backInactive.png");
         //textFullScreen = new Texture("img/optionsMenu/fullscreen.png");
@@ -55,7 +57,7 @@ public class OptionScene implements Screen{
                 Gdx.input.getY() < GameInfo.HEIGHT - BACK_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - BACK_BUTTON_Y - backButtonActive.getHeight()){
 
             if(Gdx.input.isTouched()){
-                Gdx.app.exit();
+                game.setScreen(new MenuScene(game, world)); //TODO: Can i return to previous screen instead of creating a new one?
             }
             game.getBatch().draw(backButtonActive, backButtonX, BACK_BUTTON_Y, backButtonInactive.getWidth(), backButtonInactive.getHeight());
         } else {
