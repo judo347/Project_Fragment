@@ -11,7 +11,10 @@ import helpers.GameInfo;
 
 public class MenuScene implements Screen {
 
-    private static final int PLAY_BUTTON_Y = 260;
+    private static final int PLAY_BUTTON_Y = 360;
+    private static final int OPTIONS_BUTTON_Y = 280;
+    private static final int OPTIONS_BUTTON_HEIGHT = 48;
+    private static final int OPTIONS_BUTTON_WIDTH = 160;
     private static final int EXIT_BUTTON_Y = 200;
     private static final int EXIT_BUTTON_HEIGHT = 48;
     private static final int EXIT_BUTTON_WIDTH = 160;
@@ -21,6 +24,8 @@ public class MenuScene implements Screen {
 
     private Texture playButtonActive;
     private Texture playButtonInactive;
+    private Texture optionsButtonActive;
+    private Texture optionsButtonInactive;
     private Texture exitButtonActive;
     private Texture exitButtonInactive;
 
@@ -29,6 +34,8 @@ public class MenuScene implements Screen {
         this.world = world;
         playButtonActive = new Texture("img/menu/playActive.png");
         playButtonInactive = new Texture("img/menu/playInactive.png");
+        optionsButtonActive = new Texture("img/menu/optionsActive.png");
+        optionsButtonInactive = new Texture("img/menu/optionsInactive.png");
         exitButtonActive = new Texture("img/menu/exitActive.png");
         exitButtonInactive = new Texture("img/menu/exitInactive.png");
 
@@ -70,6 +77,18 @@ public class MenuScene implements Screen {
             game.getBatch().draw(playButtonInactive, playButtonX, PLAY_BUTTON_Y);
         }
 
+
+        float optionsButtonX = GameInfo.WIDTH / 2 - OPTIONS_BUTTON_WIDTH / 2;
+        if(Gdx.input.getX() > optionsButtonX && Gdx.input.getX() < optionsButtonX + OPTIONS_BUTTON_WIDTH &&
+                Gdx.input.getY() < GameInfo.HEIGHT - OPTIONS_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - OPTIONS_BUTTON_Y - optionsButtonActive.getHeight()){
+
+            if(Gdx.input.isTouched()){
+                game.setScreen(new OptionScene(game, world));
+            }
+            game.getBatch().draw(optionsButtonActive, optionsButtonX, OPTIONS_BUTTON_Y, OPTIONS_BUTTON_WIDTH, OPTIONS_BUTTON_HEIGHT);
+        } else {
+            game.getBatch().draw(optionsButtonInactive, optionsButtonX, OPTIONS_BUTTON_Y, OPTIONS_BUTTON_WIDTH, OPTIONS_BUTTON_HEIGHT);
+        }
 
         float exitButtonX = GameInfo.WIDTH / 2 - EXIT_BUTTON_WIDTH / 2;
         if(Gdx.input.getX() > exitButtonX && Gdx.input.getX() < exitButtonX + EXIT_BUTTON_WIDTH &&
