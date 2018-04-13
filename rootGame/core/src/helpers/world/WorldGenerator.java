@@ -1,4 +1,4 @@
-package helpers;
+package helpers.world;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import helpers.ChestType;
+import helpers.TileType;
 import sprites.elements.Chest;
 import sprites.elements.GroundTile;
 
