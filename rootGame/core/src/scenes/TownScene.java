@@ -6,14 +6,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.mk.MainGame;
 import helpers.GameInfo;
-import helpers.WorldGenerator;
+import helpers.world.WorldGenerator;
 import sprites.Player;
-import sprites.elements.Chest;
-import sprites.elements.Platform;
 
 import java.util.ArrayList;
 

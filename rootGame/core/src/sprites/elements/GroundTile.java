@@ -1,11 +1,9 @@
 package sprites.elements;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 import helpers.TileType;
-import helpers.WorldGenerator;
 
 public class GroundTile extends Sprite {
 
