@@ -4,14 +4,13 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.mk.MainGame;
 import helpers.ChestType;
 import helpers.GameInfo;
-import sprites.*;
-import sprites.elements.Chest;
-import sprites.elements.Platform;
+import entities.*;
+import entities.elements.Chest;
+import entities.elements.Platform;
 
 public class MainScene implements Screen, ContactListener{
 
@@ -56,14 +55,14 @@ public class MainScene implements Screen, ContactListener{
     /** Initializes all game elements. */
     void initializeGameElements(){
 
-        player = new Player(world, GameInfo.WIDTH / 2, GameInfo.HEIGHT / 2 + 150);
+        //player = new Player(world, GameInfo.WIDTH / 2, GameInfo.HEIGHT / 2 + 150);
 
         platform1 = new Platform(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2);
         platform2 = new Platform(world, GameInfo.WIDTH / 3f,GameInfo.HEIGHT / 3f);
         platform3 = new Platform(world, GameInfo.WIDTH / 3f * 2,GameInfo.HEIGHT / 3f);
         platform4 = new Platform(world, GameInfo.WIDTH / 3f * 2.5f, GameInfo.HEIGHT / 5f * 3);
 
-        chest = new Chest(world, ChestType.LEGENDARY, platform4.getX(), platform4.getY() + 25);
+        //chest = new Chest(world, ChestType.LEGENDARY, platform4.getX(), platform4.getY() + 25);
     }
 
     @Override
@@ -100,7 +99,7 @@ public class MainScene implements Screen, ContactListener{
         game.getBatch().draw(platform3, platform3.getX() - (platform3.getWidth() / 2), platform3.getY() - (platform3.getHeight() / 2));
         game.getBatch().draw(platform4, platform4.getX() - (platform4.getWidth() / 2), platform4.getY() - (platform4.getHeight() / 2));
 
-        game.getBatch().draw(chest.getSprite(), chest.getX() - (chest.getSprite().getWidth() / 2), chest.getY()  - (chest.getSprite().getHeight() / 2));
+        //game.getBatch().draw(chest.getSprite(), chest.getX() - (chest.getSprite().getWidth() / 2), chest.getY()  - (chest.getSprite().getHeight() / 2));
 
         game.getBatch().end();
     }
@@ -135,9 +134,9 @@ public class MainScene implements Screen, ContactListener{
             if(contact.getFixtureA().getUserData() == this.platform1.getUserData() || contact.getFixtureB().getUserData() == this.platform1.getUserData())
                 player.isInAir = false;
         }
-
+        /*
         if(contact.getFixtureA().getUserData() == this.chest.getUserData() || contact.getFixtureB().getUserData() == this.chest.getUserData())
-            chest.openChest();
+            chest.openChest();*/
     }
 
     @Override

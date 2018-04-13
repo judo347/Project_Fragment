@@ -8,26 +8,27 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.mk.MainGame;
+import entities.elements.GroundTile;
+import helpers.Entity;
 import helpers.GameInfo;
-import helpers.world.WorldGenerator;
-import sprites.Player;
+import world.GameMap;
+import world.MapLoader;
+import entities.Player;
 
 import java.util.ArrayList;
+
+//TODO AssetManager
 
 public class TownScene implements Screen, ContactListener {
 
     private MainGame game;
-
     private Texture background;
-
-    private Player player;
-
-    private ArrayList<Sprite> elements;
-
     private World world;
 
     private OrthographicCamera box2DCamera;
     private Box2DDebugRenderer debugRenderer;
+
+    private GameMap gameMap;
 
     float stateTime; //Will be added up every frame while performing a task // How long an animation has been running
 
@@ -46,15 +47,7 @@ public class TownScene implements Screen, ContactListener {
 
         world.setContactListener(this); //add the contact listener to the world
 
-        initializeGameElements();
-    }
-
-    /** Initializes all game elements. */
-    void initializeGameElements(){
-
-        player = new Player(world, GameInfo.WIDTH / 2, GameInfo.HEIGHT / 2);
-
-        elements = WorldGenerator.generateSpriteArray("img/levels/town.png", world);
+        gameMap = new GameMap("img/levels/town.png", world); //Load map //TODO Should not be a string
     }
 
     @Override
@@ -62,8 +55,9 @@ public class TownScene implements Screen, ContactListener {
 
         stateTime += delta;
 
+        /* //TODO: THIS SHOULD BE IN PLAYER RENDER
         player.updatePlayer(delta);
-        player.playerControls(delta);
+        player.playerControls(delta); */
 
         drawElements(delta);
 
@@ -83,11 +77,14 @@ public class TownScene implements Screen, ContactListener {
 
         game.getBatch().draw(background,0,0);
 
-        for(int i = 0; i < elements.size(); i++)
-            game.getBatch().draw(elements.get(i), elements.get(i).getX(), elements.get(i).getY());
+        for(Entity entity : gameMap.getEntitiesList())
+            entity.render(game.getBatch());
+
+        for(GroundTile groundTile : gameMap.getTilesList())
+            groundTile.render(game.getBatch());
 
         //TODO: This if statement should be move to player
-        game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
+        //game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
 
         game.getBatch().end();
     }
@@ -119,7 +116,6 @@ public class TownScene implements Screen, ContactListener {
 
     @Override
     public void dispose() {
-        this.player.getSprite().getTexture().dispose();
 
     }
 

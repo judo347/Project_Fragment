@@ -1,4 +1,4 @@
-package sprites;
+package entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,11 +9,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
+import helpers.Entity;
 
-public class Player {
+public abstract class Player extends Entity {
 
-    private World world; //We create the world in the place where we need physics
-    private Body body; //The body of the player //THIS IS WHAT WE CONTROL AND MOVE
     private String userData; //The "name" of the sprite
     private Sprite sprite;
 
@@ -35,9 +34,10 @@ public class Player {
     public static final int NUMBER_OF_JUMP_FRAMES = 2;
 
     public Player(World world, float x, float y){
+        super(); //TODO
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png")); //TODO: FILE SHOULD BE CHANGED
         this.sprite.setPosition(x - this.sprite.getWidth() / 2, y - this.sprite.getWidth() / 2);
-        this.world = world;
+        //this.world = world;
         this.userData = "Player";
         this.walkTimer = 0;
         this.currentWalkFrame = standFrame;
@@ -72,7 +72,7 @@ public class Player {
         bodyDef.position.set(getX() / GameInfo.PPM, getY() / GameInfo.PPM);
 
         //Add the body to the world
-        body = world.createBody(bodyDef);
+        //body = world.createBody(bodyDef);
 
         //Collision box
         PolygonShape shape = new PolygonShape();
@@ -83,8 +83,8 @@ public class Player {
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
 
-        Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(this.userData); //Can we called on contact
+        //Fixture fixture = body.createFixture(fixtureDef);
+        //fixture.setUserData(this.userData); //Can we called on contact
 
         shape.dispose(); //It is no longer needed/used
     }
@@ -127,13 +127,13 @@ public class Player {
 
     /** Handles sprite movement with body. */
     public void updatePlayer(float deltaTime){
-        this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
+        //this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
         if(this.isInAir)
             inAirTime += deltaTime;
     }
 
     public Body getBody(){
-        return this.body;
+        return null; //this.body;
     }
 
     public String getUserData() {

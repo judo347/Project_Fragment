@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public enum TileType {
     WHITE_SPACE(Constants.WHITE_SPACE_COLOR, null),
     GROUND_BRICK(Constants.GROUND_BRICK_COLOR, "img/tiles/brick.png"),
-    GROUND_GRASS_MIDDLE(Constants.GROUND_GRASS_MIDDLE_COLOR, "img/tiles/brickGrassMiddle.png"),
-    CHEST(Constants.CHEST, "img/elements/chest_normal_closed.png"); //TODO take sprite sheet?
+    GROUND_GRASS_MIDDLE(Constants.GROUND_GRASS_MIDDLE_COLOR, "img/tiles/brickGrassMiddle.png");
 
     //TODO elements type?
 
@@ -46,16 +45,15 @@ public enum TileType {
             return GROUND_BRICK;
         if(color.equals(TileType.GROUND_GRASS_MIDDLE.getColor()))
             return GROUND_GRASS_MIDDLE;
-        if(color.equals(TileType.CHEST.getColor()))
-            return CHEST;
-
-        return null;
+        else
+            return null;
     }
 
     private static class Constants{
         public static final Color WHITE_SPACE_COLOR = Color.valueOf("#FFFFFFFF");
         public static final Color GROUND_BRICK_COLOR = Color.valueOf("#0000FF00");
         public static final Color GROUND_GRASS_MIDDLE_COLOR = Color.valueOf("#FF00FF00");
-        public static final Color CHEST = Color.valueOf("#D800FFFF");
     }
+
+
 }

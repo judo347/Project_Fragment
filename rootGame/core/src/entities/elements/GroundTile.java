@@ -1,6 +1,7 @@
-package sprites.elements;
+package entities.elements;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 import helpers.TileType;
@@ -9,7 +10,7 @@ public class GroundTile extends Sprite {
 
     private World world;
     private Body body;
-    private String userData;
+    private String id;
     private TileType tileType;
 
     //TODO: Should contain spriteSheet to allow check for border grass
@@ -18,7 +19,7 @@ public class GroundTile extends Sprite {
         super(tileType.getTexture()); //TODO: Should the tileType contain Sprite?
         this.world = world;
         this.tileType = tileType;
-        this.userData = "ground";
+        this.id = "ground";
         setPosition(x, y);
         createBody();
 
@@ -48,13 +49,17 @@ public class GroundTile extends Sprite {
         fixtureDef.density = 1;
 
         Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(userData); //Can we called on contact
+        fixture.setUserData(id); //Can we called on contact
         //fixture.setSensor(true); //Detect collision but elements can pass through it.
 
         shape.dispose(); //It is no longer needed/used
     }
 
+    public void render(SpriteBatch batch){
+        batch.draw(getTexture(), getX(), getY(), GameInfo.TILE_SIZE, GameInfo.TILE_SIZE);
+    }
+
     public String getUserData() {
-        return userData;
+        return id;
     }
 }

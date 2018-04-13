@@ -16,7 +16,9 @@ public enum ChestType {
 
         this.spriteOpen = atlas.createSprite(chestOpen);
         this.spriteClosed = atlas.createSprite(chestClosed);
-        }
+    }
+
+
 
     public Sprite getSpriteOpen() {
         return spriteOpen;

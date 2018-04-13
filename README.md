@@ -4,11 +4,10 @@ Game Object -> world generator -> scenes
 
 WorldGenerator 
 Tiles containing tilesheets and are not sprites
-Before this can work... make class for alle game elements?
 Player sensor..
 Chest in world generator (all other objects than ground)
 
-
+Ground Tile could be an entity?
 
 
 
