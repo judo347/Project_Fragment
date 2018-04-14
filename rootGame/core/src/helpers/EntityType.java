@@ -64,7 +64,7 @@ public enum EntityType {
 
 
 
-    public Entity getEntity(Color color, World world, int x, int y){
+    public static Entity getEntity(Color color, World world, int x, int y){
 
         switch (getTypeFromColor(color)){
             //case PLAYER:    return new Player(world, x, y);

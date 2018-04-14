@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
-import helpers.ChestType;
-import helpers.Entity;
-import helpers.EntityType;
-import helpers.TileType;
+import helpers.*;
 import entities.elements.Chest;
 import entities.elements.GroundTile;
 
@@ -49,18 +46,40 @@ public class MapLoader {
 
                 System.out.println(color.toString());
 
+
+                TileType tileType = TileType.getTypeFromColor(color);
+                EntityType entityType = EntityType.getTypeFromColor(color);
+
+                if(tileType == TileType.WHITE_SPACE){
+                    continue;
+                }else if(tileType != null){
+                    tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
+                    System.out.println("Added Ground tile!");
+                }else if(entityType != null){
+                    //TODO DOES NOT WORK
+                    //entitiesList.add(EntityType.getTypeFromColor(color).getEntity(color, world, x, y)); //TODO null? HANDLE
+                    entitiesList.add(EntityType.getEntity(color, world, x, y)); //TODO null? HANDLE
+                    System.out.println("Added Entity!");
+                }else{
+                    System.out.println("No entity matched the color: " + color.toString()); //TODO Exception?
+                }
+
+                /*
                 Enum<?> pixelType = enumCheck(color);
 
                 if(pixelType.equals(TileType.class)){ //TODO DOES THIS WORK?
 
                     tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x, y)); //TODO null? HANDLE
+                    System.out.println("Added Ground tile!");
 
                 }else if(pixelType.equals(EntityType.class)) {//TODO DOES THIS WORK?
 
                     entitiesList.add(EntityType.getTypeFromColor(color).getEntity(color, world, x, y)); //TODO null? HANDLE
+                    System.out.println("Added Entity!");
 
                 }else
                     System.out.println("No entity matched the color: " + color.toString()); //TODO Exception?
+                */
             }
         }
 

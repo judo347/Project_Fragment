@@ -8,6 +8,7 @@ import helpers.ChestType;
 import helpers.Entity;
 import helpers.GameInfo;
 
+//TODO: Render method has to have a texture
 //TODO Draw method that does all. Like texture, x and y.
 public class Chest extends Entity {
 
@@ -22,7 +23,7 @@ public class Chest extends Entity {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(getSprite(), x, y, getWidth(), getHeight());
+        //batch.draw(getSprite(), x, y, getWidth(), getHeight());
     }
 
     /** Gets the sprite based on the state (open/closed). */
