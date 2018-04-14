@@ -1,7 +1,5 @@
 package helpers;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -24,17 +22,10 @@ public abstract class Entity {
         this.body = entityType.createBody(world, x, y);
     }
 
-    /*
-    public void create(World world, EntityType entityType, float x, float y){
-        this.world = world;
-        this.entityType = entityType;
-        this.bodyType = entityType.getBodyType();
-        this.x = x;
-        this.y = y;
-        this.body = entityType.createBody(world, x , y);
-    }*/
-
+    /** The method used to render the entity. */
     public abstract void render (SpriteBatch batch);
+
+    public abstract void dispose();
 
     public World getWorld() {
         return world;

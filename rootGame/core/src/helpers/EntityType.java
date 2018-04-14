@@ -12,7 +12,6 @@ public enum EntityType {
     CHEST("chest", 40, 30, BodyType.StaticBody, Constants.CHEST_COLOR);
 
     private String id;
-    private Class loaderClass;
     private int width, height;
     private BodyType bodyType;
     private Color color;
@@ -20,13 +19,13 @@ public enum EntityType {
 
     private EntityType(String id, int width, int height, BodyType bodyType, Color color) {
         this.id = id;
-        //this.loaderClass = loaderClass;
         this.width = width;
         this.height = height;
         this.bodyType = bodyType;
         this.color = color;
     }
 
+    /** Creates the body and fixture for a entity. */
     public Body createBody(World world, float x, float y){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
@@ -53,13 +52,19 @@ public enum EntityType {
         return body;
     }
 
-    /*
+    /* TODO: This could and maybe should be used to map a color to a type. Usefull?
     private static HashMap<String, EntityType>() entityTypes;
 
     static {
         e
     } */
 
+    /** Returns a new entity based on the color. Will return null if color is not matching a type.
+     * @param color the color to search for.
+     * @param world the world to place entity in.
+     * @param x coordinate
+     * @param y coordinate
+     * @return an entity object matching the color given. Will return null if color is not matching a type. */
     public static Entity getEntity(Color color, World world, int x, int y){
 
         switch (getTypeFromColor(color)){
@@ -70,6 +75,9 @@ public enum EntityType {
         return null;
     }
 
+    /** Takes a color and returns a matching type. Returns null of non matches.
+     *  @param color a color to be matched.
+     *  @return a entityType based on the color given. Returns null if non matches. */
     public static EntityType getTypeFromColor(Color color){
 
         System.out.println("Entity GetType color = " + color.toString());
@@ -86,8 +94,9 @@ public enum EntityType {
             return null;
     }
 
+    /** The color used by this type. */
     private static class Constants{
-        public static final Color PLAYER_COLOR = Color.valueOf("#26ffff00"); //TODO
+        public static final Color PLAYER_COLOR = Color.valueOf("#26ffff00");
         public static final Color CHEST_COLOR = Color.valueOf("#D800FFFF");
     }
 

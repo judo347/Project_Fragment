@@ -26,13 +26,8 @@ public class GroundTile extends Sprite {
     }
 
     void createBody(){
-        BodyDef bodyDef = new BodyDef(); //Dynamic, static or kinamatic, sets the body relative to where the player is.
-
-        //Static = not affected by gravity or any other force.
-        //Kinematic = not affected by gravity but IS affected by other forces.
-        //Dynamic = affected by gravity and other forces
+        BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-
         bodyDef.position.set(((getX() + getWidth() / 2) / GameInfo.PPM), (getY() + getHeight() / 2) / GameInfo.PPM);
 
         //Add the body to the world
@@ -41,7 +36,6 @@ public class GroundTile extends Sprite {
         //Collision box
         PolygonShape shape = new PolygonShape();
         shape.setAsBox((getWidth() / 2) / GameInfo.PPM, (getHeight() / 2) / GameInfo.PPM);
-
 
         //Contains mass and such
         FixtureDef fixtureDef = new FixtureDef(); //
@@ -59,7 +53,11 @@ public class GroundTile extends Sprite {
         batch.draw(getTexture(), getX(), getY(), GameInfo.TILE_SIZE, GameInfo.TILE_SIZE);
     }
 
-    public String getUserData() {
+    public void dispose(){
+        tileType.dispose();
+    }
+
+    public String getId() {
         return id;
     }
 }

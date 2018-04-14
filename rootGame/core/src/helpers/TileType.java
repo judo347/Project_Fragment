@@ -9,8 +9,6 @@ public enum TileType {
     GROUND_BRICK(Constants.GROUND_BRICK_COLOR, "img/tiles/brick.png"),
     GROUND_GRASS_MIDDLE(Constants.GROUND_GRASS_MIDDLE_COLOR, "img/tiles/brickGrassMiddle.png");
 
-    //TODO elements type?
-
     //TODO THE SPRITES HAS TO BE OBJECT AND CONTAINING TILESHEETS.
     //TODO SO THE WALL WILL CHECK IF THERE IS WHITESPACE TO THE SIDE, AND CHANGE TEXUTERE BASED ON THAT.
 
@@ -24,19 +22,9 @@ public enum TileType {
             this.texture = new Texture(pathToTile);
     }
 
-    public Sprite getSprite() {
-        //TODO: Handles sprite call when white type
-        return new Sprite(texture);
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public Texture getTexture() {
-        return texture;
-    }
-
+    /** Takes a color and returns a matching type. Returns null of non matches.
+     *  @param color a color to be matched.
+     *  @return a tileType based on the color given. Returns null if non matches. */
     public static TileType getTypeFromColor(Color color){
 
         if(color.equals(TileType.WHITE_SPACE.getColor()))
@@ -49,11 +37,26 @@ public enum TileType {
             return null;
     }
 
+    /** The color used by this type. */
     private static class Constants{
         public static final Color WHITE_SPACE_COLOR = Color.valueOf("#FFFFFFFF");
         public static final Color GROUND_BRICK_COLOR = Color.valueOf("#0000FF00");
         public static final Color GROUND_GRASS_MIDDLE_COLOR = Color.valueOf("#FF00FF00");
     }
 
+    public Sprite getSprite() {
+        return new Sprite(texture);
+    }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public void dispose(){
+        texture.dispose();
+    }
 }

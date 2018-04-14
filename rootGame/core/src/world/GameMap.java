@@ -12,13 +12,12 @@ public class GameMap {
 
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
-    //private World world; //TODO NEEDED?
 
     //Get from MapLoader??
     private int mapWidth;
     private int mapHeight;
 
-    protected String mapName; //TODO SHOULD BE UPGRADED TO MAPTYPE? aka enum?
+    protected String mapName; //TODO SHOULD BE UPGRADED TO MapTYPE? aka enum?
 
     public GameMap(String mapName, World world) {
         this.entitiesList = new ArrayList<>();
@@ -47,9 +46,16 @@ public class GameMap {
         return tilesList;
     }
 
-    //TODO SHOULD BE IMPLEMENTED, need to be in Entity and Groundtile as well
+    /** Disposes used textures. */
     public void dispose(){
 
+        for(Entity entity : entitiesList) {
+            entity.dispose();
+        }
+
+        for(GroundTile groundTile : tilesList){
+            groundTile.dispose();
+        }
     }
 
 

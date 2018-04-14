@@ -52,6 +52,12 @@ public class Player extends Entity {
         batch.draw(getSprite(), x, y, getWidth(), getHeight());
     }
 
+    @Override
+    public void dispose() {
+        System.out.println("Player texture disposed");
+        this.sprite.getTexture().dispose();
+    }
+
     /*
     public Player(World world, float x, float y){
         super(world, EntityType.C); //TODO

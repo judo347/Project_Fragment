@@ -111,7 +111,7 @@ public class TownScene implements Screen, ContactListener {
 
     @Override
     public void dispose() {
-
+        gameMap.dispose();
     }
 
     @Override
