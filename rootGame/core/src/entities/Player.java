@@ -5,10 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import entities.elements.Platform;
+import helpers.ChestType;
 import helpers.EntityType;
 import helpers.GameInfo;
 import helpers.Entity;
@@ -36,6 +37,23 @@ public class Player extends Entity {
     public static final int NUMBER_OF_JUMP_FRAMES = 2;
 
     public Player(World world, float x, float y){
+        super(world, EntityType.PLAYER, x, y);
+
+        this.sprite = new Sprite(new Texture("img/hero/hero_stand.png"));//TODO TEMP
+        this.sprite.setPosition(x - this.sprite.getWidth() / 2, y - this.sprite.getWidth() / 2);
+
+        this.walkTimer = 0;
+        this.currentWalkFrame = standFrame;
+        this.currentJumpFame = 0;
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        batch.draw(getSprite(), x, y, getWidth(), getHeight());
+    }
+
+    /*
+    public Player(World world, float x, float y){
         super(world, EntityType.C); //TODO
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png")); //TODO: FILE SHOULD BE CHANGED
         this.sprite.setPosition(x - this.sprite.getWidth() / 2, y - this.sprite.getWidth() / 2);
@@ -61,7 +79,6 @@ public class Player extends Entity {
 
         createBody();
     }
-
     void createBody(){
 
         BodyDef bodyDef = new BodyDef(); //Dynamic, static or kinamatic, sets the body relative to where the player is.
@@ -90,6 +107,7 @@ public class Player extends Entity {
 
         shape.dispose(); //It is no longer needed/used
     }
+    */
 
     /** Handles player movement */
     public void playerControls(float deltaTime){

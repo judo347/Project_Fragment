@@ -5,7 +5,8 @@ Game Object -> world generator -> scenes
 WorldGenerator 
 Tiles containing tilesheets and are not sprites
 Player sensor..
-Chest in world generator (all other objects than ground)
+
+FIX COLORS!!
 
 Ground Tile could be an entity?
 

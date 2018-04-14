@@ -44,7 +44,7 @@ public class MapLoader {
                 Color color = new Color();
                 Color.argb8888ToColor(color, tempPixmap.getPixel(x, y));
 
-                System.out.println(color.toString());
+                //System.out.println(color.toString());
 
 
                 TileType tileType = TileType.getTypeFromColor(color);
