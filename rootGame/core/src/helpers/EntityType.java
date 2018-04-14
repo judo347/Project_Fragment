@@ -80,8 +80,6 @@ public enum EntityType {
      *  @return a entityType based on the color given. Returns null if non matches. */
     public static EntityType getTypeFromColor(Color color){
 
-        System.out.println("Entity GetType color = " + color.toString());
-
         if(color.equals(EntityType.PLAYER.getColor())){
             System.out.println("Type = PLAYER");
             return PLAYER;

@@ -22,12 +22,14 @@ public class GameMap {
     public GameMap(String mapName, World world) {
         this.entitiesList = new ArrayList<>();
         this.tilesList = new ArrayList<>();
+        this.mapName = mapName;
         MapLoader ml = new MapLoader();
-        ml.loadLevelImage(mapName, entitiesList, tilesList, world);
+        ml.loadLevelImage(mapName, world);
         this.entitiesList = ml.getEntitiesList();
         this.tilesList = ml.getTilesList();
     }
 
+    /** Renders all elements in this map. */
     public void render (OrthographicCamera camera, SpriteBatch batch){
         for(Entity entity : entitiesList) {
             entity.render(batch);
@@ -36,14 +38,6 @@ public class GameMap {
         for(GroundTile groundTile : tilesList){
             groundTile.render(batch);
         }
-    }
-
-    public ArrayList<Entity> getEntitiesList() {
-        return entitiesList;
-    }
-
-    public ArrayList<GroundTile> getTilesList() {
-        return tilesList;
     }
 
     /** Disposes used textures. */
@@ -56,6 +50,14 @@ public class GameMap {
         for(GroundTile groundTile : tilesList){
             groundTile.dispose();
         }
+    }
+
+    public ArrayList<Entity> getEntitiesList() {
+        return entitiesList;
+    }
+
+    public ArrayList<GroundTile> getTilesList() {
+        return tilesList;
     }
 
 
