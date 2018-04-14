@@ -15,14 +15,24 @@ public abstract class Entity {
     protected Body body;
     protected float x, y;
 
-    public void Entity(World world, EntityType entityType, float x, float y){
+    public Entity(World world, EntityType entityType, float x, float y) {
+        this.world = world;
+        this.entityType = entityType;
+        this.bodyType = entityType.getBodyType();
+        this.x = x;
+        this.y = y;
+        this.body = entityType.createBody(world, x, y);
+    }
+
+    /*
+    public void create(World world, EntityType entityType, float x, float y){
         this.world = world;
         this.entityType = entityType;
         this.bodyType = entityType.getBodyType();
         this.x = x;
         this.y = y;
         this.body = entityType.createBody(world, x , y);
-    }
+    }*/
 
     public abstract void render (SpriteBatch batch);
 

@@ -58,7 +58,7 @@ public class MapLoader {
                 }else if(entityType != null){
                     //TODO DOES NOT WORK
                     //entitiesList.add(EntityType.getTypeFromColor(color).getEntity(color, world, x, y)); //TODO null? HANDLE
-                    entitiesList.add(EntityType.getEntity(color, world, x, y)); //TODO null? HANDLE
+                    entitiesList.add(EntityType.getEntity(color, world, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
                     System.out.println("Added Entity!");
                 }else{
                     System.out.println("No entity matched the color: " + color.toString()); //TODO Exception?

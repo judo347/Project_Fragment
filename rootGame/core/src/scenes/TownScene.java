@@ -5,17 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.mk.MainGame;
 import entities.elements.GroundTile;
 import helpers.Entity;
 import helpers.GameInfo;
 import world.GameMap;
-import world.MapLoader;
-import entities.Player;
-
-import java.util.ArrayList;
 
 //TODO AssetManager
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import helpers.EntityType;
 import helpers.GameInfo;
 import helpers.Entity;
 
@@ -34,7 +35,7 @@ public abstract class Player extends Entity {
     public static final int NUMBER_OF_JUMP_FRAMES = 2;
 
     public Player(World world, float x, float y){
-        super(); //TODO
+        super(world, EntityType.C); //TODO
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png")); //TODO: FILE SHOULD BE CHANGED
         this.sprite.setPosition(x - this.sprite.getWidth() / 2, y - this.sprite.getWidth() / 2);
         //this.world = world;

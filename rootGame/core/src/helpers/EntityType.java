@@ -3,7 +3,6 @@ package helpers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import entities.Player;
 import entities.elements.Chest;
 
 public enum EntityType {
@@ -32,7 +31,7 @@ public enum EntityType {
     public Body createBody(World world, float x, float y){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
-        bodyDef.position.set(x / GameInfo.PPM, y / GameInfo.PPM);
+        bodyDef.position.set(((x + getWidth() / 2) / GameInfo.PPM), (y + getHeight() / 2) / GameInfo.PPM);
 
         Body body = world.createBody(bodyDef);
 
@@ -68,7 +67,8 @@ public enum EntityType {
 
         switch (getTypeFromColor(color)){
             //case PLAYER:    return new Player(world, x, y);
-            case CHEST:     return new Chest(ChestType.NORMAL); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
+            //case CHEST:     return new Chest(ChestType.NORMAL); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
+            case CHEST:       return new Chest(world, x, y); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
         }
 
         return null;

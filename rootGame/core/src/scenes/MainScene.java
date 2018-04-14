@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.mk.MainGame;
-import helpers.ChestType;
 import helpers.GameInfo;
-import entities.*;
 import entities.elements.Chest;
 import entities.elements.Platform;
 
@@ -18,7 +16,6 @@ public class MainScene implements Screen, ContactListener{
 
     private Texture background;
 
-    private Player player;
 
     private Platform platform1;
     private Platform platform2;
@@ -70,8 +67,8 @@ public class MainScene implements Screen, ContactListener{
 
         stateTime += delta;
 
-        player.updatePlayer(delta);
-        player.playerControls(delta);
+        //player.updatePlayer(delta);
+        //player.playerControls(delta);
 
         drawElements(delta);
 
@@ -92,7 +89,7 @@ public class MainScene implements Screen, ContactListener{
         game.getBatch().draw(background,0,0);
 
         //TODO: This if statement should be move to player
-        game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
+        //game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
 
         game.getBatch().draw(platform1, platform1.getX() - (platform1.getWidth() / 2), platform1.getY() - (platform1.getHeight() / 2));
         game.getBatch().draw(platform2, platform2.getX() - (platform2.getWidth() / 2), platform2.getY() - (platform2.getHeight() / 2));
@@ -110,7 +107,7 @@ public class MainScene implements Screen, ContactListener{
 
         // Will free up memory
         background.dispose();
-        player.getSprite().getTexture().dispose();
+        //player.getSprite().getTexture().dispose();
         platform1.getTexture().dispose();
         platform2.getTexture().dispose();
         platform3.getTexture().dispose();
@@ -130,10 +127,11 @@ public class MainScene implements Screen, ContactListener{
             playerFixture = contact.getFixtureB();
         */
 
+        /*
         if(contact.getFixtureA().getUserData() == this.player.getUserData() || contact.getFixtureB().getUserData() == this.player.getUserData()){
             if(contact.getFixtureA().getUserData() == this.platform1.getUserData() || contact.getFixtureB().getUserData() == this.platform1.getUserData())
                 player.isInAir = false;
-        }
+        }*/
         /*
         if(contact.getFixtureA().getUserData() == this.chest.getUserData() || contact.getFixtureB().getUserData() == this.chest.getUserData())
             chest.openChest();*/
@@ -141,12 +139,13 @@ public class MainScene implements Screen, ContactListener{
 
     @Override
     public void endContact(Contact contact) {
+        /*
         if(contact.getFixtureA().getUserData() == this.player.getUserData() || contact.getFixtureB().getUserData() == this.player.getUserData()){
             if(contact.getFixtureA().getUserData() == this.platform1.getUserData() || contact.getFixtureB().getUserData() == this.platform1.getUserData()){
                 player.isInAir = true;
                 player.inAirTime = 0;
             }
-        }
+        }*/
     }
 
     //NOT USED-----
