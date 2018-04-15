@@ -8,10 +8,11 @@ import helpers.Entity;
 
 import java.util.ArrayList;
 
-public class GameMap {
+public class GameMap{
 
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
+    private int playerIndex;
 
     //Get from MapLoader??
     private int mapWidth;
@@ -27,6 +28,24 @@ public class GameMap {
         ml.loadLevelImage(mapName, world);
         this.entitiesList = ml.getEntitiesList();
         this.tilesList = ml.getTilesList();
+        getPlayerIndex();
+    }
+
+    private void getPlayerIndex(){
+
+        for(int i = 0; i < entitiesList.size(); i++){
+            if(entitiesList.get(i).getId() == "player"){
+                playerIndex = i;
+                i = entitiesList.size(); //todo: Does this break out of for loop or cause exception?
+            }
+        }
+    }
+
+    /** Updates game elements, like player movement and spirte/animation. */
+    public void updateElements(float delta){
+        for(Entity entity : entitiesList){
+            entity.update(delta);
+        }
     }
 
     /** Renders all elements in this map. */
@@ -59,6 +78,4 @@ public class GameMap {
     public ArrayList<GroundTile> getTilesList() {
         return tilesList;
     }
-
-
 }

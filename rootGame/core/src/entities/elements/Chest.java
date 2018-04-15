@@ -19,6 +19,11 @@ public class Chest extends Entity {
     }
 
     @Override
+    public void update(float delta) {
+        //TODO collision?
+    }
+
+    @Override
     public void render(SpriteBatch batch) {
         batch.draw(getSprite(), x, y, getWidth(), getHeight());
     }

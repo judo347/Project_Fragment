@@ -50,20 +50,8 @@ public class TownScene implements Screen, ContactListener {
 
         stateTime += delta;
 
-        /* //TODO: THIS SHOULD BE IN PLAYER RENDER
-        player.updatePlayer(delta);
-        player.playerControls(delta); */
-
-        drawElements(delta);
-
-        debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
-
-        //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
-        // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
-        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
-    }
-
-    public void drawElements(float deltaTime){
+        //Update gameMap elements
+        gameMap.updateElements(delta);
 
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears the screen
@@ -72,16 +60,20 @@ public class TownScene implements Screen, ContactListener {
 
         game.getBatch().draw(background,0,0);
 
-        for(Entity entity : gameMap.getEntitiesList())
-            entity.render(game.getBatch());
-
-        for(GroundTile groundTile : gameMap.getTilesList())
-            groundTile.render(game.getBatch());
+        //Render stuff in gameMap
+        gameMap.render(box2DCamera, game.getBatch());
 
         //TODO: This if statement should be move to player
         //game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
 
         game.getBatch().end();
+
+
+        debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
+
+        //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
+        // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
     }
 
     @Override
