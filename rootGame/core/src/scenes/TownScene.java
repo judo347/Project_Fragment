@@ -14,14 +14,12 @@ import world.GameMap;
 
 //TODO AssetManager
 
-public class TownScene implements Screen, ContactListener {
+public class TownScene implements Screen{
 
     private MainGame game;
     private Texture background;
-    private World world;
 
-    private OrthographicCamera box2DCamera;
-    private Box2DDebugRenderer debugRenderer;
+
 
     private GameMap gameMap;
 
@@ -29,20 +27,12 @@ public class TownScene implements Screen, ContactListener {
 
     public TownScene(MainGame game, World world){
         this.game = game;
-        this.world = world;
+        gameMap = new GameMap("img/levels/town.png", world); //Load map //TODO Should not be a string
         stateTime = 0f;
 
         background = new Texture("img/background.png");
 
-        //What we see on the screen
-        box2DCamera = new OrthographicCamera();
-        box2DCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
-        box2DCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
-        debugRenderer = new Box2DDebugRenderer();
-
-        world.setContactListener(this); //add the contact listener to the world
-
-        gameMap = new GameMap("img/levels/town.png", world); //Load map //TODO Should not be a string
+        //world.setContactListener(this); //add the contact listener to the world
     }
 
     @Override
@@ -61,7 +51,7 @@ public class TownScene implements Screen, ContactListener {
         game.getBatch().draw(background,0,0);
 
         //Render stuff in gameMap
-        gameMap.render(box2DCamera, game.getBatch());
+        gameMap.render(gameMap.getBox2DCamera(), game.getBatch());
 
         //TODO: This if statement should be move to player
         //game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
@@ -69,11 +59,11 @@ public class TownScene implements Screen, ContactListener {
         game.getBatch().end();
 
 
-        debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
+        gameMap.getDebugRenderer().render(gameMap.getWorld(), gameMap.getBox2DCamera().combined); //Render what the camera sees
 
         //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
         // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
-        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+        gameMap.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
     }
 
     @Override
@@ -104,25 +94,5 @@ public class TownScene implements Screen, ContactListener {
     @Override
     public void dispose() {
         gameMap.dispose();
-    }
-
-    @Override
-    public void beginContact(Contact contact) {
-
-    }
-
-    @Override
-    public void endContact(Contact contact) {
-
-    }
-
-    @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
-
-    }
-
-    @Override
-    public void postSolve(Contact contact, ContactImpulse impulse) {
-
     }
 }
