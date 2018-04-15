@@ -65,7 +65,7 @@ public class GameMap{
     private void getPlayerIndex(){
 
         for(int i = 0; i < entitiesList.size(); i++){
-            if(entitiesList.get(i).getId() == "player"){
+            if(entitiesList.get(i).getDefaultTypeId() == "player"){
                 playerIndex = i;
                 i = entitiesList.size(); //todo: Does this break out of for loop or cause exception?
             }

@@ -26,8 +26,6 @@ public class TownScene implements Screen{
         this.game = game;
         gameMap = new GameMap("img/levels/town.png", world); //Load map //TODO Should not be a string
         stateTime = 0f;
-
-        //world.setContactListener(this); //add the contact listener to the world
     }
 
     @Override

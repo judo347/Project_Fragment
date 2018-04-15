@@ -15,7 +15,9 @@ public class ContactListen implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
 
-        if(contact.getFixtureA().getUserData() == this.player.getId() || contact.getFixtureB().getUserData() == this.player.getId()){
+        System.out.println(contact.getFixtureA().getUserData() + " : " + contact.getFixtureB().getUserData());
+
+        if(contact.getFixtureA().getUserData() == this.player.getDefaultTypeId() || contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
             this.player.isInAir = false;
         }
     }

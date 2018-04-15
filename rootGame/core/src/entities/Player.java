@@ -102,9 +102,7 @@ public class Player extends Entity {
                 setWalkTimer(0);
                 oneDownFrame();
             }
-
         }
-
 
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             getBody().applyForce(new Vector2(1f,0), getBody().getWorldCenter(), true); //Force = overtime, implulse = right away.
@@ -119,7 +117,7 @@ public class Player extends Entity {
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             if(!isInAir){
-                getBody().applyForce(new Vector2(0,30), getBody().getWorldCenter(), true);
+                getBody().applyForce(new Vector2(0,80), getBody().getWorldCenter(), true);
                 isInAir = true;
             }
         }

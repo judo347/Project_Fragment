@@ -12,6 +12,7 @@ public abstract class Entity {
     protected BodyType bodyType;
     protected Body body;
     protected float x, y;
+    protected String id;
 
     public Entity(World world, EntityType entityType, float x, float y) {
         this.world = world;
@@ -20,6 +21,7 @@ public abstract class Entity {
         this.x = x;
         this.y = y;
         this.body = entityType.createBody(world, x, y);
+        this.id = entityType.getId();
     }
 
     public abstract void update(float delta);
@@ -57,7 +59,17 @@ public abstract class Entity {
         return entityType.getHeight();
     }
 
-    public String getId() {
+    public String getDefaultTypeId() {
         return entityType.getId();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        System.out.println("Setting this id: " + id);
+        this.body.setUserData(id);
+        this.id = id;
     }
 }

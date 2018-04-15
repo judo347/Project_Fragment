@@ -19,6 +19,8 @@ public class MapLoader {
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
 
+    private int chestCount = 0;
+
     /** Load an image of a level and creates to lists containing the entities and tiles.
      * @param levelImageLocation the location of the image to be loaded. TODO should be an enum or handled in another way.
      * @param world the world that contains the elements. */
@@ -55,6 +57,13 @@ public class MapLoader {
                 }else if(entityType != null){
 
                     entitiesList.add(EntityType.getEntity(color, world, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
+
+                    if(entitiesList.get(entitiesList.size()-1).getEntityType() == EntityType.CHEST){
+                        System.out.println("Chest added" + chestCount);
+                        entitiesList.get(entitiesList.size()-1).setId(entityType.getId() + chestCount++);
+                        System.out.println("saved: " + entitiesList.get(entitiesList.size()-1).getId());
+                    }
+
 
                 }else{
                     //System.out.println("No entity matched the color: " + color.toString()); //TODO Exception?
