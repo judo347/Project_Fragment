@@ -32,6 +32,7 @@ public class Player extends Entity {
     private int standFrame = 2;
     public float inAirTime;
     private int currentJumpFame;
+    private float stateTime;
 
     Animation[] jumpMovement;
     public static final int NUMBER_OF_JUMP_FRAMES = 2;
@@ -40,22 +41,46 @@ public class Player extends Entity {
         super(world, EntityType.PLAYER, x, y);
 
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png"));//TODO TEMP
-        this.sprite.setPosition(x - this.sprite.getWidth() / 2, y - this.sprite.getWidth() / 2);
+        this.sprite.setPosition(x + getWidth() / 2, y + getHeight() / 2);
 
         this.walkTimer = 0;
         this.currentWalkFrame = standFrame;
         this.currentJumpFame = 0;
+        this.stateTime = 0f;
+
+        setUpAnimations();
+
+    }
+
+    public void setUpAnimations(){
+        //Vertical movement animation
+        this.verticalMovement = new Animation[NUMBER_OF_VERTICAL_FRAMES]; //Number of images
+        TextureRegion[][] heroVerticalSpriteSheet = TextureRegion.split(new Texture("img/hero/hero_vertical.png"), HERO_WIDTH_PIXEL, HERO_HEIGHT_PIXEL); //TODO: Load atlas?
+
+        for(int i = 0; i < NUMBER_OF_VERTICAL_FRAMES; i++)
+            verticalMovement[i] = new Animation(ANIMATION_SPEED, heroVerticalSpriteSheet[0][i]); //TODO HANDLE EXCEPTION?
+
+        //Jump animation
+        this.jumpMovement = new Animation[NUMBER_OF_JUMP_FRAMES];
+        TextureRegion[][] heroJumpSpriteSheet = TextureRegion.split(new Texture("img/hero/hero_jump.png"), HERO_WIDTH_PIXEL, HERO_HEIGHT_PIXEL); //TODO: Load atlas?
+
+        for(int i = 0; i < NUMBER_OF_JUMP_FRAMES; i++)
+            jumpMovement[i] = new Animation(ANIMATION_SPEED, heroJumpSpriteSheet[0][i]); //TODO HANDLE EXCEPTION?
+
     }
 
     @Override
     public void update(float delta) {
-        playerControls(delta);
+        stateTime += delta;
         updatePlayer(delta);
+        playerControls(delta);
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(getSprite(), x, y, getWidth(), getHeight());
+
+        //batch.draw(getSprite(), x, y, getWidth(), getHeight()); //TODO WORKS /BACKUP
+        batch.draw((isInAir) ? getJumpSprite(stateTime) : getVerticalSprite(stateTime), getX() - (getWidth() / 2), getY() - (getHeight() / 2));
     }
 
     @Override
@@ -93,8 +118,10 @@ public class Player extends Entity {
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            if(!isInAir)
+            if(!isInAir){
                 getBody().applyForce(new Vector2(0,30), getBody().getWorldCenter(), true);
+                isInAir = true;
+            }
         }
 
         if(!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT)){
@@ -105,7 +132,7 @@ public class Player extends Entity {
 
     /** Handles sprite movement with body. */
     public void updatePlayer(float deltaTime){
-        //this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
+        this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
         if(this.isInAir)
             inAirTime += deltaTime;
     }
@@ -167,6 +194,8 @@ public class Player extends Entity {
     public TextureRegion getJumpSprite(float stateTime) {
         return (inAirTime > 0.14f) ? (TextureRegion)jumpMovement[1].getKeyFrame(stateTime, true) : (TextureRegion)jumpMovement[0].getKeyFrame(stateTime, true);
     }
+
+
 
     /*
     public Player(World world, float x, float y){

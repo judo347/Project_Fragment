@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import entities.Player;
 import entities.elements.GroundTile;
 import helpers.ContactListen;
 import helpers.Entity;
@@ -31,6 +32,11 @@ public class GameMap{
     private int mapWidth;
     private int mapHeight;
 
+    //TODO Gdx.input.setInputProcessor() use this to get user input (controlers)
+
+    //TODO: CAMRERA FOLLOWING PLAYER https://stackoverflow.com/questions/27240552/sprite-not-following-body-fixture
+
+
     protected String mapName; //TODO SHOULD BE UPGRADED TO MapTYPE? aka enum?
 
     public GameMap(String mapName, World world) {
@@ -38,13 +44,12 @@ public class GameMap{
         this.tilesList = new ArrayList<>();
         this.mapName = mapName;
         this.world = world;
-        world.setContactListener(new ContactListen());
 
         //What we see on the screen
         this.box2DCamera = new OrthographicCamera();
         this.box2DCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
         this.box2DCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
-        this.debugRenderer = debugRenderer = new Box2DDebugRenderer();
+        this.debugRenderer = new Box2DDebugRenderer();
 
         //Map loader
         MapLoader ml = new MapLoader();
@@ -53,6 +58,7 @@ public class GameMap{
         this.tilesList = ml.getTilesList();
         getPlayerIndex();
 
+        world.setContactListener(new ContactListen(getPlayer()));
         background = new Texture("img/background.png");
     }
 
@@ -137,5 +143,9 @@ public class GameMap{
 
     public Box2DDebugRenderer getDebugRenderer() {
         return debugRenderer;
+    }
+
+    public Player getPlayer(){
+        return (Player) entitiesList.get(playerIndex);
     }
 }
