@@ -1,6 +1,9 @@
 package world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -17,6 +20,7 @@ public class GameMap{
     private int playerIndex;
 
     private World world;
+    private Texture background;
 
     private OrthographicCamera box2DCamera;
     private Box2DDebugRenderer debugRenderer;
@@ -45,6 +49,8 @@ public class GameMap{
         this.entitiesList = ml.getEntitiesList();
         this.tilesList = ml.getTilesList();
         getPlayerIndex();
+
+        background = new Texture("img/background.png");
     }
 
     private void getPlayerIndex(){
@@ -65,7 +71,19 @@ public class GameMap{
     }
 
     /** Renders all elements in this map. */
-    public void render (OrthographicCamera camera, SpriteBatch batch){
+    public void render (SpriteBatch batch, float delta){
+
+        //getBox2DCamera(); was argument, not used in any way.
+
+        updateElements(delta);
+
+
+        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears the screen
+
+        batch.begin();
+        batch.draw(background,0,0);
+
         for(Entity entity : entitiesList) {
             entity.render(batch);
         }
@@ -73,6 +91,17 @@ public class GameMap{
         for(GroundTile groundTile : tilesList){
             groundTile.render(batch);
         }
+
+        //TODO: This if statement should be move to player
+        //game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
+
+        batch.end();
+
+        debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
+
+        //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
+        // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
     }
 
     /** Disposes used textures. */

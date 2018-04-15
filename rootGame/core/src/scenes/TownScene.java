@@ -17,10 +17,7 @@ import world.GameMap;
 public class TownScene implements Screen{
 
     private MainGame game;
-    private Texture background;
-
-
-
+    
     private GameMap gameMap;
 
     float stateTime; //Will be added up every frame while performing a task // How long an animation has been running
@@ -30,8 +27,6 @@ public class TownScene implements Screen{
         gameMap = new GameMap("img/levels/town.png", world); //Load map //TODO Should not be a string
         stateTime = 0f;
 
-        background = new Texture("img/background.png");
-
         //world.setContactListener(this); //add the contact listener to the world
     }
 
@@ -40,30 +35,7 @@ public class TownScene implements Screen{
 
         stateTime += delta;
 
-        //Update gameMap elements
-        gameMap.updateElements(delta);
-
-        Gdx.gl.glClearColor(1,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears the screen
-
-        game.getBatch().begin();
-
-        game.getBatch().draw(background,0,0);
-
-        //Render stuff in gameMap
-        gameMap.render(gameMap.getBox2DCamera(), game.getBatch());
-
-        //TODO: This if statement should be move to player
-        //game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
-
-        game.getBatch().end();
-
-
-        gameMap.getDebugRenderer().render(gameMap.getWorld(), gameMap.getBox2DCamera().combined); //Render what the camera sees
-
-        //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
-        // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
-        gameMap.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
+        gameMap.render(game.getBatch(), delta);
     }
 
     @Override
