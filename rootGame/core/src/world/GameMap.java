@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import entities.elements.GroundTile;
+import helpers.ContactListen;
 import helpers.Entity;
 import helpers.GameInfo;
 
@@ -21,6 +22,7 @@ public class GameMap{
 
     private World world;
     private Texture background;
+    //private ContactListen contactListener;
 
     private OrthographicCamera box2DCamera;
     private Box2DDebugRenderer debugRenderer;
@@ -36,6 +38,7 @@ public class GameMap{
         this.tilesList = new ArrayList<>();
         this.mapName = mapName;
         this.world = world;
+        world.setContactListener(new ContactListen());
 
         //What we see on the screen
         this.box2DCamera = new OrthographicCamera();

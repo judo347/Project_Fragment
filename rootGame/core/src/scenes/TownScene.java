@@ -17,7 +17,7 @@ import world.GameMap;
 public class TownScene implements Screen{
 
     private MainGame game;
-    
+
     private GameMap gameMap;
 
     float stateTime; //Will be added up every frame while performing a task // How long an animation has been running
@@ -34,7 +34,6 @@ public class TownScene implements Screen{
     public void render(float delta) {
 
         stateTime += delta;
-
         gameMap.render(game.getBatch(), delta);
     }
 
