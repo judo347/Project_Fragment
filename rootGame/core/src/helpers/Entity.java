@@ -21,7 +21,7 @@ public abstract class Entity {
         this.x = x;
         this.y = y;
         this.body = entityType.createBody(world, x, y);
-        this.id = entityType.getId();
+        this.id = (String)body.getFixtureList().get(0).getUserData();
     }
 
     public abstract void update(float delta);
@@ -68,8 +68,7 @@ public abstract class Entity {
     }
 
     public void setId(String id) {
-        System.out.println("Setting this id: " + id);
-        this.body.setUserData(id);
-        this.id = id;
+        this.body.getFixtureList().get(0).setUserData(id);
+
     }
 }
