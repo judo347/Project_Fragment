@@ -29,6 +29,8 @@ public enum EntityType {
     public Body createBody(World world, float x, float y){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
+        if(this == PLAYER)
+            bodyDef.fixedRotation = true;
         bodyDef.position.set(((x + getWidth() / 2) / GameInfo.PPM), (y + getHeight() / 2) / GameInfo.PPM);
 
         Body body = world.createBody(bodyDef);
@@ -112,5 +114,10 @@ public enum EntityType {
 
     public Color getColor() {
         return color;
+    }
+
+    /** Take a string and tries to match it with the default id. */
+    public boolean isMatchingDefaultId(String diffId){
+        return diffId.startsWith(id);
     }
 }

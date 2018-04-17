@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import entities.Player;
+import entities.elements.Chest;
 import entities.elements.GroundTile;
 import helpers.ContactListen;
 import helpers.Entity;
@@ -58,7 +59,7 @@ public class GameMap{
         this.tilesList = ml.getTilesList();
         getPlayerIndex();
 
-        world.setContactListener(new ContactListen(getPlayer()));
+        world.setContactListener(new ContactListen(getPlayer(), this));
         background = new Texture("img/background.png");
     }
 
@@ -147,5 +148,19 @@ public class GameMap{
 
     public Player getPlayer(){
         return (Player) entitiesList.get(playerIndex);
+    }
+
+    //TODO: BUG: all chets in entilist is names chest.. why not chest0, chest1.. and so on..
+    public void openChest(String chestId){
+        System.out.println("Tries to open: " + chestId);
+
+        for(Entity entity : entitiesList){
+            if(entity.getDefaultTypeId() == chestId){
+                Chest chest = (Chest) entity;
+                chest.openChest();
+                System.out.println("Chest opened: " + entity.getId());
+            }
+
+        }
     }
 }
