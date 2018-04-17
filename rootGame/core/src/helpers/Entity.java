@@ -51,6 +51,10 @@ public abstract class Entity {
         return y;
     }
 
+    public float getX() {
+        return x;
+    }
+
     public float getWidth() {
         return entityType.getWidth();
     }

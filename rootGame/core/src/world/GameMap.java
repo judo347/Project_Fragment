@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import entities.Player;
 import entities.elements.Chest;
 import entities.elements.GroundTile;
+import entities.elements.Portal;
 import helpers.ContactListen;
 import helpers.Entity;
 import helpers.GameInfo;
@@ -21,6 +22,7 @@ public class GameMap{
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
     private int playerIndex;
+    private int portalIndex;
 
     private World world;
     private Texture background;
@@ -57,20 +59,33 @@ public class GameMap{
         ml.loadLevelImage(mapName, this.world);
         this.entitiesList = ml.getEntitiesList();
         this.tilesList = ml.getTilesList();
-        getPlayerIndex();
+        this.playerIndex = getPlayerIndex();
+        this.portalIndex = getPortalIndex();
 
-        world.setContactListener(new ContactListen(getPlayer(), this));
+        world.setContactListener(new ContactListen(getPlayer(), getPortal(), this));
         background = new Texture("img/background.png");
     }
 
-    private void getPlayerIndex(){
+    private int getPortalIndex(){
+
+        for(int i = 0; i < entitiesList.size(); i++){
+            if(entitiesList.get(i).getDefaultTypeId() == "portal"){
+                return i;
+            }
+        }
+
+        return -1; //no player exists //TODO exception!!
+    }
+
+    private int getPlayerIndex(){
 
         for(int i = 0; i < entitiesList.size(); i++){
             if(entitiesList.get(i).getDefaultTypeId() == "player"){
-                playerIndex = i;
-                i = entitiesList.size(); //todo: Does this break out of for loop or cause exception?
+                return i;
             }
         }
+
+        return -1; //no player exists //TODO exception!!
     }
 
     /** Updates game elements, like player movement and spirte/animation. */
@@ -148,6 +163,11 @@ public class GameMap{
 
     public Player getPlayer(){
         return (Player) entitiesList.get(playerIndex);
+    }
+
+    /** Returns the portal object from the entity list. Can be null. */
+    public Portal getPortal(){
+        return (Portal) entitiesList.get(portalIndex);
     }
 
     /** Opens a chest based on the unique id. Used by the contactListen class. */

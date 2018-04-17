@@ -3,13 +3,17 @@ package helpers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import entities.FloatingVendor;
 import entities.Player;
 import entities.elements.Chest;
+import entities.elements.Portal;
 
 public enum EntityType {
 
     PLAYER("player", 32, 64, BodyType.DynamicBody, Constants.PLAYER_COLOR),
-    CHEST("chest", 40, 30, BodyType.StaticBody, Constants.CHEST_COLOR);
+    CHEST("chest", 40, 30, BodyType.StaticBody, Constants.CHEST_COLOR),
+    PORTAL("portal", 128, 128, BodyType.StaticBody, Constants.PORTAL_COLOR),
+    FVENDOR("fvendor", 32, 64, BodyType.StaticBody, Constants.FVENDOR_COLOR);
 
     private String id;
     private int width, height;
@@ -45,7 +49,7 @@ public enum EntityType {
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(id);
 
-        if(this == CHEST){
+        if(this == CHEST || this == PORTAL || this == FVENDOR){
             fixture.setSensor(true);
         }
 
@@ -72,6 +76,8 @@ public enum EntityType {
         switch (getTypeFromColor(color)){
             case PLAYER:    return new Player(world, x, y);
             case CHEST:     return new Chest(world, x, y); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
+            case PORTAL:    return new Portal(world, x, y);
+            case FVENDOR:   return new FloatingVendor(world, x, y);
         }
 
         return null;
@@ -86,6 +92,10 @@ public enum EntityType {
             return PLAYER;
         if(color.equals(EntityType.CHEST.getColor()))
             return CHEST;
+        if(color.equals(EntityType.PORTAL.getColor()))
+            return PORTAL;
+        if(color.equals(EntityType.FVENDOR.getColor()))
+            return FVENDOR;
         else
             return null;
     }
@@ -94,6 +104,9 @@ public enum EntityType {
     private static class Constants{
         public static final Color PLAYER_COLOR = Color.valueOf("#26ffff00");
         public static final Color CHEST_COLOR = Color.valueOf("#D800FFFF");
+        public static final Color PORTAL_COLOR = Color.valueOf("#00ffffae");
+        public static final Color FVENDOR_COLOR = Color.valueOf("#006effff"); //TODO
+
     }
 
     public String getId() {

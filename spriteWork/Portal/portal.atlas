@@ -1,0 +1,35 @@
+
+portal.png
+size: 196,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+portal
+  rotate: false
+  xy: 0, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 0
+portal
+  rotate: false
+  xy: 66, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 1
+portal
+  rotate: false
+  xy: 132, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 2
+portal
+  rotate: false
+  xy: 66, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 3
+

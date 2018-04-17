@@ -52,6 +52,7 @@ public class Player extends Entity {
 
     }
 
+    /** Sets up the animation for the entity. */
     public void setUpAnimations(){
         //Vertical movement animation
         this.verticalMovement = new Animation[NUMBER_OF_VERTICAL_FRAMES]; //Number of images
