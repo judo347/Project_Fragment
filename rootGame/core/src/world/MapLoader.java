@@ -52,19 +52,18 @@ public class MapLoader {
                     continue;
                 }else if(tileType != null){
 
+                    //Add tile
                     tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
 
                 }else if(entityType != null){
 
+                    //Add entity
                     entitiesList.add(EntityType.getEntity(color, world, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
 
+                    //Add an unique id to chests
                     if(entitiesList.get(entitiesList.size()-1).getEntityType() == EntityType.CHEST){
-                        System.out.println("Chest added" + chestCount);
                         entitiesList.get(entitiesList.size()-1).setId(entityType.getId() + chestCount++);
-                        System.out.println("saved: " + entitiesList.get(entitiesList.size()-1).getId());
                     }
-
-
                 }else{
                     //System.out.println("No entity matched the color: " + color.toString()); //TODO Exception?
                 }

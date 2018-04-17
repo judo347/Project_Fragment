@@ -68,7 +68,7 @@ public abstract class Entity {
     }
 
     public void setId(String id) {
-        this.body.getFixtureList().get(0).setUserData(id);
-
+        this.id = id;
+        this.body.getFixtureList().get(0).setUserData(id); //TODO this line might not be needed
     }
 }

@@ -10,23 +10,19 @@ public enum ChestType {
 
     private Sprite spriteOpen;
     private Sprite spriteClosed;
-    private boolean isChestOpen;
 
     ChestType(String chestOpen, String chestClosed){
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("img/elements/chests.atlas"));
 
         this.spriteOpen = atlas.createSprite(chestOpen);
         this.spriteClosed = atlas.createSprite(chestClosed);
-        this.isChestOpen = false;
     }
 
-    public Sprite getSprite(){
-        return isChestOpen ? spriteOpen : spriteClosed;
+    public Sprite getSprite(boolean isChestOpen){
+        return (isChestOpen) ? spriteOpen : spriteClosed;
     }
 
-    public void openChest(){
-        this.isChestOpen = true;
-    }
+
 
     public void dispose(){
         spriteOpen.getTexture().dispose();

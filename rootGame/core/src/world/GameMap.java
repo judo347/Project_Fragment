@@ -150,15 +150,13 @@ public class GameMap{
         return (Player) entitiesList.get(playerIndex);
     }
 
-    //TODO: BUG: all chets in entilist is names chest.. why not chest0, chest1.. and so on..
+    /** Opens a chest based on the unique id. Used by the contactListen class. */
     public void openChest(String chestId){
-        System.out.println("Tries to open: " + chestId);
 
         for(Entity entity : entitiesList){
-            if(entity.getDefaultTypeId() == chestId){
+            if(entity.getId() == chestId){
                 Chest chest = (Chest) entity;
                 chest.openChest();
-                System.out.println("Chest opened: " + entity.getId());
             }
 
         }

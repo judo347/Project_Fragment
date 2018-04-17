@@ -11,11 +11,13 @@ import helpers.EntityType;
 public class Chest extends Entity {
 
     private ChestType chestType;
+    private boolean isChestOpen;
 
 
     public Chest(World world, float x, float y) {
         super(world, EntityType.CHEST, x, y);
         this.chestType = ChestType.NORMAL;
+        this.isChestOpen = false;
     }
 
     @Override
@@ -30,17 +32,16 @@ public class Chest extends Entity {
 
     @Override
     public void dispose() {
-        System.out.println("Chest texture disposed");
         chestType.dispose();
     }
 
     /** Gets the sprite based on the state (open/closed). */
     public Sprite getSprite() {
-        return chestType.getSprite();
+        return chestType.getSprite(isChestOpen);
     }
 
     /** Open the chest. TODO should be used in another way. */
     public void openChest(){
-        chestType.openChest();
+        this.isChestOpen = true;
     }
 }

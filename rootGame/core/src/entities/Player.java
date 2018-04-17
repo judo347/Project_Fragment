@@ -85,7 +85,6 @@ public class Player extends Entity {
 
     @Override
     public void dispose() {
-        System.out.println("Player texture disposed");
         this.sprite.getTexture().dispose();
     }
 
