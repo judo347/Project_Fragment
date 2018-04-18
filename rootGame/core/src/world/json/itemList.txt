@@ -1,0 +1,4 @@
+uniqueId:Name:ItemType:SpritePath
+0:The Most Epic Sword:WEAPON:img/someting/some
+1:Golden Armor:ARMOR:img/armor/awesome
+2:Cash Money:CURRENCY:img/crash/money

@@ -29,7 +29,7 @@ public enum EntityType {
         this.color = color;
     }
 
-    /** Creates the body and fixture for a entity. */
+    /** Creates the body and fixture for an entity. */
     public Body createBody(World world, float x, float y){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
