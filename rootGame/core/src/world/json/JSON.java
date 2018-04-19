@@ -4,10 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Json;
 import helpers.ItemType;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,15 +16,17 @@ import java.util.List;
  * the jsonFIle is updated from/with the itemList.txt. */
 public class JSON {
 
-    private static final String itemListPath = "world/json/itemList.txt";
-    private static final String itemJsonFile = "world/json/jsonFile";
+    private static final String itemListPath = "core/out/production/classes/world/json/itemList.txt";
+    private static final String itemJsonFile = "core/out/production/classes/world/json/jsonFile";
 
     public static void main(String[] args) {
 
-        JsonItem item = new JsonItem("The most epic sword", 1290, 1);
+        //JsonItem item = new JsonItem("The most epic sword", 1290, 1);
 
-        Json json = new Json();
-        System.out.println(json.prettyPrint(item));
+        //Json json = new Json();
+        //System.out.println(json.prettyPrint(item));
+
+        createJsonFile();
 
 
     }
@@ -44,10 +43,33 @@ public class JSON {
             jsonItems.add(createJsonItemFromString(line));
 
         //Create JSON code from that array
+        ArrayList<String> jsonStringArray = new ArrayList<>();
         Json json = new Json();
+        for(int i = 0; i < jsonItems.size(); i++)
+            jsonStringArray.add(json.toJson(jsonItems.get(i)));
 
-        json.toJson(jsonItems.get(0));
         //Save to file
+        saveStringArrayToFile(jsonStringArray);
+    }
+
+    private static void saveStringArrayToFile(ArrayList<String> stringArray){
+
+        try {
+            File file = new File(itemJsonFile);
+
+            FileWriter fw = new FileWriter(file, false);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            for(String string : stringArray)
+                bw.write(string);
+
+            bw.flush();
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to open and write to file");
+        }
     }
 
     /** Takes a line and converts it to a JsonItem. */
