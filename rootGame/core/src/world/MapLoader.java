@@ -52,8 +52,37 @@ public class MapLoader {
                     continue;
                 }else if(tileType != null){
 
+                    if(x != 0 && x != tempPixmap.getWidth()-1){ //TODO is this correct?
+
+                        Color previousColor = new Color();
+                        Color.argb8888ToColor(previousColor, tempPixmap.getPixel(x-1, y));
+                        Color nextColor = new Color();
+                        Color.argb8888ToColor(nextColor, tempPixmap.getPixel(x+1, y));
+
+                        TileType previousTileType = TileType.getTypeFromColor(previousColor);
+                        TileType nextTileType = TileType.getTypeFromColor(nextColor);
+
+                        if(tileType == TileType.GROUND_GRASS_MIDDLE){ //Check for side grass TODO rename/remake method
+
+                            if(previousTileType == TileType.WHITE_SPACE){ //The previous pixel is white space = left grass block
+                                if(nextTileType == TileType.GROUND_GRASS_MIDDLE);
+                                    tilesList.add(new GroundTile(world, TileType.GROUND_GRASS_LEFT, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE));
+
+                            }else if(nextTileType == TileType.WHITE_SPACE){ //The next pixel is white space = right grass block
+                                if(previousTileType == TileType.GROUND_GRASS_MIDDLE);
+                                     tilesList.add(new GroundTile(world, TileType.GROUND_GRASS_RIGHT, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE));
+                            }else{
+                                tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
+                            }
+
+                        }else
+                            tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
+
+                    }else{
+                        tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
+                    }
+
                     //Add tile
-                    tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
 
                 }else if(entityType != null){
 
