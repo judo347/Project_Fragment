@@ -1,12 +1,15 @@
 package world;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import dk.mk.MainGame;
 import entities.Player;
 import entities.elements.Chest;
 import entities.elements.GroundTile;
@@ -15,11 +18,14 @@ import helpers.ContactListen;
 import helpers.Entity;
 import helpers.EntityType;
 import helpers.GameInfo;
+import scenes.LevelScene;
+import sun.applet.Main;
 
 import java.util.ArrayList;
 
 public class GameMap{
 
+    private MainGame mainGame;
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
     private int playerIndex;
@@ -43,11 +49,12 @@ public class GameMap{
 
     protected String mapName; //TODO SHOULD BE UPGRADED TO MapTYPE? aka enum?
 
-    public GameMap(String mapName, World world) {
+    public GameMap(String mapName, World world, MainGame mainGame) {
         this.entitiesList = new ArrayList<>();
         this.tilesList = new ArrayList<>();
         this.mapName = mapName;
         this.world = world;
+        this.mainGame = mainGame;
 
         //What we see on the screen
         this.box2DCamera = new OrthographicCamera();
@@ -201,5 +208,9 @@ public class GameMap{
             }
 
         }
+    }
+
+    public void setScreenLevel(){
+        this.mainGame.setScreen(new LevelScene(mainGame, world));
     }
 }

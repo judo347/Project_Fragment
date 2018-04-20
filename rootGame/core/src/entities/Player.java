@@ -133,7 +133,8 @@ public class Player extends Entity {
 
         if(Gdx.input.isKeyPressed(Input.Keys.E)){
             if(gameMap.isPlayerTouchingPortal())
-                System.out.println("Activate awesome level selector!"); //TODO Display level selector
+                gameMap.setScreenLevel();
+                //System.out.println("Activate awesome level selector!"); //TODO Display level selector
         }
     }
 

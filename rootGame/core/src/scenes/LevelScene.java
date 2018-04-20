@@ -1,24 +1,27 @@
 package scenes;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.physics.box2d.World;
 import dk.mk.MainGame;
 import world.GameMap;
 
-//TODO AssetManager
-
-public class TownScene implements Screen{
+public class LevelScene implements Screen {
 
     private MainGame game;
-
     private GameMap gameMap;
 
-    float stateTime; //Will be added up every frame while performing a task // How long an animation has been running
+    float stateTime;
 
-    public TownScene(MainGame game, World world){
+    public LevelScene(MainGame game, World world) {
         this.game = game;
-        gameMap = new GameMap("img/levels/town.png", world, game); //Load map //TODO Should not be a string
+        gameMap = new GameMap("img/levels/level1.png", world, game);
         stateTime = 0f;
+    }
+
+    @Override
+    public void show() {
+
     }
 
     @Override
@@ -26,11 +29,6 @@ public class TownScene implements Screen{
 
         stateTime += delta;
         gameMap.render(game.getBatch(), delta);
-    }
-
-    @Override
-    public void show() {
-
     }
 
     @Override
