@@ -13,6 +13,7 @@ import entities.elements.GroundTile;
 import entities.elements.Portal;
 import helpers.ContactListen;
 import helpers.Entity;
+import helpers.EntityType;
 import helpers.GameInfo;
 
 import java.util.ArrayList;
@@ -56,14 +57,33 @@ public class GameMap{
 
         //Map loader
         MapLoader ml = new MapLoader();
-        ml.loadLevelImage(mapName, this.world);
+        ml.loadLevelImage(mapName, this.world, this);
         this.entitiesList = ml.getEntitiesList();
         this.tilesList = ml.getTilesList();
         this.playerIndex = getPlayerIndex();
         this.portalIndex = getPortalIndex();
 
+
         world.setContactListener(new ContactListen(getPlayer(), getPortal(), this));
         background = new Texture("img/background.png");
+    }
+
+    public boolean isPlayerTouchingPortal(){
+
+        float playerX = entitiesList.get(playerIndex).getX();
+        float playerY = entitiesList.get(playerIndex).getY();
+        int playerWidth = EntityType.PLAYER.getWidth();
+        int playerHeight = EntityType.PLAYER.getHeight();
+
+        float portalX = entitiesList.get(portalIndex).getX();
+        float portalY = entitiesList.get(portalIndex).getY();
+        int portalSize = Portal.PORTAL_SIZE_PIXEL;
+
+        if(playerX + playerWidth/2 > portalX && playerX - playerWidth/2 < portalX + portalSize &&
+                playerY < portalY + portalSize && playerY > portalY)
+            return true;
+        else
+            return false;
     }
 
     private int getPortalIndex(){
@@ -122,6 +142,7 @@ public class GameMap{
 
         batch.end();
 
+        //TODO DEBUG RENDERER
         debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
 
         //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.

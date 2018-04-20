@@ -2,6 +2,7 @@ package helpers;
 
 import com.badlogic.gdx.physics.box2d.*;
 import entities.Player;
+import entities.elements.GroundTile;
 import entities.elements.Portal;
 import world.GameMap;
 
@@ -54,8 +55,17 @@ public class ContactListen implements ContactListener {
 
         //TODO Maybe update to check for the other object is a tile?
         if(contact.getFixtureA().getUserData() == this.player.getDefaultTypeId() || contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
-            this.player.isInAir = false;
+
         }
+
+        if(contact.getFixtureA().getUserData() == this.player.getDefaultTypeId() || contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
+
+            //GROUND //TODO not working. Maybe check if player x,y is at portal at e press
+            if(contact.getFixtureA().getUserData() == "ground" || contact.getFixtureB().getUserData() == "ground")
+                this.player.isInAir = false;
+        }
+
+
     }
 
     @Override

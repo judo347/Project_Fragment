@@ -13,6 +13,7 @@ import helpers.ChestType;
 import helpers.EntityType;
 import helpers.GameInfo;
 import helpers.Entity;
+import world.GameMap;
 
 public class Player extends Entity {
 
@@ -34,11 +35,15 @@ public class Player extends Entity {
     private int currentJumpFame;
     private float stateTime;
 
+    private GameMap gameMap;
+
     Animation[] jumpMovement;
     public static final int NUMBER_OF_JUMP_FRAMES = 2;
 
-    public Player(World world, float x, float y){
+    public Player(GameMap gameMap, World world, float x, float y){
         super(world, EntityType.PLAYER, x, y);
+
+        this.gameMap = gameMap;
 
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png"));//TODO TEMP
         this.sprite.setPosition(x + getWidth() / 2, y + getHeight() / 2);
@@ -126,6 +131,10 @@ public class Player extends Entity {
             resetVerticalAnimation();
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.E)){
+            if(gameMap.isPlayerTouchingPortal())
+                System.out.println("Activate awesome level selector!"); //TODO Display level selector
+        }
     }
 
     /** Handles sprite movement with body. */

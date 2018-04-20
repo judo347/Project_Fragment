@@ -1,5 +1,6 @@
 package world;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,7 +25,7 @@ public class MapLoader {
     /** Load an image of a level and creates to lists containing the entities and tiles.
      * @param levelImageLocation the location of the image to be loaded. TODO should be an enum or handled in another way.
      * @param world the world that contains the elements. */
-    public void loadLevelImage(String levelImageLocation, World world){
+    public void loadLevelImage(String levelImageLocation, World world, GameMap gameMap){
 
         entitiesList = new ArrayList<>();
         tilesList = new ArrayList<>();
@@ -87,7 +88,7 @@ public class MapLoader {
                 }else if(entityType != null){
 
                     //Add entity
-                    entitiesList.add(EntityType.getEntity(color, world, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
+                    entitiesList.add(EntityType.getEntity(color, world, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE, gameMap)); //TODO null? HANDLE
 
                     //Add an unique id to chests
                     if(entitiesList.get(entitiesList.size()-1).getEntityType() == EntityType.CHEST){
