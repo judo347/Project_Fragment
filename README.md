@@ -6,10 +6,6 @@ WorldGenerator
 Tiles containing tilesheets and are not sprites
 Player sensor..
 
-FIX COLORS!!
-
-Ground Tile could be an entity?
-
 
 
 

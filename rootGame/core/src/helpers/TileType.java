@@ -29,14 +29,10 @@ public enum TileType {
      *  @return a tileType based on the color given. Returns null if non matches. */
     public static TileType getTypeFromColor(Color color){
 
-        if(color.equals(TileType.WHITE_SPACE.getColor()))
-            return WHITE_SPACE;
-        if(color.equals(TileType.GROUND_BRICK.getColor()))
-            return GROUND_BRICK;
-        if(color.equals(TileType.GROUND_GRASS_MIDDLE.getColor()))
-            return GROUND_GRASS_MIDDLE;
-        else
-            return null;
+        for (TileType type : TileType.values())
+            if (type.color.equals(color)) return type;
+
+        return null;
     }
 
     /** The color used by this type. */

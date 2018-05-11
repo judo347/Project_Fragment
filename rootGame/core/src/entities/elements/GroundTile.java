@@ -2,6 +2,7 @@ package entities.elements;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 import helpers.TileType;
@@ -15,12 +16,12 @@ public class GroundTile extends Sprite {
 
     //TODO: Should contain spriteSheet to allow check for border grass
 
-    public GroundTile(World world, TileType tileType, float x, float y){
+    public GroundTile(World world, TileType tileType, Vector2 pos){
         super(tileType.getTexture()); //TODO: Should the tileType contain Sprite?
         this.world = world;
         this.tileType = tileType;
         this.id = "ground";
-        setPosition(x, y);
+        setPosition(pos.x, pos.y);
         createBody();
 
     }

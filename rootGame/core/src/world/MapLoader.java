@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import helpers.*;
 import entities.elements.GroundTile;
@@ -15,6 +17,9 @@ import java.util.ArrayList;
 
 /** This class handles world generation. */
 public class MapLoader {
+
+    private World world;
+    private GameMap gameMap;
 
     //TODO Do this differently
     private ArrayList<Entity> entitiesList;
@@ -27,6 +32,9 @@ public class MapLoader {
      * @param world the world that contains the elements. */
     public void loadLevelImage(String levelImageLocation, World world, GameMap gameMap){
 
+        this.world = world;
+        this.gameMap = gameMap;
+
         entitiesList = new ArrayList<>();
         tilesList = new ArrayList<>();
 
@@ -36,9 +44,15 @@ public class MapLoader {
         tempData.prepare();
         Pixmap tempPixmap = tempLevelTexture.getTextureData().consumePixmap();
 
+        //Current position
+        Vector2 currentPixelPos;
+
         //Goes through all pixels, analyses and converts the colored pixel to a entity or tile.
         for(int y = 0; y < tempPixmap.getHeight(); y++){
             for(int x  = 0; x < tempPixmap.getWidth(); x++){
+
+                //Calculate tiles position
+                currentPixelPos = new Vector2(x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE);
 
                 //Get a color
                 Color color = new Color();
@@ -50,45 +64,17 @@ public class MapLoader {
 
                 //Create an element if color was found
                 if(tileType == TileType.WHITE_SPACE){ //White is not an element we want to create
+
                     continue;
-                }else if(tileType != null){
 
-                    if(x != 0 && x != tempPixmap.getWidth()-1){ //TODO is this correct?
+                }else if(tileType != null){ //Add tileType
 
-                        Color previousColor = new Color();
-                        Color.argb8888ToColor(previousColor, tempPixmap.getPixel(x-1, y));
-                        Color nextColor = new Color();
-                        Color.argb8888ToColor(nextColor, tempPixmap.getPixel(x+1, y));
+                    tilesList.add(createTile(x, y, currentPixelPos, tempPixmap, tileType, color));
 
-                        TileType previousTileType = TileType.getTypeFromColor(previousColor);
-                        TileType nextTileType = TileType.getTypeFromColor(nextColor);
-
-                        if(tileType == TileType.GROUND_GRASS_MIDDLE){ //Check for side grass TODO rename/remake method
-
-                            if(previousTileType == TileType.WHITE_SPACE){ //The previous pixel is white space = left grass block
-                                if(nextTileType == TileType.GROUND_GRASS_MIDDLE);
-                                    tilesList.add(new GroundTile(world, TileType.GROUND_GRASS_LEFT, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE));
-
-                            }else if(nextTileType == TileType.WHITE_SPACE){ //The next pixel is white space = right grass block
-                                if(previousTileType == TileType.GROUND_GRASS_MIDDLE);
-                                     tilesList.add(new GroundTile(world, TileType.GROUND_GRASS_RIGHT, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE));
-                            }else{
-                                tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
-                            }
-
-                        }else
-                            tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
-
-                    }else{
-                        tilesList.add(new GroundTile(world, TileType.getTypeFromColor(color), x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE)); //TODO null? HANDLE
-                    }
-
-                    //Add tile
-
-                }else if(entityType != null){
+                }else if(entityType != null){ //Add entity
 
                     //Add entity
-                    entitiesList.add(EntityType.getEntity(color, world, x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE, gameMap)); //TODO null? HANDLE
+                    entitiesList.add(EntityType.getEntity(color, world, (int)currentPixelPos.x, (int)currentPixelPos.y, gameMap)); //TODO null? HANDLE
 
                     //Add an unique id to chests
                     if(entitiesList.get(entitiesList.size()-1).getEntityType() == EntityType.CHEST){
@@ -106,6 +92,41 @@ public class MapLoader {
         tempPixmap.dispose();
     }
 
+    private GroundTile createTile(int x, int y, Vector2 currentPixelPos, Pixmap tempPixmap, TileType tileType, Color color){
+
+        if(x != 0 && x != tempPixmap.getWidth()-1){
+
+            //Get color of pixels to the left and right
+            Color previousColor = new Color();
+            Color.argb8888ToColor(previousColor, tempPixmap.getPixel(x-1, y));
+            Color nextColor = new Color();
+            Color.argb8888ToColor(nextColor, tempPixmap.getPixel(x+1, y));
+
+            //Convert the side colors into tiles
+            TileType previousTileType = TileType.getTypeFromColor(previousColor);
+            TileType nextTileType = TileType.getTypeFromColor(nextColor);
+
+            if(tileType == TileType.GROUND_GRASS_MIDDLE){ //Check for side grass TODO rename/remake method
+
+                if(previousTileType == TileType.WHITE_SPACE){ //The previous pixel is white space = left grass block
+                    if(nextTileType == TileType.GROUND_GRASS_MIDDLE);
+                    return new GroundTile(world, TileType.GROUND_GRASS_LEFT, currentPixelPos);
+
+                }else if(nextTileType == TileType.WHITE_SPACE){ //The next pixel is white space = right grass block
+                    if(previousTileType == TileType.GROUND_GRASS_MIDDLE);
+                    return new GroundTile(world, TileType.GROUND_GRASS_RIGHT, currentPixelPos);
+                }else{
+                    return new GroundTile(world, TileType.getTypeFromColor(color),currentPixelPos); //TODO null? HANDLE
+                }
+
+            }else
+                return new GroundTile(world, TileType.getTypeFromColor(color), currentPixelPos); //TODO null? HANDLE
+
+        }else{
+            return new GroundTile(world, TileType.getTypeFromColor(color), currentPixelPos); //TODO null? HANDLE
+        }
+    }
+
     public ArrayList<GroundTile> getTilesList() {
         return tilesList;
     }
@@ -113,35 +134,4 @@ public class MapLoader {
     public ArrayList<Entity> getEntitiesList() {
         return entitiesList;
     }
-
-
-
-
-
-
-    /* OLD
-    //TODO: Could be changed to return an object based on an abstract?
-    private static Sprite getSpriteFromType(TileType type, float x, float y, World world){
-        if(type == TileType.GROUND_BRICK)
-            return new GroundTile(world, TileType.GROUND_BRICK, x, y);
-
-        if(type == TileType.GROUND_GRASS_MIDDLE)
-            return new GroundTile(world, TileType.GROUND_GRASS_MIDDLE, x, y);
-
-        if(type == TileType.CHEST)
-            return new Chest(world, ChestType.NORMAL, x, y).getSprite();
-
-        return type.getSprite(); //TODO: NEVER GETS ITS COORDS SET
-    }*/
-    /* Not used
-    private static Enum<?> enumCheck(Color color){
-        if(TileType.getTypeFromColor(color) != null){
-            return TileType.getTypeFromColor(color);
-        }
-        else if(EntityType.getTypeFromColor(color) != null){
-            return EntityType.getTypeFromColor(color);
-        }
-        else
-            throw new IllegalArgumentException(); //TODO make custom? Handle!
-    }*/
 }
