@@ -52,9 +52,9 @@ public class OptionScene implements Screen{
 
         game.getBatch().begin();
 
-        float backButtonX = GameInfo.SCREEN_WIDTH / 2 - backButtonInactive.getWidth() / 2;
+        float backButtonX = GameInfo.WIDTH / 2 - backButtonInactive.getWidth() / 2;
         if(Gdx.input.getX() > backButtonX && Gdx.input.getX() < backButtonX + backButtonInactive.getWidth() &&
-                Gdx.input.getY() < GameInfo.SCREEN_HEIGHT - BACK_BUTTON_Y && Gdx.input.getY() > GameInfo.SCREEN_HEIGHT - BACK_BUTTON_Y - backButtonActive.getHeight()){
+                Gdx.input.getY() < GameInfo.HEIGHT - BACK_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - BACK_BUTTON_Y - backButtonActive.getHeight()){
 
             if(Gdx.input.isTouched()){
                 game.setScreen(new MenuScene(game, world)); //TODO: Can i return to previous screen instead of creating a new one?

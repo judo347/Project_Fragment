@@ -1,20 +1,17 @@
 package world;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
-import entities.elements.DirectionalTile;
-import entities.elements.Tile;
 import helpers.*;
-import helpers.GameObjects.RenderableObject;
+import entities.elements.GroundTile;
 
 import java.util.ArrayList;
-
-import static helpers.GameInfo.PPM;
-import static helpers.GameInfo.TILE_SIZE;
 
 //https://stackoverflow.com/questions/24034352/libgdx-change-color-of-texture-at-runtime
 
@@ -25,8 +22,10 @@ public class MapLoader {
     private GameMap gameMap;
 
     //TODO Do this differently
-    private ArrayList<RenderableObject> entitiesList;
-    private ArrayList<Tile> tilesList;
+    private ArrayList<Entity> entitiesList;
+    private ArrayList<GroundTile> tilesList;
+
+    private int chestCount = 0;
 
     /** Load an image of a level and creates to lists containing the entities and tiles.
      * @param levelImageLocation the location of the image to be loaded. TODO should be an enum or handled in another way.
@@ -46,36 +45,43 @@ public class MapLoader {
         Pixmap tempPixmap = tempLevelTexture.getTextureData().consumePixmap();
 
         //Current position
-        Vector2 currentTilePos;
+        Vector2 currentPixelPos;
 
         //Goes through all pixels, analyses and converts the colored pixel to a entity or tile.
         for(int y = 0; y < tempPixmap.getHeight(); y++){
             for(int x  = 0; x < tempPixmap.getWidth(); x++){
 
                 //Calculate tiles position
-                //currentTilePos = new Vector2(x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE);
-                currentTilePos = new Vector2(x + (TILE_SIZE/2) / PPM, tempPixmap.getHeight() - (y + 1)+ (TILE_SIZE/2) / PPM);
+                currentPixelPos = new Vector2(x * GameInfo.TILE_SIZE, (tempPixmap.getHeight() - y) * GameInfo.TILE_SIZE - GameInfo.TILE_SIZE);
 
                 //Get a color
                 Color color = new Color();
                 Color.argb8888ToColor(color, tempPixmap.getPixel(x, y));
 
                 //Check if one of the two types contain an enum matching the current color
+                TileType tileType = TileType.getTypeFromColor(color);
                 EntityType entityType = EntityType.getTypeFromColor(color);
 
                 //Create an element if color was found
-                if(entityType == EntityType.WHITE_SPACE){ //White is not an element we want to create
+                if(tileType == TileType.WHITE_SPACE){ //White is not an element we want to create
 
                     continue;
 
-                }else if(entityType == EntityType.GROUND){ //Add entityType
+                }else if(tileType != null){ //Add tileType
 
-                    tilesList.add(createTile(x, y, currentTilePos, tempPixmap, entityType, color));
+                    tilesList.add(createTile(x, y, currentPixelPos, tempPixmap, tileType, color));
 
-                }else{ //Add entity
+                }else if(entityType != null){ //Add entity
 
                     //Add entity
-                    entitiesList.add(EntityType.getEntity(color, world, currentTilePos, gameMap)); //TODO null? HANDLE
+                    entitiesList.add(EntityType.getEntity(color, world, (int)currentPixelPos.x, (int)currentPixelPos.y, gameMap)); //TODO null? HANDLE
+
+                    //Add an unique id to chests
+                    if(entitiesList.get(entitiesList.size()-1).getEntityType() == EntityType.CHEST){
+                        entitiesList.get(entitiesList.size()-1).setId(entityType.getId() + chestCount++);
+                    }
+                }else{
+                    System.out.println("No entity matched the color: " + color.toString()); //TODO Exception?
                 }
             }
         }
@@ -86,105 +92,46 @@ public class MapLoader {
         tempPixmap.dispose();
     }
 
-    private Tile createTile(int x, int y, Vector2 currentTilePos, Pixmap tempPixmap, EntityType currentEntityType, Color color){
+    private GroundTile createTile(int x, int y, Vector2 currentPixelPos, Pixmap tempPixmap, TileType tileType, Color color){
 
-        if(x != 0 && x != tempPixmap.getWidth()-1){ //Border check? Todo?
+        if(x != 0 && x != tempPixmap.getWidth()-1){
 
-            if(!currentEntityType.isDirectionalTile()){
-
-                System.out.println(currentEntityType);
-                return new Tile(world, currentTilePos, currentEntityType);
-
-            }else{ //Directional tile
-
-                //Get surrounding tiles
-                Color previousColor = new Color();
-                Color.argb8888ToColor(previousColor, tempPixmap.getPixel(x - 1, y));
-                EntityType leftEntityType = EntityType.getTypeFromColor(previousColor);
-                Color nextColor = new Color();
-                Color.argb8888ToColor(nextColor, tempPixmap.getPixel(x + 1, y));
-                EntityType rightEntityType = EntityType.getTypeFromColor(nextColor);
-                Color aboveColor = new Color();
-                Color.argb8888ToColor(aboveColor, tempPixmap.getPixel(x, y - 1));
-                EntityType aboveEntityType = EntityType.getTypeFromColor(aboveColor);
-
-                EntityType.TextureDirection direction = createDirectionalTile(currentEntityType, aboveEntityType, leftEntityType, rightEntityType);
-                return new DirectionalTile(world, currentTilePos, currentEntityType, direction);
-            }
-
-            /*
             //Get color of pixels to the left and right
             Color previousColor = new Color();
             Color.argb8888ToColor(previousColor, tempPixmap.getPixel(x-1, y));
             Color nextColor = new Color();
             Color.argb8888ToColor(nextColor, tempPixmap.getPixel(x+1, y));
-            Color aboveColor = new Color();
-            Color.argb8888ToColor(aboveColor, tempPixmap.getPixel(x, y-1));
-
 
             //Convert the side colors into tiles
-            EntityType previousTileType = EntityType.getTypeFromColor(previousColor);
-            EntityType nextTileType = EntityType.getTypeFromColor(nextColor);
-            EntityType aboveTileType = EntityType.getTypeFromColor(aboveColor);
+            TileType previousTileType = TileType.getTypeFromColor(previousColor);
+            TileType nextTileType = TileType.getTypeFromColor(nextColor);
 
-            if(currentEntityType == EntityType.GROUND_GRASS_MIDDLE){ //Check for side grass TODO rename/remake method
+            if(tileType == TileType.GROUND_GRASS_MIDDLE){ //Check for side grass TODO rename/remake method
 
-                if(aboveTileType == EntityType.GROUND_GRASS_MIDDLE){ //
+                if(previousTileType == TileType.WHITE_SPACE){ //The previous pixel is white space = left grass block
+                    if(nextTileType == TileType.GROUND_GRASS_MIDDLE);
+                    return new GroundTile(world, TileType.GROUND_GRASS_LEFT, currentPixelPos);
 
-                    return new GroundTile(world, EntityType.GROUND_BRICK, currentTilePos);
-
-                }else if(previousTileType == EntityType.WHITE_SPACE){ //The previous pixel is white space = left grass block
-                    if(nextTileType == EntityType.GROUND_GRASS_MIDDLE);
-                    return new GroundTile(world, EntityType.GROUND_GRASS_LEFT, currentTilePos);
-
-                }else if(nextTileType == EntityType.WHITE_SPACE){ //The next pixel is white space = right grass block
-                    if(previousTileType == EntityType.GROUND_GRASS_MIDDLE);
-                    return new GroundTile(world, EntityType.GROUND_GRASS_RIGHT, currentTilePos);
+                }else if(nextTileType == TileType.WHITE_SPACE){ //The next pixel is white space = right grass block
+                    if(previousTileType == TileType.GROUND_GRASS_MIDDLE);
+                    return new GroundTile(world, TileType.GROUND_GRASS_RIGHT, currentPixelPos);
                 }else{
-                    return new GroundTile(world, EntityType.getTypeFromColor(color),currentTilePos); //TODO null? HANDLE
+                    return new GroundTile(world, TileType.getTypeFromColor(color),currentPixelPos); //TODO null? HANDLE
                 }
 
             }else
-                return new GroundTile(world, EntityType.getTypeFromColor(color), currentTilePos); //TODO null? HANDLE
-        */
+                return new GroundTile(world, TileType.getTypeFromColor(color), currentPixelPos); //TODO null? HANDLE
+
         }else{
-            return new DirectionalTile(world, currentTilePos, currentEntityType, EntityType.TextureDirection.MIDDLE);
+            return new GroundTile(world, TileType.getTypeFromColor(color), currentPixelPos); //TODO null? HANDLE
         }
     }
 
-    private EntityType.TextureDirection createDirectionalTile(EntityType currentEntityType, EntityType above, EntityType left, EntityType right) {
-
-        //Surrounding checks
-        boolean isTileAboveTheSame = currentEntityType == above;//Is the block above the same as this?
-        boolean isTileLeftTheSame = currentEntityType == left;//Is the block to the left the same?
-        boolean isTileRightTheSame = currentEntityType == right;//Is the block to the right the same?
-
-        if (isTileAboveTheSame) { //Under block
-            return EntityType.TextureDirection.UNDER;
-        } else if (above == EntityType.WHITE_SPACE) { //Above free
-
-            if (isTileLeftTheSame && isTileRightTheSame) { //Both sides free
-                return EntityType.TextureDirection.MIDDLE;
-            } else if(left == EntityType.WHITE_SPACE) { //Left is free
-                if(right == EntityType.WHITE_SPACE) //Is right also free
-                    return EntityType.TextureDirection.MIDDLE;
-                else
-                    return EntityType.TextureDirection.LEFT;
-            } else if(right == EntityType.WHITE_SPACE) { //Right is free
-                return EntityType.TextureDirection.RIGHT;
-            } else {
-                return EntityType.TextureDirection.MIDDLE;
-            }
-        } else {
-            return EntityType.TextureDirection.MIDDLE;
-        }
-    }
-
-    public ArrayList<Tile> getTilesList() {
+    public ArrayList<GroundTile> getTilesList() {
         return tilesList;
     }
 
-    public ArrayList<RenderableObject> getEntitiesList() {
+    public ArrayList<Entity> getEntitiesList() {
         return entitiesList;
     }
 }

@@ -2,6 +2,7 @@ package helpers;
 
 import com.badlogic.gdx.physics.box2d.*;
 import entities.Player;
+import entities.elements.GroundTile;
 import entities.elements.Portal;
 import world.GameMap;
 

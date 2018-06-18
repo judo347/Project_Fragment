@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import helpers.ChestType;
 import helpers.EntityType;
 import helpers.GameInfo;
 import helpers.Entity;
@@ -35,8 +36,6 @@ public class Player extends Entity {
     private float stateTime;
 
     private GameMap gameMap;
-
-    ///private Body feet;
 
     Animation[] jumpMovement;
     public static final int NUMBER_OF_JUMP_FRAMES = 2;

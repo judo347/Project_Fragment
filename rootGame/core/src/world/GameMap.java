@@ -8,9 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import dk.mk.MainGame;
-import entities.elements.Tile;
+import entities.Player;
+import entities.elements.Chest;
+import entities.elements.GroundTile;
+import entities.elements.Portal;
+import helpers.ContactListen;
+import helpers.Entity;
+import helpers.EntityType;
 import helpers.GameInfo;
-import helpers.GameObjects.RenderableObject;
 import scenes.GameScene;
 
 import java.util.ArrayList;
@@ -19,10 +24,10 @@ public class GameMap{
 
     private MainGame mainGame;
     private GameScene gameScene;
-    private ArrayList<RenderableObject> entitiesList;
-    private ArrayList<Tile> tilesList;
-    //private int playerIndex;
-    //private int portalIndex;
+    private ArrayList<Entity> entitiesList;
+    private ArrayList<GroundTile> tilesList;
+    private int playerIndex;
+    private int portalIndex;
 
     private World world;
     private Texture background;
@@ -52,8 +57,8 @@ public class GameMap{
 
         //What we see on the screen
         this.box2DCamera = new OrthographicCamera();
-        this.box2DCamera.setToOrtho(false, GameInfo.SCREEN_WIDTH / GameInfo.PPM, GameInfo.SCREEN_HEIGHT / GameInfo.PPM);
-        this.box2DCamera.position.set(GameInfo.SCREEN_WIDTH / 2f, GameInfo.SCREEN_HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
+        this.box2DCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
+        this.box2DCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
         this.debugRenderer = new Box2DDebugRenderer();
 
         //Map loader
@@ -61,15 +66,14 @@ public class GameMap{
         ml.loadLevelImage(mapName, this.world, this);
         this.entitiesList = ml.getEntitiesList();
         this.tilesList = ml.getTilesList();
-        //this.playerIndex = getPlayerIndex();
-        //this.portalIndex = getPortalIndex();
+        this.playerIndex = getPlayerIndex();
+        this.portalIndex = getPortalIndex();
 
 
-        //world.setContactListener(new ContactListen(getPlayer(), getPortal(), this));
+        world.setContactListener(new ContactListen(getPlayer(), getPortal(), this));
         background = new Texture("img/background.png");
     }
 
-    /*
     public boolean isPlayerTouchingPortal(){
 
         float playerX = entitiesList.get(playerIndex).getX();
@@ -87,7 +91,7 @@ public class GameMap{
         else
             return false;
     }
-    *//*
+
     private int getPortalIndex(){
 
         for(int i = 0; i < entitiesList.size(); i++){
@@ -97,9 +101,8 @@ public class GameMap{
         }
 
         return -1; //no player exists //TODO exception!!
-    }*/
+    }
 
-    /*
     private int getPlayerIndex(){
 
         for(int i = 0; i < entitiesList.size(); i++){
@@ -109,18 +112,13 @@ public class GameMap{
         }
 
         return -1; //no player exists //TODO exception!!
-    }*/
+    }
 
     /** Updates game elements, like player movement and spirte/animation. */
     public void updateElements(float delta){
-
-        /*
-        for(RenderableObject renderableObject : entitiesList){
-
-            if(renderableObject instanceof Portal2)
-                (Portal2)renderableObject.
-
-        }*/
+        for(Entity entity : entitiesList){
+            entity.update(delta);
+        }
     }
 
     /** Renders all elements in this map. */
@@ -137,11 +135,13 @@ public class GameMap{
         batch.begin();
         batch.draw(background,0,0);
 
-        for(RenderableObject renderableObject : entitiesList)
-            renderableObject.render(batch, delta);
+        for(Entity entity : entitiesList) {
+            entity.render(batch);
+        }
 
-        for(Tile tile : tilesList)
-            tile.render(batch, delta);
+        for(GroundTile groundTile : tilesList){
+            groundTile.render(batch);
+        }
 
         //TODO: This if statement should be move to player
         //game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
@@ -159,20 +159,20 @@ public class GameMap{
     /** Disposes used textures. */
     public void dispose(){
 
-        for(RenderableObject renderableObject : entitiesList) {
-            renderableObject.dispose();
+        for(Entity entity : entitiesList) {
+            entity.dispose();
         }
 
-        for(Tile tile : tilesList){
-            tile.dispose();
+        for(GroundTile groundTile : tilesList){
+            groundTile.dispose();
         }
     }
 
-    public ArrayList<RenderableObject> getEntitiesList() {
+    public ArrayList<Entity> getEntitiesList() {
         return entitiesList;
     }
 
-    public ArrayList<Tile> getTilesList() {
+    public ArrayList<GroundTile> getTilesList() {
         return tilesList;
     }
 
@@ -188,18 +188,16 @@ public class GameMap{
         return debugRenderer;
     }
 
-    /*
     public Player getPlayer(){
         return (Player) entitiesList.get(playerIndex);
-    }*/
+    }
 
-    /** Returns the portal object from the entity list. Can be null. *//*
-    public Portal2 getPortal(){
-        return (Portal2) entitiesList.get(portalIndex);
-    }*/
+    /** Returns the portal object from the entity list. Can be null. */
+    public Portal getPortal(){
+        return (Portal) entitiesList.get(portalIndex);
+    }
 
-
-    /** Opens a chest based on the unique id. Used by the contactListen class. *//*
+    /** Opens a chest based on the unique id. Used by the contactListen class. */
     public void openChest(String chestId){
 
         for(Entity entity : entitiesList){
@@ -209,7 +207,7 @@ public class GameMap{
             }
 
         }
-    }*/
+    }
 
     public void setScreenLevel(){
         //this.mainGame.setScreen(new LevelScene(mainGame, world));

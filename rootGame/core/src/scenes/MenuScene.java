@@ -63,9 +63,9 @@ public class MenuScene implements Screen {
 
         game.getBatch().begin();
 
-        float playButtonX = GameInfo.SCREEN_WIDTH / 2 - playButtonInactive.getWidth() / 2;
+        float playButtonX = GameInfo.WIDTH / 2 - playButtonInactive.getWidth() / 2;
         if(Gdx.input.getX() > playButtonX && Gdx.input.getX() < playButtonX + playButtonActive.getWidth() &&
-                Gdx.input.getY() < GameInfo.SCREEN_HEIGHT - PLAY_BUTTON_Y && Gdx.input.getY() > GameInfo.SCREEN_HEIGHT - PLAY_BUTTON_Y - playButtonActive.getHeight()){
+                Gdx.input.getY() < GameInfo.HEIGHT - PLAY_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - PLAY_BUTTON_Y - playButtonActive.getHeight()){
 
             if(Gdx.input.isTouched()){
                 this.dispose();
@@ -77,9 +77,9 @@ public class MenuScene implements Screen {
         }
 
 
-        float optionsButtonX = GameInfo.SCREEN_WIDTH / 2 - OPTIONS_BUTTON_WIDTH / 2;
+        float optionsButtonX = GameInfo.WIDTH / 2 - OPTIONS_BUTTON_WIDTH / 2;
         if(Gdx.input.getX() > optionsButtonX && Gdx.input.getX() < optionsButtonX + OPTIONS_BUTTON_WIDTH &&
-                Gdx.input.getY() < GameInfo.SCREEN_HEIGHT - OPTIONS_BUTTON_Y && Gdx.input.getY() > GameInfo.SCREEN_HEIGHT - OPTIONS_BUTTON_Y - optionsButtonActive.getHeight()){
+                Gdx.input.getY() < GameInfo.HEIGHT - OPTIONS_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - OPTIONS_BUTTON_Y - optionsButtonActive.getHeight()){
 
             if(Gdx.input.isTouched()){
                 //game.setScreen(new OptionScene(game, world));
@@ -90,9 +90,9 @@ public class MenuScene implements Screen {
             game.getBatch().draw(optionsButtonInactive, optionsButtonX, OPTIONS_BUTTON_Y, OPTIONS_BUTTON_WIDTH, OPTIONS_BUTTON_HEIGHT);
         }
 
-        float exitButtonX = GameInfo.SCREEN_WIDTH / 2 - EXIT_BUTTON_WIDTH / 2;
+        float exitButtonX = GameInfo.WIDTH / 2 - EXIT_BUTTON_WIDTH / 2;
         if(Gdx.input.getX() > exitButtonX && Gdx.input.getX() < exitButtonX + EXIT_BUTTON_WIDTH &&
-                Gdx.input.getY() < GameInfo.SCREEN_HEIGHT - EXIT_BUTTON_Y && Gdx.input.getY() > GameInfo.SCREEN_HEIGHT - EXIT_BUTTON_Y - exitButtonActive.getHeight()){
+                Gdx.input.getY() < GameInfo.HEIGHT - EXIT_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - EXIT_BUTTON_Y - exitButtonActive.getHeight()){
 
             if(Gdx.input.isTouched()){
                 Gdx.app.exit();
