@@ -10,8 +10,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
 		//config.fullscreen = true;
-		config.width = GameInfo.WIDTH;
-		config.height = GameInfo.HEIGHT;
+		config.width = GameInfo.SCREEN_WIDTH;
+		config.height = GameInfo.SCREEN_HEIGHT;
 		config.foregroundFPS = 60;
 		config.title = "Project Fragment";
 

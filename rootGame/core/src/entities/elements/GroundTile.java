@@ -5,21 +5,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
-import helpers.TileType;
+import helpers.EntityType;
 
 public class GroundTile extends Sprite {
 
     private World world;
     private Body body;
     private String id;
-    private TileType tileType;
+    private EntityType entityType;
 
     //TODO: Should contain spriteSheet to allow check for border grass
 
-    public GroundTile(World world, TileType tileType, Vector2 pos){
-        super(tileType.getTexture()); //TODO: Should the tileType contain Sprite?
+    public GroundTile(World world, EntityType entityType, Vector2 pos){
+        super(entityType.getTexture()); //TODO: Should the entityType contain Sprite?
         this.world = world;
-        this.tileType = tileType;
+        this.entityType = entityType;
         this.id = "ground";
         setPosition(pos.x, pos.y);
         createBody();
@@ -55,7 +55,7 @@ public class GroundTile extends Sprite {
     }
 
     public void dispose(){
-        tileType.dispose();
+        entityType.dispose();
     }
 
     public String getId() {

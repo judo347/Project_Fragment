@@ -1,137 +1,90 @@
 package helpers;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import entities.FloatingVendor;
-import entities.Player;
-import entities.elements.Chest;
-import entities.elements.Portal;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import entities.FloatingVendor2;
+import entities.elements.Chest2;
+import entities.elements.Portal2;
+import helpers.GameObjects.RenderableObject;
 import world.GameMap;
 
 public enum EntityType {
 
-    PLAYER("player", 32, 64, BodyType.DynamicBody, Constants.PLAYER_COLOR),
-    CHEST("chest", 40, 30, BodyType.StaticBody, Constants.CHEST_COLOR),
-    PORTAL("portal", 128, 128, BodyType.StaticBody, Constants.PORTAL_COLOR),
-    FVENDOR("fvendor", 32, 64, BodyType.StaticBody, Constants.FVENDOR_COLOR);
+    WHITE_SPACE( "#FFFFFFFF", null, false),
+    GROUND( "#0000FF00", "img/tiles/tiles.png", true),
+    PLAYER("#26ffff00", null, false),
+    CHEST_NORMAL("D800FFFF", null, false),
+    CHEST_LEGENDARY("D800FFFF", null, false), //TODO ADD UNIQUE COLOR
+    PORTAL("#00ffffae", null, false),
+    FVENDOR("#006effff", null, false);
 
-    private String id;
-    private int width, height;
-    private BodyType bodyType;
+    //TODO THE SPRITES HAS TO BE OBJECT AND CONTAINING TILESHEETS.
+    //TODO SO THE WALL WILL CHECK IF THERE IS WHITESPACE TO THE SIDE, AND CHANGE TEXUTERE BASED ON THAT.
+
+
+    private Texture texture;
     private Color color;
+    private boolean isDirectionalTile;
 
+    EntityType(String color, String pathToTile, boolean isDirectionalTile){
+        this.color = Color.valueOf(color);
+        this.isDirectionalTile = isDirectionalTile;
 
-    private EntityType(String id, int width, int height, BodyType bodyType, Color color) {
-        this.id = id;
-        this.width = width;
-        this.height = height;
-        this.bodyType = bodyType;
-        this.color = color;
+        if(pathToTile != null)
+            this.texture = new Texture(pathToTile);
     }
 
-    /** Creates the body and fixture for an entity. */
-    public Body createBody(World world, float x, float y){
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = bodyType;
-        if(this == PLAYER)
-            bodyDef.fixedRotation = true;
-        bodyDef.position.set(((x + getWidth() / 2) / GameInfo.PPM), (y + getHeight() / 2) / GameInfo.PPM);
+    /** Takes a color and returns a matching type. Returns null of non matches.
+     *  @param color a color to be matched.
+     *  @return a tileType based on the color given. Returns null if non matches. */
+    public static EntityType getTypeFromColor(Color color){
 
-        Body body = world.createBody(bodyDef);
+        for (EntityType type : EntityType.values())
+            if (type.color.equals(color)) return type;
 
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox((width / 2) / GameInfo.PPM, (height / 2) / GameInfo.PPM);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1;
-
-        Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(id);
-
-        if(this == CHEST || this == PORTAL || this == FVENDOR){
-            fixture.setSensor(true);
-        }
-
-        shape.dispose();
-
-        return body;
+        return null;
     }
 
-    /* TODO: This could and maybe should be used to map a color to a type. Usefull?
-    private static HashMap<String, EntityType>() entityTypes;
-
-    static {
-        e
-    } */
-
-    /** Returns a new entity based on the color. Will return null if color is not matching a type.
-     * @param color the color to search for.
-     * @param world the world to place entity in.
-     * @param x coordinate
-     * @param y coordinate
-     * @return an entity object matching the color given. Will return null if color is not matching a type. */
-    public static Entity getEntity(Color color, World world, int x, int y, GameMap gameMap){
+    public static RenderableObject getEntity(Color color, World world, Vector2 pos, GameMap gameMap){
 
         switch (getTypeFromColor(color)){
-            case PLAYER:    return new Player(gameMap, world, x, y);
-            case CHEST:     return new Chest(world, x, y); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
-            case PORTAL:    return new Portal(world, x, y);
-            case FVENDOR:   return new FloatingVendor(world, x, y);
+            case WHITE_SPACE:       return null; //SHOULD NOT GET CALLED
+            case GROUND:            return null; //SHOULD NOT GET CALLED
+            //case PLAYER:            return new Player(gameMap, world, x, y);
+            case CHEST_NORMAL:      return new Chest2(world, pos, ChestType.NORMAL);
+            case CHEST_LEGENDARY:   return new Chest2(world, pos, ChestType.LEGENDARY);
+            case PORTAL:            return new Portal2(world, pos);
+            case FVENDOR:           return new FloatingVendor2(world, pos);
         }
 
         return null;
     }
 
-    /** Takes a color and returns a matching type. Returns null of non matches.
-     *  @param color a color to be matched.
-     *  @return a entityType based on the color given. Returns null if non matches. */
-    public static EntityType getTypeFromColor(Color color){
-
-        if(color.equals(EntityType.PLAYER.getColor()))
-            return PLAYER;
-        if(color.equals(EntityType.CHEST.getColor()))
-            return CHEST;
-        if(color.equals(EntityType.PORTAL.getColor()))
-            return PORTAL;
-        if(color.equals(EntityType.FVENDOR.getColor()))
-            return FVENDOR;
-        else
-            return null;
+    /** An enum describing the tiles placement related to its surroundings */
+    public enum TextureDirection {
+        LEFT, MIDDLE, RIGHT, UNDER
     }
 
-    /** The color used by this type. */
-    private static class Constants{
-        public static final Color PLAYER_COLOR = Color.valueOf("#26ffff00");
-        public static final Color CHEST_COLOR = Color.valueOf("#D800FFFF");
-        public static final Color PORTAL_COLOR = Color.valueOf("#00ffffae");
-        public static final Color FVENDOR_COLOR = Color.valueOf("#006effff"); //TODO
-
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public BodyType getBodyType() {
-        return bodyType;
+    public Sprite getSprite() {
+        return new Sprite(texture);
     }
 
     public Color getColor() {
         return color;
     }
 
-    /** Take a string and tries to match it with the default id. */
-    public boolean isMatchingDefaultId(String diffId){
-        return diffId.startsWith(id);
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public void dispose(){
+        texture.dispose();
+    }
+
+    public boolean isDirectionalTile() {
+        return isDirectionalTile;
     }
 }
