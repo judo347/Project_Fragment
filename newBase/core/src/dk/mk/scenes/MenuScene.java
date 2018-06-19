@@ -11,6 +11,10 @@ import dk.mk.helpers.GameInfo;
 
 public class MenuScene implements Screen {
 
+    private MainGame game;
+    private World world;
+
+    //Button locations
     private static final int PLAY_BUTTON_Y = 360;
     private static final int OPTIONS_BUTTON_Y = 280;
     private static final int OPTIONS_BUTTON_HEIGHT = 48;
@@ -19,9 +23,7 @@ public class MenuScene implements Screen {
     private static final int EXIT_BUTTON_HEIGHT = 48;
     private static final int EXIT_BUTTON_WIDTH = 160;
 
-    private MainGame game;
-    private World world;
-
+    //Button textures
     private Texture playButtonActive;
     private Texture playButtonInactive;
     private Texture optionsButtonActive;
@@ -32,13 +34,17 @@ public class MenuScene implements Screen {
     public MenuScene(MainGame game, World world) {
         this.game = game;
         this.world = world;
+        loadButtonTextures();
+    }
+
+    /** Loads the textures of the buttons. */
+    private void loadButtonTextures(){
         playButtonActive = new Texture("img/menu/playActive.png");
         playButtonInactive = new Texture("img/menu/playInactive.png");
         optionsButtonActive = new Texture("img/menu/optionsActive.png");
         optionsButtonInactive = new Texture("img/menu/optionsInactive.png");
         exitButtonActive = new Texture("img/menu/exitActive.png");
         exitButtonInactive = new Texture("img/menu/exitInactive.png");
-
     }
 
     @Override
@@ -51,8 +57,6 @@ public class MenuScene implements Screen {
 
         Gdx.gl.glClearColor(0.2f,0.2f,0.2f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears screen
-
-
 
         //Mouse input
         if(Gdx.input.isTouched()){
@@ -69,7 +73,7 @@ public class MenuScene implements Screen {
 
             if(Gdx.input.isTouched()){
                 this.dispose(); //TODO This might course the error that crashes the game when OptionsScene -> BACK
-                game.setScreen(new GameScene(game)); //TODO HERE
+                //game.setScreen(new GameScene(game)); //TODO HERE
             }
             game.getBatch().draw(playButtonActive, playButtonX, PLAY_BUTTON_Y);
         } else {
@@ -102,7 +106,6 @@ public class MenuScene implements Screen {
             game.getBatch().draw(exitButtonInactive, exitButtonX, EXIT_BUTTON_Y, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
         }
 
-
         game.getBatch().end();
     }
 
@@ -130,6 +133,8 @@ public class MenuScene implements Screen {
     public void dispose() {
         playButtonActive.dispose();
         playButtonInactive.dispose();
+        optionsButtonActive.dispose();
+        optionsButtonInactive.dispose();
         exitButtonActive.dispose();
         exitButtonInactive.dispose();
     }
