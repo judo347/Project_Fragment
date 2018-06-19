@@ -68,7 +68,7 @@ public class MenuScene implements Screen {
                 Gdx.input.getY() < GameInfo.HEIGHT - PLAY_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - PLAY_BUTTON_Y - playButtonActive.getHeight()){
 
             if(Gdx.input.isTouched()){
-                this.dispose();
+                this.dispose(); //TODO This might course the error that crashes the game when OptionsScene -> BACK
                 game.setScreen(new GameScene(game)); //TODO HERE
             }
             game.getBatch().draw(playButtonActive, playButtonX, PLAY_BUTTON_Y);
