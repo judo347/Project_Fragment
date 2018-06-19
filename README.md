@@ -1,3 +1,7 @@
+# REWORK PROGRESS #
+Moved scenes (Should be fixed to options work)
+
+
 # CURRENT WORKING ON: #
 Game Object -> world generator -> scenes
 

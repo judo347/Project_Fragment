@@ -1,0 +1,34 @@
+
+chests.png
+size: 80,60
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+chest_legendary_closed
+  rotate: false
+  xy: 0, 30
+  size: 40, 30
+  orig: 40, 30
+  offset: 0, 0
+  index: -1
+chest_legendary_open
+  rotate: false
+  xy: 40, 30
+  size: 40, 30
+  orig: 40, 30
+  offset: 0, 0
+  index: -1
+chest_normal_closed
+  rotate: false
+  xy: 0, 0
+  size: 40, 30
+  orig: 40, 30
+  offset: 0, 0
+  index: -1
+chest_normal_open
+  rotate: false
+  xy: 40, 0
+  size: 40, 30
+  orig: 40, 30
+  offset: 0, 0
+  index: -1
