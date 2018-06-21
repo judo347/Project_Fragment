@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.World;
 import dk.mk.MainGame;
 import helpers.GameInfo;
 
@@ -20,7 +19,7 @@ public class MenuScene implements Screen {
     private static final int EXIT_BUTTON_WIDTH = 160;
 
     private MainGame game;
-    private World world;
+    private OptionScene optionScene;
 
     private Texture playButtonActive;
     private Texture playButtonInactive;
@@ -29,16 +28,15 @@ public class MenuScene implements Screen {
     private Texture exitButtonActive;
     private Texture exitButtonInactive;
 
-    public MenuScene(MainGame game, World world) {
+    public MenuScene(MainGame game) {
         this.game = game;
-        this.world = world;
+        this.optionScene = new OptionScene(game, this);
         playButtonActive = new Texture("img/menu/playActive.png");
         playButtonInactive = new Texture("img/menu/playInactive.png");
         optionsButtonActive = new Texture("img/menu/optionsActive.png");
         optionsButtonInactive = new Texture("img/menu/optionsInactive.png");
         exitButtonActive = new Texture("img/menu/exitActive.png");
         exitButtonInactive = new Texture("img/menu/exitInactive.png");
-
     }
 
     @Override
@@ -51,8 +49,6 @@ public class MenuScene implements Screen {
 
         Gdx.gl.glClearColor(0.2f,0.2f,0.2f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears screen
-
-
 
         //Mouse input
         if(Gdx.input.isTouched()){
@@ -83,7 +79,8 @@ public class MenuScene implements Screen {
 
             if(Gdx.input.isTouched()){
                 //game.setScreen(new OptionScene(game, world));
-                game.setScreen(new OptionScene(game, world, this));
+                //game.setScreen(new OptionScene(game, world, this));
+                game.setScreen(optionScene);
             }
             game.getBatch().draw(optionsButtonActive, optionsButtonX, OPTIONS_BUTTON_Y, OPTIONS_BUTTON_WIDTH, OPTIONS_BUTTON_HEIGHT);
         } else {
@@ -101,7 +98,6 @@ public class MenuScene implements Screen {
         } else {
             game.getBatch().draw(exitButtonInactive, exitButtonX, EXIT_BUTTON_Y, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
         }
-
 
         game.getBatch().end();
     }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.physics.box2d.World;
 import dk.mk.MainGame;
 import helpers.GameInfo;
 
@@ -15,11 +14,8 @@ public class OptionScene implements Screen{
     private static final int TEXT_SOUND_X = 0, TEXT_SOUND_Y = 0;
     private static final int TEXT_MUSIC_X = 0, TEXT_MUSIC_Y = 0;
 
-
-
     private MainGame game;
-    private World world;
-    private Screen screen;
+    private MenuScene menuScene;
 
     private Texture backButtonActive;
     private Texture backButtonInactive;
@@ -27,16 +23,14 @@ public class OptionScene implements Screen{
     private Texture textSound;
     private Texture textMusic;
 
-    public OptionScene(MainGame game, World world, Screen screen){
+    public OptionScene(MainGame game, MenuScene menuScene){
         this.game = game;
-        this.world = world;
-        this.screen = screen;
+        this.menuScene = menuScene;
         backButtonActive = new Texture("img/optionsMenu/backActive.png");
         backButtonInactive = new Texture("img/optionsMenu/backInactive.png");
         //textFullScreen = new Texture("img/optionsMenu/fullscreen.png");
         //textSound = new Texture("img/optionsMenu/sound.png");
         //textMusic = new Texture("img/optionsMenu/music.png");
-
     }
 
     @Override
@@ -56,14 +50,15 @@ public class OptionScene implements Screen{
         if(Gdx.input.getX() > backButtonX && Gdx.input.getX() < backButtonX + backButtonInactive.getWidth() &&
                 Gdx.input.getY() < GameInfo.HEIGHT - BACK_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - BACK_BUTTON_Y - backButtonActive.getHeight()){
 
-            if(Gdx.input.isTouched()){
-                game.setScreen(new MenuScene(game, world)); //TODO: Can i return to previous screen instead of creating a new one?
-            }
             game.getBatch().draw(backButtonActive, backButtonX, BACK_BUTTON_Y, backButtonInactive.getWidth(), backButtonInactive.getHeight());
+
+            if(Gdx.input.isTouched()){
+                //game.setScreen(new MenuScene(game, world)); //TODO: Can i return to previous screen instead of creating a new one?
+                game.setScreen(menuScene);
+            }
         } else {
             game.getBatch().draw(backButtonInactive, backButtonX, BACK_BUTTON_Y, backButtonInactive.getWidth(), backButtonInactive.getHeight());
         }
-
 
         game.getBatch().end();
     }
