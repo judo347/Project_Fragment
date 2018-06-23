@@ -33,10 +33,42 @@ public enum EntityType {
 
     /** Creates the body and fixture for an entity. */
     public Body createBody(World world, Vector2 pos){
+
+        if(this == PLAYER)
+            return createPlayerBody(world, pos);
+
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
-        if(this == PLAYER)
-            bodyDef.fixedRotation = true;
+
+        bodyDef.position.set(((pos.x + getWidth() / 2) / GameInfo.PPM), (pos.y + getHeight() / 2) / GameInfo.PPM);
+
+        Body body = world.createBody(bodyDef);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox((width / 2) / GameInfo.PPM, (height / 2) / GameInfo.PPM);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1;
+
+        Fixture fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(id);
+
+        if(this == CHEST || this == PORTAL || this == FVENDOR){
+            fixture.setSensor(true);
+        }
+
+        shape.dispose();
+
+        return body;
+    }
+
+    /** Creates the body for the player. */
+    private Body createPlayerBody(World world, Vector2 pos){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = bodyType;
+
+        bodyDef.fixedRotation = true;
         bodyDef.position.set(((pos.x + getWidth() / 2) / GameInfo.PPM), (pos.y + getHeight() / 2) / GameInfo.PPM);
 
         Body body = world.createBody(bodyDef);

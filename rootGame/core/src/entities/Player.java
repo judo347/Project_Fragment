@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import helpers.ChestType;
 import helpers.EntityType;
 import helpers.GameInfo;
 import helpers.Entity;
@@ -37,6 +36,8 @@ public class Player extends Entity {
 
     private GameMap gameMap;
 
+    private Body feet;
+
     Animation[] jumpMovement;
     public static final int NUMBER_OF_JUMP_FRAMES = 2;
 
@@ -44,6 +45,8 @@ public class Player extends Entity {
         super(world, EntityType.PLAYER, pos);
 
         this.gameMap = gameMap;
+
+        this.feet = createFeet(world, pos);
 
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png"));//TODO TEMP
         this.sprite.setPosition(getPos().x + getWidth() / 2, getPos().y + getHeight() / 2);
@@ -203,6 +206,31 @@ public class Player extends Entity {
         return (inAirTime > 0.14f) ? (TextureRegion)jumpMovement[1].getKeyFrame(stateTime, true) : (TextureRegion)jumpMovement[0].getKeyFrame(stateTime, true);
     }
 
+    /** Creates feet for a the player. */
+    private Body createFeet(World world, Vector2 pos){
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(HERO_WIDTH_PIXEL/2f, 20);
+        FixtureDef feetFixDef = new FixtureDef();
+        feetFixDef.shape = shape;
+        feetFixDef.density = 0;
+        feetFixDef.friction = 1;
+        feetFixDef.restitution = 0;
+        feetFixDef.isSensor = false;
+
+        BodyDef feetBodyDef = new BodyDef();
+        feetBodyDef.type = BodyDef.BodyType.DynamicBody;
+        feetBodyDef.position.set(pos.x, pos.y + 20); //SHOULD BE CHGANCED
+
+        Body body = world.createBody(feetBodyDef);
+        body.setGravityScale(0);
+
+        Fixture fixture = body.createFixture(feetFixDef);
+        //fixture.setUserData(this); //TODO SHOULD BE CHANGED
+        fixture.setSensor(true);
+
+        return body;
+    }
 
 
     /*
