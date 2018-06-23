@@ -46,7 +46,7 @@ public class Player extends Entity {
 
         this.gameMap = gameMap;
 
-        this.feet = createFeet(world, pos);
+        this.feet = createFeet2(world, pos);
 
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png"));//TODO TEMP
         this.sprite.setPosition(getPos().x + getWidth() / 2, getPos().y + getHeight() / 2);
@@ -57,7 +57,6 @@ public class Player extends Entity {
         this.stateTime = 0f;
 
         setUpAnimations();
-
     }
 
     /** Sets up the animation for the entity. */
@@ -206,32 +205,38 @@ public class Player extends Entity {
         return (inAirTime > 0.14f) ? (TextureRegion)jumpMovement[1].getKeyFrame(stateTime, true) : (TextureRegion)jumpMovement[0].getKeyFrame(stateTime, true);
     }
 
-    /** Creates feet for a the player. */
-    private Body createFeet(World world, Vector2 pos){
+    /** Creates the body for the feet of the player. */
+    private Body createFeet2(World world, Vector2 pos){
 
+        BodyDef bodyDefFeet = new BodyDef();
+        bodyDefFeet.type = BodyDef.BodyType.DynamicBody;
+        bodyDefFeet.position.set(new Vector2((pos.x + HERO_WIDTH_PIXEL / 2) / GameInfo.PPM, pos.y / GameInfo.PPM)); //TODO
+        //bodyDefFeet.position.set(new Vector2(((pos.x + HERO_WIDTH_PIXEL) / GameInfo.PPM), (pos.y) / GameInfo.PPM));
+
+        Body bodyFeet = world.createBody(bodyDefFeet);
+
+        //Shape of box
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(HERO_WIDTH_PIXEL/2f, 20);
-        FixtureDef feetFixDef = new FixtureDef();
-        feetFixDef.shape = shape;
-        feetFixDef.density = 0;
-        feetFixDef.friction = 1;
-        feetFixDef.restitution = 0;
-        feetFixDef.isSensor = false;
+        shape.setAsBox(((HERO_WIDTH_PIXEL / 3.5f) / GameInfo.PPM), (HERO_HEIGHT_PIXEL / 12) / GameInfo.PPM); //TODO OVERFLOW?
 
-        BodyDef feetBodyDef = new BodyDef();
-        feetBodyDef.type = BodyDef.BodyType.DynamicBody;
-        feetBodyDef.position.set(pos.x, pos.y + 20); //SHOULD BE CHGANCED
+        //FixtureDef for box
+        FixtureDef fixtureDefFeet = new FixtureDef();
+        fixtureDefFeet.shape = shape;
+        fixtureDefFeet.density = 0;
+        fixtureDefFeet.friction = 1;
+        fixtureDefFeet.restitution = 0;
+        fixtureDefFeet.isSensor = true;
 
-        Body body = world.createBody(feetBodyDef);
-        body.setGravityScale(0);
+        //Create fixture and attach it to the body
+        Fixture fixtureFeet = bodyFeet.createFixture(fixtureDefFeet);
 
-        Fixture fixture = body.createFixture(feetFixDef);
-        //fixture.setUserData(this); //TODO SHOULD BE CHANGED
-        fixture.setSensor(true);
+        shape.dispose();
 
-        return body;
+        bodyFeet.getFixtureList().get(0).setUserData(this);
+        bodyFeet.setGravityScale(0);
+
+        return bodyFeet;
     }
-
 
     /*
     public Player(World world, float x, float y){
