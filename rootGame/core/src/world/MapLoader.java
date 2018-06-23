@@ -74,7 +74,7 @@ public class MapLoader {
                 }else if(entityType != null){ //Add entity
 
                     //Add entity
-                    entitiesList.add(EntityType.getEntity(color, world, (int)currentPixelPos.x, (int)currentPixelPos.y, gameMap)); //TODO null? HANDLE
+                    entitiesList.add(EntityType.getEntity(color, world, currentPixelPos, gameMap)); //TODO null? HANDLE
 
                     //Add an unique id to chests
                     if(entitiesList.get(entitiesList.size()-1).getEntityType() == EntityType.CHEST){
