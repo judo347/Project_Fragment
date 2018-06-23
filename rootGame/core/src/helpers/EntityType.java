@@ -92,13 +92,6 @@ public enum EntityType {
         return body;
     }
 
-    /* TODO: This could and maybe should be used to map a color to a type. Usefull?
-    private static HashMap<String, EntityType>() entityTypes;
-
-    static {
-        e
-    } */
-
     /** Returns a new entity based on the color. Will return null if color is not matching a type.
      * @param color the color to search for.
      * @param world the world to place entity in.

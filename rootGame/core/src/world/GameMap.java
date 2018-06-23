@@ -124,10 +124,7 @@ public class GameMap{
     /** Renders all elements in this map. */
     public void render (SpriteBatch batch, float delta){
 
-        //getBox2DCamera(); was argument, not used in any way.
-
         updateElements(delta);
-
 
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears the screen
@@ -142,9 +139,6 @@ public class GameMap{
         for(GroundTile groundTile : tilesList){
             groundTile.render(batch);
         }
-
-        //TODO: This if statement should be move to player
-        //game.getBatch().draw((player.isInAir) ? player.getJumpSprite(stateTime) : player.getVerticalSprite(stateTime), player.getX() - (player.getWidth() / 2), player.getY() - (player.getHeight() / 2));
 
         batch.end();
 

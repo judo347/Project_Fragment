@@ -86,8 +86,6 @@ public class Player extends Entity {
 
     @Override
     public void render(SpriteBatch batch) {
-
-        //batch.draw(getSprite(), x, y, getWidth(), getHeight()); //TODO WORKS /BACKUP
         batch.draw((isInAir) ? getJumpSprite(stateTime) : getVerticalSprite(stateTime), getX() - (getWidth() / 2), getY() - (getHeight() / 2));
     }
 
@@ -142,7 +140,10 @@ public class Player extends Entity {
 
     /** Handles sprite movement with body. */
     public void updatePlayer(float deltaTime){
+
         this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
+        this.feet.getPosition().set(pos.x * GameInfo.PPM, pos.y * GameInfo.PPM);
+
         if(this.isInAir)
             inAirTime += deltaTime;
     }
@@ -237,61 +238,4 @@ public class Player extends Entity {
 
         return bodyFeet;
     }
-
-    /*
-    public Player(World world, float x, float y){
-        super(world, EntityType.C); //TODO
-        this.sprite = new Sprite(new Texture("img/hero/hero_stand.png")); //TODO: FILE SHOULD BE CHANGED
-        this.sprite.setPosition(x - this.sprite.getWidth() / 2, y - this.sprite.getWidth() / 2);
-        //this.world = world;
-        this.userData = "Player";
-        this.walkTimer = 0;
-        this.currentWalkFrame = standFrame;
-        this.currentJumpFame = 0;
-
-        //Vertical movement animation
-        this.verticalMovement = new Animation[NUMBER_OF_VERTICAL_FRAMES]; //Number of images
-        TextureRegion[][] heroVerticalSpriteSheet = TextureRegion.split(new Texture("img/hero/hero_vertical.png"), HERO_WIDTH_PIXEL, HERO_HEIGHT_PIXEL); //TODO: Load atlas?
-
-        for(int i = 0; i < NUMBER_OF_VERTICAL_FRAMES; i++)
-            verticalMovement[i] = new Animation(ANIMATION_SPEED, heroVerticalSpriteSheet[0][i]); //TODO HANDLE EXCEPTION?
-
-        //Jump animation
-        this.jumpMovement = new Animation[NUMBER_OF_JUMP_FRAMES];
-        TextureRegion[][] heroJumpSpriteSheet = TextureRegion.split(new Texture("img/hero/hero_jump.png"), HERO_WIDTH_PIXEL, HERO_HEIGHT_PIXEL); //TODO: Load atlas?
-
-        for(int i = 0; i < NUMBER_OF_JUMP_FRAMES; i++)
-            jumpMovement[i] = new Animation(ANIMATION_SPEED, heroJumpSpriteSheet[0][i]); //TODO HANDLE EXCEPTION?
-
-        createBody();
-    }
-    void createBody(){
-
-        BodyDef bodyDef = new BodyDef(); //Dynamic, static or kinamatic, sets the body relative to where the player is.
-
-        //Static = not affected by gravity or any other force.
-        //Kinematic = not affected by gravity but IS affected by other forces.
-        //Dynamic = affected by gravity and other forces
-        bodyDef.type = BodyDef.BodyType.DynamicBody; //TODO Dynamic
-
-        bodyDef.position.set(getX() / GameInfo.PPM, getY() / GameInfo.PPM);
-
-        //Add the body to the world
-        //body = world.createBody(bodyDef);
-
-        //Collision box
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox((getWidth() / 2) / GameInfo.PPM, (getHeight() / 2) / GameInfo.PPM);
-
-        //Contains mass and such
-        FixtureDef fixtureDef = new FixtureDef(); //
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1;
-
-        //Fixture fixture = body.createFixture(fixtureDef);
-        //fixture.setUserData(this.userData); //Can we called on contact
-
-        shape.dispose(); //It is no longer needed/used
-    }
-    */
 }
