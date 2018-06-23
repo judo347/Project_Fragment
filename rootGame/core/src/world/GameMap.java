@@ -76,13 +76,13 @@ public class GameMap{
 
     public boolean isPlayerTouchingPortal(){
 
-        float playerX = entitiesList.get(playerIndex).getX();
-        float playerY = entitiesList.get(playerIndex).getY();
+        float playerX = entitiesList.get(playerIndex).getPos().x;
+        float playerY = entitiesList.get(playerIndex).getPos().y;
         int playerWidth = EntityType.PLAYER.getWidth();
         int playerHeight = EntityType.PLAYER.getHeight();
 
-        float portalX = entitiesList.get(portalIndex).getX();
-        float portalY = entitiesList.get(portalIndex).getY();
+        float portalX = entitiesList.get(portalIndex).getPos().x;
+        float portalY = entitiesList.get(portalIndex).getPos().y;
         int portalSize = Portal.PORTAL_SIZE_PIXEL;
 
         if(playerX + playerWidth/2 > portalX && playerX - playerWidth/2 < portalX + portalSize &&

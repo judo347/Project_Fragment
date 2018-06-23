@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import helpers.Entity;
 import helpers.EntityType;
@@ -21,8 +22,8 @@ public class Portal extends Entity{
     private int currentFrame;
     private float stateTime;
 
-    public Portal(World world, float x, float y) {
-        super(world, EntityType.PORTAL, x, y);
+    public Portal(World world, Vector2 pos) {
+        super(world, EntityType.PORTAL, pos);
 
         this.portalTimer = 0;
         this.currentFrame = 0;
@@ -72,7 +73,7 @@ public class Portal extends Entity{
     @Override
     public void render(SpriteBatch batch) {
 
-        batch.draw(getCurrentFrame(stateTime), getX(), getY());
+        batch.draw(getCurrentFrame(stateTime), getPos().x, getPos().y);
     }
 
     public TextureRegion getCurrentFrame(float stateTime){

@@ -70,16 +70,15 @@ public enum EntityType {
     /** Returns a new entity based on the color. Will return null if color is not matching a type.
      * @param color the color to search for.
      * @param world the world to place entity in.
-     * @param x coordinate
-     * @param y coordinate
+     * @param pos the coordinates
      * @return an entity object matching the color given. Will return null if color is not matching a type. */
     public static Entity getEntity(Color color, World world, Vector2 pos, GameMap gameMap){
 
         switch (getTypeFromColor(color)){
-            case PLAYER:    return new Player(gameMap, world, pos.x, pos.y);
-            case CHEST:     return new Chest(world, pos.x, pos.y); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
-            case PORTAL:    return new Portal(world, pos.x, pos.y);
-            case FVENDOR:   return new FloatingVendor(world, pos.x, pos.y);
+            case PLAYER:    return new Player(gameMap, world, pos);
+            case CHEST:     return new Chest(world, pos); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
+            case PORTAL:    return new Portal(world, pos);
+            case FVENDOR:   return new FloatingVendor(world, pos);
         }
 
         return null;

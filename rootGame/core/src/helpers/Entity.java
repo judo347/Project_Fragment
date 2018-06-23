@@ -12,16 +12,15 @@ public abstract class Entity {
     protected EntityType entityType;
     protected BodyType bodyType;
     protected Body body;
-    protected float x, y;
+    protected Vector2 pos;
     protected String id;
 
-    public Entity(World world, EntityType entityType, float x, float y) {
+    public Entity(World world, EntityType entityType, Vector2 pos) {
         this.world = world;
         this.entityType = entityType;
         this.bodyType = entityType.getBodyType();
-        this.x = x;
-        this.y = y;
-        this.body = entityType.createBody(world, new Vector2(x, y));
+        this.pos = pos;
+        this.body = entityType.createBody(world, pos);
         this.id = (String)body.getFixtureList().get(0).getUserData();
     }
 
@@ -48,12 +47,8 @@ public abstract class Entity {
         return body;
     }
 
-    public float getY() {
-        return y;
-    }
-
-    public float getX() {
-        return x;
+    public Vector2 getPos() {
+        return pos;
     }
 
     public float getWidth() {

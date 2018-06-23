@@ -2,6 +2,7 @@ package entities.elements;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.ChestType;
 import helpers.Entity;
@@ -14,8 +15,8 @@ public class Chest extends Entity {
     private boolean isChestOpen;
 
 
-    public Chest(World world, float x, float y) {
-        super(world, EntityType.CHEST, x, y);
+    public Chest(World world, Vector2 pos) {
+        super(world, EntityType.CHEST, pos);
         this.chestType = ChestType.NORMAL;
         this.isChestOpen = false;
     }
@@ -27,7 +28,7 @@ public class Chest extends Entity {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(getSprite(), x, y, getWidth(), getHeight());
+        batch.draw(getSprite(), getPos().x, getPos().y, getWidth(), getHeight());
     }
 
     @Override

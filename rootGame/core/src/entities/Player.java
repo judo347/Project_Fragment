@@ -40,13 +40,13 @@ public class Player extends Entity {
     Animation[] jumpMovement;
     public static final int NUMBER_OF_JUMP_FRAMES = 2;
 
-    public Player(GameMap gameMap, World world, float x, float y){
-        super(world, EntityType.PLAYER, x, y);
+    public Player(GameMap gameMap, World world, Vector2 pos){
+        super(world, EntityType.PLAYER, pos);
 
         this.gameMap = gameMap;
 
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png"));//TODO TEMP
-        this.sprite.setPosition(x + getWidth() / 2, y + getHeight() / 2);
+        this.sprite.setPosition(getPos().x + getWidth() / 2, getPos().y + getHeight() / 2);
 
         this.walkTimer = 0;
         this.currentWalkFrame = standFrame;

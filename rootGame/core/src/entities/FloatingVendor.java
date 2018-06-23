@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import helpers.Entity;
 import helpers.EntityType;
@@ -22,8 +23,8 @@ public class FloatingVendor extends Entity{
     private int currentFrame;
     private float stateTime;
 
-    public FloatingVendor(World world, float x, float y) {
-        super(world, EntityType.FVENDOR, x, y);
+    public FloatingVendor(World world, Vector2 pos) {
+        super(world, EntityType.FVENDOR, pos);
 
         this.fvendorTimer = 0;
         this.currentFrame = 0;
@@ -69,9 +70,10 @@ public class FloatingVendor extends Entity{
         return fvendorTimer;
     }
 
+    //TODO: THIS SHOULD BE MADE THE DEAULT.. AND NOT OVERWRITTEN
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(getCurrentFrame(stateTime), getX(), getY());
+        batch.draw(getCurrentFrame(stateTime), getPos().x, getPos().y);
     }
 
     public TextureRegion getCurrentFrame(float stateTime){
