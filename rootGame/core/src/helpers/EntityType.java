@@ -1,6 +1,7 @@
 package helpers;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import entities.FloatingVendor;
@@ -31,12 +32,12 @@ public enum EntityType {
     }
 
     /** Creates the body and fixture for an entity. */
-    public Body createBody(World world, float x, float y){
+    public Body createBody(World world, Vector2 pos){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
         if(this == PLAYER)
             bodyDef.fixedRotation = true;
-        bodyDef.position.set(((x + getWidth() / 2) / GameInfo.PPM), (y + getHeight() / 2) / GameInfo.PPM);
+        bodyDef.position.set(((pos.x + getWidth() / 2) / GameInfo.PPM), (pos.y + getHeight() / 2) / GameInfo.PPM);
 
         Body body = world.createBody(bodyDef);
 

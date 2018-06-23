@@ -1,6 +1,7 @@
 package helpers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
@@ -20,7 +21,7 @@ public abstract class Entity {
         this.bodyType = entityType.getBodyType();
         this.x = x;
         this.y = y;
-        this.body = entityType.createBody(world, x, y);
+        this.body = entityType.createBody(world, new Vector2(x, y));
         this.id = (String)body.getFixtureList().get(0).getUserData();
     }
 
