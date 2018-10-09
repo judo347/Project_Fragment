@@ -19,6 +19,8 @@ public class Chest extends Entity {
         super(world, EntityType.CHEST, pos);
         this.chestType = ChestType.NORMAL;
         this.isChestOpen = false;
+
+        body.getFixtureList().get(0).setSensor(true);
     }
 
     @Override

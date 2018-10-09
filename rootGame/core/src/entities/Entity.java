@@ -29,42 +29,11 @@ public abstract class Entity {
     /** Creates the body and fixture for an entity. */
     public Body createBody(World world, Vector2 pos){
 
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = bodyType;
+
         if(entityType == EntityType.PLAYER)
-            return createPlayerBody(world, pos);
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = bodyType;
-
-        bodyDef.position.set(((pos.x + entityType.getWidth() / 2) / GameInfo.PPM), (pos.y + entityType.getHeight() / 2) / GameInfo.PPM);
-
-        Body body = world.createBody(bodyDef);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox((entityType.getWidth() / 2) / GameInfo.PPM, (entityType.getHeight() / 2) / GameInfo.PPM);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1;
-
-        Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(entityType.getId());
-
-        if(entityType == EntityType.CHEST || entityType == EntityType.PORTAL ||
-                entityType == EntityType.VENDOR || entityType == EntityType.CRAFTING_TABLE){
-            fixture.setSensor(true);
-        }
-
-        shape.dispose();
-
-        return body;
-    }
-
-    /** Creates the body for the player. */
-    public Body createPlayerBody(World world, Vector2 pos){
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = bodyType;
-
-        bodyDef.fixedRotation = true;
+            bodyDef.fixedRotation = true;
         bodyDef.position.set(((pos.x + entityType.getWidth() / 2) / GameInfo.PPM), (pos.y + entityType.getHeight() / 2) / GameInfo.PPM);
 
         Body body = world.createBody(bodyDef);
