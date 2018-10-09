@@ -30,7 +30,6 @@ public class ContactListen implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
 
-
         //Chest is touched
         if(EntityType.CHEST.isMatchingDefaultId(contact.getFixtureA().getUserData().toString()) && contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
             gameMap.openChest(contact.getFixtureA().getUserData().toString());

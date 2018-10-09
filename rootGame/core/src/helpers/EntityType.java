@@ -36,67 +36,6 @@ public enum EntityType {
         this.color = color;
     }
 
-    /** Creates the body and fixture for an entity. */
-    public Body createBody(World world, Vector2 pos){
-
-        if(this == PLAYER)
-            return createPlayerBody(world, pos);
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = bodyType;
-
-        bodyDef.position.set(((pos.x + getWidth() / 2) / GameInfo.PPM), (pos.y + getHeight() / 2) / GameInfo.PPM);
-
-        Body body = world.createBody(bodyDef);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox((width / 2) / GameInfo.PPM, (height / 2) / GameInfo.PPM);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1;
-
-        Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(id);
-
-        if(this == CHEST || this == PORTAL || this == VENDOR || this == CRAFTING_TABLE){
-            fixture.setSensor(true);
-        }
-
-        shape.dispose();
-
-        return body;
-    }
-
-    /** Creates the body for the player. */
-    public Body createPlayerBody(World world, Vector2 pos){
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = bodyType;
-
-        bodyDef.fixedRotation = true;
-        bodyDef.position.set(((pos.x + getWidth() / 2) / GameInfo.PPM), (pos.y + getHeight() / 2) / GameInfo.PPM);
-
-        Body body = world.createBody(bodyDef);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox((width / 2) / GameInfo.PPM, (height / 2) / GameInfo.PPM);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1;
-
-        Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(id);
-
-        if(this == CHEST || this == PORTAL || this == VENDOR){
-            fixture.setSensor(true);
-        }
-
-        shape.dispose();
-
-        return body;
-    }
-
     /** Returns a new entity based on the color. Will return null if color is not matching a type.
      * @param color the color to search for.
      * @param world the world to place entity in.
