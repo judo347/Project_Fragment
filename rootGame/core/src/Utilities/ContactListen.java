@@ -1,4 +1,4 @@
-package Utilities;
+package utilities;
 
 import com.badlogic.gdx.physics.box2d.*;
 import entities.Charactors.Player;
@@ -46,9 +46,9 @@ public class ContactListen implements ContactListener {
         }
 
         //Floating vendor is touched
-        if(EntityType.FVENDOR.isMatchingDefaultId(contact.getFixtureA().getUserData().toString()) && contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
+        if(EntityType.VENDOR.isMatchingDefaultId(contact.getFixtureA().getUserData().toString()) && contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
             //todo do something
-        }else if(EntityType.FVENDOR.isMatchingDefaultId(contact.getFixtureB().getUserData().toString()) && contact.getFixtureA().getUserData() == this.player.getDefaultTypeId()){
+        }else if(EntityType.VENDOR.isMatchingDefaultId(contact.getFixtureB().getUserData().toString()) && contact.getFixtureA().getUserData() == this.player.getDefaultTypeId()){
             //todo do the same thing
         }
 

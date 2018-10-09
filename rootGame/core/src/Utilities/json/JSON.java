@@ -1,4 +1,4 @@
-package Utilities.json;
+package utilities.json;
 
 import com.badlogic.gdx.utils.Json;
 import helpers.ItemType;

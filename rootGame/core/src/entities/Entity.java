@@ -1,9 +1,11 @@
-package helpers;
+package entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import helpers.EntityType;
+import helpers.VendorType;
 
 /** Should be used for all other game entities than tiles. */
 public abstract class Entity {
@@ -33,10 +35,6 @@ public abstract class Entity {
 
     public World getWorld() {
         return world;
-    }
-
-    public EntityType getEntityType() {
-        return entityType;
     }
 
     public BodyType getBodyType() {

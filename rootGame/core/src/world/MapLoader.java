@@ -1,12 +1,14 @@
 package world;
 
-import Utilities.GameInfo;
+import entities.Entity;
+import utilities.GameInfo;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import entities.Probs.Chest;
 import helpers.*;
 import entities.GroundTile;
 
@@ -76,7 +78,7 @@ public class MapLoader {
                     entitiesList.add(EntityType.getEntity(color, world, currentPixelPos, gameMap)); //TODO null? HANDLE
 
                     //Add an unique id to chests
-                    if(entitiesList.get(entitiesList.size()-1).getEntityType() == EntityType.CHEST){
+                    if(entitiesList.get(entitiesList.size()-1) instanceof Chest){
                         entitiesList.get(entitiesList.size()-1).setId(entityType.getId() + chestCount++);
                     }
                 }else{

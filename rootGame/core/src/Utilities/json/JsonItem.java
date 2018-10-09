@@ -1,4 +1,4 @@
-package Utilities.json;
+package utilities.json;
 
 import helpers.ItemType;
 

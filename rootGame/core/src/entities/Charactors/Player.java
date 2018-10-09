@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.EntityType;
-import Utilities.GameInfo;
-import helpers.Entity;
+import utilities.GameInfo;
+import entities.Entity;
 import world.GameMap;
 
 public class Player extends Entity {

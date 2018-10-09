@@ -12,10 +12,10 @@ import entities.Charactors.Player;
 import entities.Probs.Chest;
 import entities.GroundTile;
 import entities.Probs.Portal;
-import Utilities.ContactListen;
-import helpers.Entity;
+import utilities.ContactListen;
+import entities.Entity;
 import helpers.EntityType;
-import Utilities.GameInfo;
+import utilities.GameInfo;
 import scenes.GameScene;
 
 import java.util.ArrayList;

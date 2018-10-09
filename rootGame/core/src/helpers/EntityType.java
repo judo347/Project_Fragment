@@ -1,11 +1,12 @@
 package helpers;
 
-import Utilities.GameInfo;
+import entities.Entity;
+import utilities.GameInfo;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import entities.Charactors.FloatingVendor;
+import entities.Charactors.Vendor;
 import entities.Charactors.Player;
 import entities.Probs.Chest;
 import entities.Probs.Portal;
@@ -16,7 +17,7 @@ public enum EntityType {
     PLAYER("player", 32, 64, BodyType.DynamicBody, Constants.PLAYER_COLOR),
     CHEST("chest", 40, 30, BodyType.StaticBody, Constants.CHEST_COLOR),
     PORTAL("portal", 128, 128, BodyType.StaticBody, Constants.PORTAL_COLOR),
-    FVENDOR("fvendor", 32, 64, BodyType.StaticBody, Constants.FVENDOR_COLOR);
+    VENDOR("vendor", 32, 64, BodyType.StaticBody, Constants.FVENDOR_COLOR);
 
     private String id;
     private int width, height;
@@ -55,7 +56,7 @@ public enum EntityType {
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(id);
 
-        if(this == CHEST || this == PORTAL || this == FVENDOR){
+        if(this == CHEST || this == PORTAL || this == VENDOR){
             fixture.setSensor(true);
         }
 
@@ -84,7 +85,7 @@ public enum EntityType {
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(id);
 
-        if(this == CHEST || this == PORTAL || this == FVENDOR){
+        if(this == CHEST || this == PORTAL || this == VENDOR){
             fixture.setSensor(true);
         }
 
@@ -104,7 +105,7 @@ public enum EntityType {
             case PLAYER:    return new Player(gameMap, world, pos);
             case CHEST:     return new Chest(world, pos); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
             case PORTAL:    return new Portal(world, pos);
-            case FVENDOR:   return new FloatingVendor(world, pos);
+            case VENDOR:   return new Vendor(world, pos, VendorType.FLOATING);
         }
 
         return null;
@@ -121,8 +122,8 @@ public enum EntityType {
             return CHEST;
         if(color.equals(EntityType.PORTAL.getColor()))
             return PORTAL;
-        if(color.equals(EntityType.FVENDOR.getColor()))
-            return FVENDOR;
+        if(color.equals(EntityType.VENDOR.getColor()))
+            return VENDOR;
         else
             return null;
     }

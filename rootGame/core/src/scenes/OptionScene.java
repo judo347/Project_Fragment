@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import main.MainGame;
-import Utilities.GameInfo;
+import utilities.GameInfo;
 
 public class OptionScene implements Screen{
 
