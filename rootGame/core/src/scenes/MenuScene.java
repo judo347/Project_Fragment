@@ -5,8 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import dk.mk.MainGame;
-import helpers.GameInfo;
+import main.MainGame;
+import Utilities.GameInfo;
 
 public class MenuScene implements Screen {
 

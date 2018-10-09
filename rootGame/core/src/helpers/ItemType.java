@@ -1,5 +1,6 @@
 package helpers;
 
+import Utilities.GameInfo;
 import com.badlogic.gdx.physics.box2d.*;
 
 public enum ItemType {

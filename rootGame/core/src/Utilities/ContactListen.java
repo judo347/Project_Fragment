@@ -1,9 +1,9 @@
-package helpers;
+package Utilities;
 
 import com.badlogic.gdx.physics.box2d.*;
-import entities.Player;
-import entities.elements.GroundTile;
-import entities.elements.Portal;
+import entities.Charactors.Player;
+import entities.Probs.Portal;
+import helpers.EntityType;
 import world.GameMap;
 
 

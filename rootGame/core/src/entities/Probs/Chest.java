@@ -1,4 +1,4 @@
-package entities.elements;
+package entities.Probs;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

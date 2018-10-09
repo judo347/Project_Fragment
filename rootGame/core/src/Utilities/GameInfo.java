@@ -1,4 +1,4 @@
-package helpers;
+package Utilities;
 
 public class GameInfo {
 

@@ -1,11 +1,9 @@
-package world.json;
+package Utilities.json;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Json;
 import helpers.ItemType;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

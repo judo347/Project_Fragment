@@ -1,10 +1,10 @@
-package entities.elements;
+package entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import helpers.GameInfo;
+import Utilities.GameInfo;
 import helpers.TileType;
 
 public class GroundTile extends Sprite {

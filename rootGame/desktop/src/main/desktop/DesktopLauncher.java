@@ -1,9 +1,10 @@
-package dk.mk.desktop;
+package main.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import dk.mk.MainGame;
-import helpers.GameInfo;
+import main.MainGame;
+import Utilities.GameInfo;
+import main.MainGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

@@ -1,13 +1,14 @@
 package helpers;
 
+import Utilities.GameInfo;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import entities.FloatingVendor;
-import entities.Player;
-import entities.elements.Chest;
-import entities.elements.Portal;
+import entities.Charactors.FloatingVendor;
+import entities.Charactors.Player;
+import entities.Probs.Chest;
+import entities.Probs.Portal;
 import world.GameMap;
 
 public enum EntityType {
