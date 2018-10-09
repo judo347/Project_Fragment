@@ -6,10 +6,9 @@ import entities.Charactors.StaticAnimatedProb;
 import helpers.EntityType;
 import helpers.StaticAnimatedProbType;
 
-public class Portal extends StaticAnimatedProb{
+public class CraftingTable extends StaticAnimatedProb{
 
-    public Portal(World world, Vector2 pos) {
-        super(world, pos, EntityType.PORTAL, StaticAnimatedProbType.PORTAL);
+    public CraftingTable(World world, Vector2 pos) {
+        super(world, pos, EntityType.CRAFTING_TABLE, StaticAnimatedProbType.CRAFTING_TABLE);
     }
-
 }

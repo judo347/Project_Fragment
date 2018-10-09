@@ -15,6 +15,7 @@ import entities.Probs.Portal;
 import utilities.ContactListen;
 import entities.Entity;
 import helpers.EntityType;
+import utilities.EntityDimensions;
 import utilities.GameInfo;
 import scenes.GameScene;
 
@@ -83,7 +84,7 @@ public class GameMap{
 
         float portalX = entitiesList.get(portalIndex).getPos().x;
         float portalY = entitiesList.get(portalIndex).getPos().y;
-        int portalSize = Portal.PORTAL_SIZE_PIXEL;
+        int portalSize = EntityDimensions.PORTAL_DIMENSIONS.getWIDTH();
 
         if(playerX + playerWidth/2 > portalX && playerX - playerWidth/2 < portalX + portalSize &&
                 playerY < portalY + portalSize && playerY > portalY)

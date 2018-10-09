@@ -82,7 +82,7 @@ public class MapLoader {
                         entitiesList.get(entitiesList.size()-1).setId(entityType.getId() + chestCount++);
                     }
                 }else{
-                    System.out.println("No entity matched the color: " + color.toString()); //TODO Exception?
+                    System.out.println("No entity matched the color: " + color.toString()); //TODO Exception? //This is where non registret colors go.
                 }
             }
         }

@@ -1,6 +1,8 @@
 package helpers;
 
 import entities.Entity;
+import entities.Probs.CraftingTable;
+import utilities.EntityDimensions;
 import utilities.GameInfo;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -14,10 +16,11 @@ import world.GameMap;
 
 public enum EntityType {
 
-    PLAYER("player", 32, 64, BodyType.DynamicBody, Constants.PLAYER_COLOR),
-    CHEST("chest", 40, 30, BodyType.StaticBody, Constants.CHEST_COLOR),
-    PORTAL("portal", 128, 128, BodyType.StaticBody, Constants.PORTAL_COLOR),
-    VENDOR("vendor", 32, 64, BodyType.StaticBody, Constants.FVENDOR_COLOR);
+    PLAYER("player", EntityDimensions.PLAYER_DIMENSIONS.getWIDTH(), EntityDimensions.PLAYER_DIMENSIONS.getHEIGHT(), BodyType.DynamicBody, Constants.PLAYER_COLOR),
+    CHEST("chest", EntityDimensions.CHEST_DIMENSIONS.getWIDTH(), EntityDimensions.CHEST_DIMENSIONS.getHEIGHT(), BodyType.StaticBody, Constants.CHEST_COLOR),
+    PORTAL("portal", EntityDimensions.PORTAL_DIMENSIONS.getWIDTH(), EntityDimensions.PORTAL_DIMENSIONS.getHEIGHT(), BodyType.StaticBody, Constants.PORTAL_COLOR),
+    VENDOR("vendor", EntityDimensions.VENDOR_DIMENSIONS.getWIDTH(), EntityDimensions.VENDOR_DIMENSIONS.getHEIGHT(), BodyType.StaticBody, Constants.FVENDOR_COLOR),
+    CRAFTING_TABLE("crafting table", EntityDimensions.CRAFTING_TABLE_DIMENSIONS.getWIDTH(), EntityDimensions.CRAFTING_TABLE_DIMENSIONS.getHEIGHT(), BodyType.StaticBody, Constants.CRAFTING_TABLE_COLOR);
 
     private String id;
     private int width, height;
@@ -25,7 +28,7 @@ public enum EntityType {
     private Color color;
 
 
-    private EntityType(String id, int width, int height, BodyType bodyType, Color color) {
+    EntityType(String id, int width, int height, BodyType bodyType, Color color) {
         this.id = id;
         this.width = width;
         this.height = height;
@@ -56,7 +59,7 @@ public enum EntityType {
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(id);
 
-        if(this == CHEST || this == PORTAL || this == VENDOR){
+        if(this == CHEST || this == PORTAL || this == VENDOR || this == CRAFTING_TABLE){
             fixture.setSensor(true);
         }
 
@@ -66,7 +69,7 @@ public enum EntityType {
     }
 
     /** Creates the body for the player. */
-    private Body createPlayerBody(World world, Vector2 pos){
+    public Body createPlayerBody(World world, Vector2 pos){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
 
@@ -102,10 +105,11 @@ public enum EntityType {
     public static Entity getEntity(Color color, World world, Vector2 pos, GameMap gameMap){
 
         switch (getTypeFromColor(color)){
-            case PLAYER:    return new Player(gameMap, world, pos);
-            case CHEST:     return new Chest(world, pos); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
-            case PORTAL:    return new Portal(world, pos);
-            case VENDOR:   return new Vendor(world, pos, VendorType.FLOATING);
+            case PLAYER:            return new Player(gameMap, world, pos);
+            case CHEST:             return new Chest(world, pos); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
+            case PORTAL:            return new Portal(world, pos);
+            case VENDOR:            return new Vendor(world, pos);
+            case CRAFTING_TABLE:    return new CraftingTable(world, pos);
         }
 
         return null;
@@ -124,6 +128,8 @@ public enum EntityType {
             return PORTAL;
         if(color.equals(EntityType.VENDOR.getColor()))
             return VENDOR;
+        if(color.equals(EntityType.CRAFTING_TABLE.getColor()))
+            return CRAFTING_TABLE;
         else
             return null;
     }
@@ -134,6 +140,7 @@ public enum EntityType {
         public static final Color CHEST_COLOR = Color.valueOf("#D800FFFF");
         public static final Color PORTAL_COLOR = Color.valueOf("#00ffffae");
         public static final Color FVENDOR_COLOR = Color.valueOf("#006effff"); //TODO
+        public static final Color CRAFTING_TABLE_COLOR = Color.valueOf("#00dcffff");
 
     }
 

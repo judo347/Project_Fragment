@@ -1,3 +1,7 @@
+# TODO: #
+Dummy tiles.
+Chest should extend StaticAnimatedProb (and have animations).
+
 # REWORK PROGRESS #
 Moved scenes (Should be fixed to options work)
 
