@@ -2,6 +2,8 @@
 Dummy tiles.
 Chest should extend StaticAnimatedProb (and have animations).
 
+Rework this document + add gifs and promotional content?
+
 # REWORK PROGRESS #
 Moved scenes (Should be fixed to options work)
 
@@ -27,12 +29,12 @@ Player sensor..
 ### Concept
 #### Background history
 this. . this this. . thisthis. . thisthis. . thisthis. . thisthis. . thisthis. . this
- 
+
 #### Game concept
 The game will be an action side-scroller with loot. The name of the project is
  Project Fragment and the idea is that you loot fragment and might use them to
  craft loot.
- 
+
 There will be a "town" where you can sell items/fragment, craft items and access inventory.
 
 #### Mechanics
