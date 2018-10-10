@@ -4,27 +4,25 @@ Chest should extend StaticAnimatedProb (and have animations).
 
 Rework this document + add gifs and promotional content?
 
-# REWORK PROGRESS #
-Moved scenes (Should be fixed to options work)
+Tiles containing tilesheets and are not sprites
+
+- Abstract Contact Listener / make player sensor? Or chest?
+- Platform needs to be scalable and hold its own height or width, or be rendered differently.
+- Should the Color/Tiles be an enum? YES? Containing: color, sprite/id.
 
 
-# CURRENT WORKING ON: #
-Game Object -> world generator -> scenes
 
+#### Maybe:
 
 WorldGenerator 
-Tiles containing tilesheets and are not sprites
+
 Player sensor..
 
 
 
-
-
 # Project_Fragment
-[[LibGdx wiki](https://github.com/libgdx/libgdx/wiki)]
-[[YouTube: Intro to LibGDX [10/10]](https://www.youtube.com/watch?v=IVtfZYbXuLg&list=PLZhNP5qJ2IA2RfQBxAC06xv2S07o-UBSd&index=3)]
-[[Installation of Libgdx in Intellij](https://www.youtube.com/watch?v=q0wM63_KNIs)]
-[[YouTube: Really great tut!](https://www.youtube.com/channel/UC1o7w8Y9BgI7ZgqyaPUNINQ/playlists)]
+[[LibGdx wiki](https://github.com/libgdx/libgdx/wiki)][[YouTube: Intro to LibGDX [10/10]](https://www.youtube.com/watch?v=IVtfZYbXuLg&list=PLZhNP5qJ2IA2RfQBxAC06xv2S07o-UBSd&index=3)]
+[[Installation of Libgdx in Intellij](https://www.youtube.com/watch?v=q0wM63_KNIs)][[YouTube: Really great tut!](https://www.youtube.com/channel/UC1o7w8Y9BgI7ZgqyaPUNINQ/playlists)]
 
 ### Concept
 #### Background history
@@ -44,7 +42,8 @@ Genaration/Design
 nico: USE TILES (32x32). world generation from a .png. The color matches an object. Like black for wall and blue for creatures and gold for chest.
 [[Tiles libgdx wiki](https://github.com/libgdx/libgdx/wiki/Tile-maps)]
 
-######Screen size
+#### Screen size
+
 - 1280 resWide / 32pxTileSize = 40 tiles wide.
 - 8000 resHigh / 32pxTileSize = 25 tiles High.
 
@@ -56,8 +55,8 @@ Chris: Attack hitbox, at roll = change hitbox to one that cannot get hit.
 Movement and attacks
 Bosses and mobs
 ##### Town
-<b>Level access</b> Som way to enter levels
-<b>Creating device</b> Som way of crafting using framents.
+<b>Level access</b> Some way to enter levels
+<b>Creating device</b> Some way of crafting using fragments.
 <b>Merchant</b> Where you can trade. Should have an animation (Stand breathing or glimmering?).
 
 ### Features
@@ -82,17 +81,4 @@ Bosses and mobs
 - Town
     - Graphics: bricks with grass on top.
 
-#### Improvements
-- Abstract Contact Listener / make player sensor? Or chest?
-- Platform needs to be scalable and hold its own height or width, or be rendered differently.
-- Should the Color/Tiles be an enum? YES? Containing: color, sprite/id.
-
 #### Bugs
-
-#### Implemented
-- Basic Game menu
-- Basic player
-    - Player movement
-    - Hitbox and simple animation
-- Basic chests
-- Platforms
