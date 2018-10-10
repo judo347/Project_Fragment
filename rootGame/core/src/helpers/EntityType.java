@@ -95,12 +95,12 @@ public enum EntityType {
         return height;
     }
 
-    public BodyType getBodyType() {
-        return bodyType;
-    }
-
     public Color getColor() {
         return color;
+    }
+
+    public BodyType getBodyType() {
+        return bodyType;
     }
 
     /** Take a string and tries to match it with the default id. */

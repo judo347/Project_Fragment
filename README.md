@@ -1,6 +1,9 @@
 # TODO: #
+Consumables -> sizeOfPotion (implement), maybe rename to potions?
+
 Dummy tiles.
 Chest should extend StaticAnimatedProb (and have animations).
+Implement menus for portal (level select) and vendor (shops).
 
 Rework this document + add gifs and promotional content?
 

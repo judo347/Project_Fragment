@@ -3,7 +3,6 @@ package entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import helpers.EntityType;
 import utilities.GameInfo;
 
@@ -11,26 +10,22 @@ import utilities.GameInfo;
 public abstract class Entity {
 
     protected World world;
-    protected EntityType entityType;
-    protected BodyType bodyType;
-    protected Body body;
     protected Vector2 pos;
-    protected String id;
+    protected Body body;
+    protected EntityType entityType;
 
     public Entity(World world, EntityType entityType, Vector2 pos) {
         this.world = world;
         this.entityType = entityType;
-        this.bodyType = entityType.getBodyType();
         this.pos = pos;
         this.body = createBody(world, pos);
-        this.id = (String)body.getFixtureList().get(0).getUserData();
     }
 
     /** Creates the body and fixture for an entity. */
     public Body createBody(World world, Vector2 pos){
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = bodyType;
+        bodyDef.type = entityType.getBodyType();
 
         if(entityType == EntityType.PLAYER)
             bodyDef.fixedRotation = true;
@@ -64,10 +59,6 @@ public abstract class Entity {
         return world;
     }
 
-    public BodyType getBodyType() {
-        return bodyType;
-    }
-
     public Body getBody() {
         return body;
     }
@@ -88,12 +79,7 @@ public abstract class Entity {
         return entityType.getId();
     }
 
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
-        this.id = id;
-        this.body.getFixtureList().get(0).setUserData(id); //TODO this line might not be needed
+        this.body.getFixtureList().get(0).setUserData(id);
     }
 }
