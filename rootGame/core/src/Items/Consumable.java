@@ -48,11 +48,6 @@ public class Consumable extends Item {
     }
 
     @Override
-    public void update(float delta) {
-
-    }
-
-    @Override
     public void dispose() {
 
     }

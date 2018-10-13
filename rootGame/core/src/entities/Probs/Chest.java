@@ -71,6 +71,7 @@ public class Chest extends Entity {
         //TODO Apply force to items!!
         //inventory.get(0).getBody().applyForce(0, 100, 0, 0, true);
         inventory.get(0).getBody().applyLinearImpulse(new Vector2(0, 10f), new Vector2(pos.x +10 , pos.y + 10), true);
+
         System.out.println("OPEN");
 
         //player.getBody().applyLinearImpulse(new Vector2(0, 10f), new Vector2(pos.x +10 , pos.y + 10), true);
