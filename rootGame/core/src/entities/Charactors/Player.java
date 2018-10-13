@@ -48,8 +48,7 @@ public class Player extends Entity {
 
         this.gameMap = gameMap;
 
-        this.feet = createFeet2(world, pos);
-        //this.feet = createFeet3();
+        this.feet = createFeet(world, pos);
 
         this.sprite = new Sprite(new Texture("img/hero/hero_stand.png"));//TODO TEMP
         this.sprite.setPosition(getPos().x + getWidth() / 2, getPos().y + getHeight() / 2);
@@ -59,11 +58,14 @@ public class Player extends Entity {
         this.currentJumpFame = 0;
         this.stateTime = 0f;
 
+        //Not clipping ground section
+        this.body.setLinearDamping(0);
+
         setUpAnimations();
     }
 
     /** Creates the body for the feet of the player. */
-    private Body createFeet2(World world, Vector2 pos){
+    private Body createFeet(World world, Vector2 pos){
 
         BodyDef bodyDefFeet = new BodyDef();
         bodyDefFeet.type = BodyDef.BodyType.DynamicBody;
