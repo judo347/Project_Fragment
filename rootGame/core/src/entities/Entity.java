@@ -27,8 +27,9 @@ public abstract class Entity {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = entityType.getBodyType();
 
-        if(entityType == EntityType.PLAYER)
+        if(entityType == EntityType.PLAYER){
             bodyDef.fixedRotation = true;
+        }
         bodyDef.position.set(((pos.x + entityType.getWidth() / 2) / GameInfo.PPM), (pos.y + entityType.getHeight() / 2) / GameInfo.PPM);
 
         Body body = world.createBody(bodyDef);

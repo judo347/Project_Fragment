@@ -2,6 +2,8 @@ package utilities;
 
 import com.badlogic.gdx.physics.box2d.*;
 import entities.Charactors.Player;
+import entities.Entity;
+import entities.GroundTile;
 import entities.Probs.Portal;
 import helpers.EntityType;
 import world.GameMap;
@@ -61,6 +63,11 @@ public class ContactListen implements ContactListener {
             //todo do something
         }
 
+        //Feet is touching Ground
+        if(contactObjectAorPlayer.toString().equals(Player.FEET_ID) && contactObjectB.toString().equals(GroundTile.id)
+                || contactObjectB.toString().equals(Player.FEET_ID)  && contactObjectAorPlayer.toString().equals(GroundTile.id))
+            this.player.isInAir = false;
+
         /*
         //Item is touched
         if()*/
@@ -70,15 +77,6 @@ public class ContactListen implements ContactListener {
         if(contact.getFixtureA().getUserData() == this.player.getDefaultTypeId() || contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
 
         }
-
-        if(contact.getFixtureA().getUserData() == this.player.getDefaultTypeId() || contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
-
-            //GROUND //TODO not working. Maybe check if player x,y is at portal at e press
-            if(contact.getFixtureA().getUserData() == "ground" || contact.getFixtureB().getUserData() == "ground")
-                this.player.isInAir = false;
-        }
-
-
     }
 
 

@@ -11,9 +11,9 @@ public class GroundTile extends Sprite {
 
     private World world;
     private Body body;
-    private String id;
     private TileType tileType;
     private boolean hasBody;
+    public static final String id = "gorund";
 
     //TODO: Should contain spriteSheet to allow check for border grass
 
@@ -21,7 +21,6 @@ public class GroundTile extends Sprite {
         super(tileType.getTexture()); //TODO: Should the tileType contain Sprite?
         this.world = world;
         this.tileType = tileType;
-        this.id = "ground";
         this.hasBody = hasBody;
         setPosition(pos.x, pos.y);
         if(hasBody) //Dummy tiles //Could also be tileType != TileType.BRICK
