@@ -1,7 +1,5 @@
 # TODO: #
 should make object for inventory handling?
-
-Dummy tiles.
 Chest should extend StaticAnimatedProb (and have animations).
 Implement menus for portal (level select) and vendor (shops).
 
@@ -9,19 +7,20 @@ Rework this document + add gifs and promotional content?
 
 Tiles containing tilesheets and are not sprites
 
-- Abstract Contact Listener / make player sensor? Or chest?
 - Platform needs to be scalable and hold its own height or width, or be rendered differently.
 - Should the Color/Tiles be an enum? YES? Containing: color, sprite/id.
+
+#### Improvements:
+
+Dummy tiles should not be at bottom.
+
+Movement not based on FPS
+
+PLAYER MOVEMENT SHOULD BE SHARP! FIX!
 
 #### Bugs:
 
 Items from chests: flies further the faster the player moves.
-
-#### Maybe:
-
-WorldGenerator 
-
-Player sensor..
 
 
 
@@ -63,27 +62,3 @@ Bosses and mobs
 <b>Level access</b> Some way to enter levels
 <b>Creating device</b> Some way of crafting using fragments.
 <b>Merchant</b> Where you can trade. Should have an animation (Stand breathing or glimmering?).
-
-### Features
-#### New Features
-- Movement not based on FPS
-- Player movement
-    - Sharpen movement / weight
-    - Sprite update / animation
-    - Update hitbox?
-    - Deal damage mechanic?
-    - Health bar
-- Menu
-    - Options menu
-        - Screen resolution
-        - Sound options (toggle?)
-- Config file with resolution and other settings
-- Enemy creatures
-- Chest
-    - Loot
-    - Spawns
-- MAP GENERATION? Check concept.
-- Town
-    - Graphics: bricks with grass on top.
-
-#### Bugs
