@@ -1,5 +1,6 @@
 package world;
 
+import Items.Item;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,6 +28,7 @@ public class GameMap{
     private GameScene gameScene;
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
+    private ArrayList<Item> itemsList;
     private int playerIndex;
     private int portalIndex;
 
@@ -51,6 +53,7 @@ public class GameMap{
     public GameMap(String mapName, World world, MainGame mainGame, GameScene gameScene) {
         this.entitiesList = new ArrayList<>();
         this.tilesList = new ArrayList<>();
+        this.itemsList = new ArrayList<>();
         this.mapName = mapName;
         this.world = world;
         this.mainGame = mainGame;

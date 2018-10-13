@@ -9,7 +9,7 @@ import world.GameMap;
 public class GameScene implements Screen{
 
     public enum Level{
-        TOWN("img/levels/town.png"), LEVEL1("img/levels/level1.png");
+        TOWN("img/levels/town.png"), LEVEL1("img/levels/level1.png"), CHEST("img/levels/chest.png");
 
         private final String levelPath;
 

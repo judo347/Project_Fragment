@@ -13,7 +13,9 @@ Tiles containing tilesheets and are not sprites
 - Platform needs to be scalable and hold its own height or width, or be rendered differently.
 - Should the Color/Tiles be an enum? YES? Containing: color, sprite/id.
 
+#### Bugs:
 
+Items from chests: flies further the faster the player moves.
 
 #### Maybe:
 

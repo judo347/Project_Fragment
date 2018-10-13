@@ -13,6 +13,9 @@ public class ContactListen implements ContactListener {
     private Portal portal;
     private GameMap gameMap;
 
+    private Object contactObjectAorPlayer; //Is always the player if he is in contact
+    private Object contactObjectB;
+
     public ContactListen(Player player, Portal portal, GameMap gameMap) {
         this.player = player;
         this.gameMap = gameMap;
@@ -27,29 +30,40 @@ public class ContactListen implements ContactListener {
 
     }
 
+    private void setUserDataFromContact(Contact contact){
+        if(contact.getFixtureA().getUserData() == this.player.getDefaultTypeId()){
+            this.contactObjectAorPlayer = contact.getFixtureA().getUserData();
+            this.contactObjectB = contact.getFixtureB().getUserData();
+
+        } else{
+            this.contactObjectB = contact.getFixtureA().getUserData();
+            this.contactObjectAorPlayer = contact.getFixtureB().getUserData();
+        }
+    }
+
     @Override
     public void beginContact(Contact contact) {
 
+        setUserDataFromContact(contact);
+
         //Chest is touched
-        if(EntityType.CHEST.isMatchingDefaultId(contact.getFixtureA().getUserData().toString()) && contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
-            gameMap.openChest(contact.getFixtureA().getUserData().toString());
-        }else if(EntityType.CHEST.isMatchingDefaultId(contact.getFixtureB().getUserData().toString()) && contact.getFixtureA().getUserData() == this.player.getDefaultTypeId()){
-            gameMap.openChest(contact.getFixtureB().getUserData().toString());
+        if(contactObjectAorPlayer == this.player.getDefaultTypeId() && EntityType.CHEST.isMatchingDefaultId(contactObjectB.toString())){
+            gameMap.openChest(contactObjectB.toString());
         }
 
         //Portal is touched
-        if(EntityType.PORTAL.isMatchingDefaultId(contact.getFixtureA().getUserData().toString()) && contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
+        if(EntityType.PORTAL.isMatchingDefaultId(contactObjectB.toString()) && contactObjectAorPlayer == this.player.getDefaultTypeId()){
             //todo do something
-        }else if(EntityType.PORTAL.isMatchingDefaultId(contact.getFixtureB().getUserData().toString()) && contact.getFixtureA().getUserData() == this.player.getDefaultTypeId()){
-            //todo do the same thing
         }
 
         //Floating vendor is touched
-        if(EntityType.VENDOR.isMatchingDefaultId(contact.getFixtureA().getUserData().toString()) && contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
+        if(EntityType.VENDOR.isMatchingDefaultId(contactObjectB.toString()) && contactObjectAorPlayer == this.player.getDefaultTypeId()){
             //todo do something
-        }else if(EntityType.VENDOR.isMatchingDefaultId(contact.getFixtureB().getUserData().toString()) && contact.getFixtureA().getUserData() == this.player.getDefaultTypeId()){
-            //todo do the same thing
         }
+
+        /*
+        //Item is touched
+        if()*/
 
 
         //TODO Maybe update to check for the other object is a tile?
@@ -66,6 +80,8 @@ public class ContactListen implements ContactListener {
 
 
     }
+
+
 
     @Override
     public void endContact(Contact contact) {

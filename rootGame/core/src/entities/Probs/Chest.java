@@ -13,6 +13,7 @@ import entities.Entity;
 import helpers.EntityType;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 //TODO: Render method has to have a texture
 public class Chest extends Entity {
@@ -55,9 +56,20 @@ public class Chest extends Entity {
     /** Method for filling the chest with loot. Should propperly be handled by mapLoader or other class.
      *  And should take either items as parameter or something else. */
     private void fillChest(){
-        this.inventory.add(new Consumable(world, pos, ConsumableType.HEALTH_POTION, 2));
-        //this.inventory.add(new Consumable(world, pos, ConsumableType.MANA_POTION, 1));
-        //this.inventory.add(new Consumable(world, pos, ConsumableType.EXP_POTION, 3));
+
+        //TODO VERY TEMP
+        Random random = new Random();
+        for(int i = 0; i < 5; i++){
+            int tempInt = random.nextInt(3);
+            ConsumableType consumableType;
+            if(tempInt == 0)
+                consumableType = ConsumableType.HEALTH_POTION;
+            else if(tempInt == 1)
+                consumableType = ConsumableType.MANA_POTION;
+            else
+                consumableType = ConsumableType.EXP_POTION;
+            this.inventory.add(new Consumable(world, pos, consumableType, 2));
+        }
     }
 
     /** Gets the sprite based on the state (open/closed). */
@@ -68,12 +80,12 @@ public class Chest extends Entity {
     /** Open the chest. TODO should be used in another way. */
     public void openChest(){
         this.isChestOpen = true;
-        //TODO Apply force to items!!
-        //inventory.get(0).getBody().applyForce(0, 100, 0, 0, true);
-        inventory.get(0).getBody().applyLinearImpulse(new Vector2(0, 10f), new Vector2(pos.x +10 , pos.y + 10), true);
+        for(Item item : inventory){
+            item.drop(pos);
+        }
+    }
 
-        System.out.println("OPEN");
-
-        //player.getBody().applyLinearImpulse(new Vector2(0, 10f), new Vector2(pos.x +10 , pos.y + 10), true);
+    public void removeItem(Item item){
+        inventory.remove(item);
     }
 }

@@ -42,6 +42,7 @@ public class GroundTile extends Sprite {
         FixtureDef fixtureDef = new FixtureDef(); //
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
+        fixtureDef.filter.categoryBits = GameInfo.GROUNDTILE_CATAGORY_BITS;
 
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(id); //Can we called on contact
