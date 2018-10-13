@@ -116,7 +116,7 @@ public class GameMap{
     }
 
     /** Updates game elements, like player movement and spirte/animation. */
-    public void updateElements(float delta){
+    public void update(float delta){
         for(Entity entity : entitiesList){
             entity.update(delta);
         }
@@ -125,7 +125,7 @@ public class GameMap{
     /** Renders all elements in this map. */
     public void render (SpriteBatch batch, float delta){
 
-        updateElements(delta);
+        update(delta);
 
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears the screen
@@ -134,7 +134,7 @@ public class GameMap{
         batch.draw(background,0,0);
 
         for(Entity entity : entitiesList) {
-            entity.render(batch);
+            entity.render(batch, delta);
         }
 
         for(GroundTile groundTile : tilesList){
@@ -144,7 +144,7 @@ public class GameMap{
         batch.end();
 
         //TODO DEBUG RENDERER
-        //debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
+        debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
 
         //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
         // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise

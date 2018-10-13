@@ -8,6 +8,8 @@ public class EntityDimensions {
     public static final Dimensions VENDOR_DIMENSIONS = new Dimensions(32, 64);
     public static final Dimensions CRAFTING_TABLE_DIMENSIONS = new Dimensions(128, 96);
 
+    public static final int ITEM_PIXEL_SIZE = 16;
+
 
     public static class Dimensions{
 

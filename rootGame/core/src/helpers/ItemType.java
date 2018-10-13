@@ -1,20 +1,21 @@
 package helpers;
 
+import com.badlogic.gdx.graphics.Texture;
+import utilities.EntityDimensions;
+
 public enum ItemType {
 
     FRAGMENT("fragment"),
     CONSUMABLE("consumable"),
     EQUIPPABLE("equippable");
-
-    private static final int ITEM_PIXEL_SIZE = 16;
     
     private String id;
     private int width, height;
 
     ItemType(String id){
         this.id = id;
-        this.width = ITEM_PIXEL_SIZE;
-        this.height = ITEM_PIXEL_SIZE;
+        this.width = EntityDimensions.ITEM_PIXEL_SIZE;
+        this.height = EntityDimensions.ITEM_PIXEL_SIZE;
     }
 
     public static ItemType getItemTypeFromString(String string){

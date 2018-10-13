@@ -85,7 +85,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float delta) {
         batch.draw((isInAir) ? getJumpSprite(stateTime) : getVerticalSprite(stateTime), getX() - (getWidth() / 2), getY() - (getHeight() / 2));
     }
 

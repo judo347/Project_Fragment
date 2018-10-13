@@ -11,5 +11,4 @@ public class Portal extends StaticAnimatedProb{
     public Portal(World world, Vector2 pos) {
         super(world, pos, EntityType.PORTAL, StaticAnimatedProbType.PORTAL);
     }
-
 }

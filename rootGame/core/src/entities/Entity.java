@@ -51,7 +51,7 @@ public abstract class Entity {
     public abstract void update(float delta);
 
     /** The method used to render the entity. */
-    public abstract void render (SpriteBatch batch);
+    public abstract void render (SpriteBatch batch, float delta);
 
     public abstract void dispose();
 

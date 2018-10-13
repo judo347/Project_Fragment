@@ -73,7 +73,7 @@ public abstract class StaticAnimatedProb extends Entity{
 
     //TODO: THIS SHOULD BE MADE THE DEAULT.. AND NOT OVERWRITTEN
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float delta) {
         batch.draw(getCurrentFrame(stateTime), getPos().x, getPos().y);
     }
 

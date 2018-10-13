@@ -1,5 +1,5 @@
 # TODO: #
-Consumables -> sizeOfPotion (implement), maybe rename to potions?
+should make object for inventory handling?
 
 Dummy tiles.
 Chest should extend StaticAnimatedProb (and have animations).

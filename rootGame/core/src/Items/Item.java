@@ -1,5 +1,6 @@
 package Items;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,16 +17,16 @@ public abstract class Item{
     private ItemType itemType;
     private Sprite sprite;
 
-    public Item(World world, Vector2 pos, ItemType itemType, String pathToTexture) {
+    public Item(World world, Vector2 pos, ItemType itemType, Texture texture) {
         this.world = world;
         this.pos = pos;
         this.itemType = itemType;
         this.body = createBody(world, pos);
-        this.sprite = new Sprite(new Texture(pathToTexture));
+        this.sprite = new Sprite(texture);
     }
 
     /** Creates the body and fixture for the item. */
-    public Body createBody(World world, Vector2 pos){
+    private Body createBody(World world, Vector2 pos){
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -44,15 +45,20 @@ public abstract class Item{
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(itemType.getId());
 
+        fixture.setSensor(true);
+
         shape.dispose();
 
         return body;
     }
 
-    public abstract void update(float delta);
+    public void update(float delta){
+        this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
+    }
 
     /** The method used to render the item. */
-    public void render (SpriteBatch batch){
+    public void render (SpriteBatch batch, float delta){
+        update(delta);
         batch.draw(sprite, pos.x, pos.y, itemType.getWidth(), itemType.getHeight());
     }
 
@@ -60,4 +66,13 @@ public abstract class Item{
 
     //TODO GETTERS FOR THIS AND ITEMTYPE
     //TODO SET ID?
+
+
+    public Body getBody() {
+        return body;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
 }
