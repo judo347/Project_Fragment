@@ -111,20 +111,20 @@ public class MapLoader {
 
                 if(previousTileType == TileType.WHITE_SPACE){ //The previous pixel is white space = left grass block
                     if(nextTileType == TileType.GROUND_GRASS_MIDDLE);
-                    return new GroundTile(world, TileType.GROUND_GRASS_LEFT, currentPixelPos);
+                    return new GroundTile(world, TileType.GROUND_GRASS_LEFT, currentPixelPos, true);
 
                 }else if(nextTileType == TileType.WHITE_SPACE){ //The next pixel is white space = right grass block
                     if(previousTileType == TileType.GROUND_GRASS_MIDDLE);
-                    return new GroundTile(world, TileType.GROUND_GRASS_RIGHT, currentPixelPos);
+                    return new GroundTile(world, TileType.GROUND_GRASS_RIGHT, currentPixelPos, true);
                 }else{
-                    return new GroundTile(world, TileType.getTypeFromColor(color),currentPixelPos); //TODO null? HANDLE
+                    return new GroundTile(world, TileType.getTypeFromColor(color),currentPixelPos, true); //TODO null? HANDLE
                 }
 
             }else
-                return new GroundTile(world, TileType.getTypeFromColor(color), currentPixelPos); //TODO null? HANDLE
+                return new GroundTile(world, TileType.getTypeFromColor(color), currentPixelPos, false); //TODO null? HANDLE
 
         }else{
-            return new GroundTile(world, TileType.getTypeFromColor(color), currentPixelPos); //TODO null? HANDLE
+            return new GroundTile(world, TileType.getTypeFromColor(color), currentPixelPos, true); //TODO null? HANDLE
         }
     }
 
