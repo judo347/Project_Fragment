@@ -36,9 +36,34 @@ public enum TileType {
     public Texture getPseudoRandomTexture(){
 
         Random random = new Random();
-        int number = random.nextInt(4);
+        int randNumber = random.nextInt(100);
 
         if(this == GROUND_BRICK || this == GROUND_GRASS_MIDDLE){
+
+            int number = 0;
+
+            if(this == GROUND_BRICK){
+                if(randNumber < 79)
+                    number = 0;
+                else if(randNumber < 79 + 8)
+                    number = 1;
+                else if(randNumber < 79 + 8 + 8)
+                    number = 2;
+                else
+                    number = 3;
+            }
+
+            if(this == GROUND_GRASS_MIDDLE){
+                if(randNumber < 88)
+                    number = 0;
+                else if(randNumber < 88 + 4)
+                    number = 1;
+                else if(randNumber < 88 + 4 + 4)
+                    number = 2;
+                else
+                    number = 3;
+            }
+
             System.out.println("FOUND BEFORE" + pathToTile);
             //pathToTile.replace("0.png", number + ".png");
             pathToTile = pathToTile.substring(0, pathToTile.length() - 5);
