@@ -3,6 +3,7 @@ package entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import entities.Charactors.Player;
 import helpers.EntityType;
 import utilities.EntityDimensions;
 import utilities.GameInfo;
@@ -66,8 +67,8 @@ public abstract class Entity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
-        //fixtureDef.friction = 0;
-        //fixtureDef.restitution = 0;
+        fixtureDef.friction = Player.DEFAULT_PLAYER_FRICTION;
+        fixtureDef.restitution = 0.0f;
 
         return fixtureDef;
     }

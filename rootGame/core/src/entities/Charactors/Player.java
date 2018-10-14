@@ -20,6 +20,9 @@ public class Player extends Entity {
     private Sprite sprite;
 
     public boolean isInAir = false;
+    public boolean isPlayerMoving = false;
+    public static final float DEFAULT_PLAYER_FRICTION = 0.8f;
+    public static final float MOVING_PLAYER_FRICTION = 0.2f;
 
     Animation[] verticalMovement;
     public static final float ANIMATION_SPEED = 0.5f;
@@ -143,7 +146,6 @@ public class Player extends Entity {
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             getBody().applyForce(new Vector2(-1f,0), getBody().getWorldCenter(), true); //2nd arg where the force is used, 3rd wake the elements and calculate
 
-
             //Update walk
             setWalkTimer(getWalkTimer() - Gdx.graphics.getDeltaTime());
             if(Math.abs(getWalkTimer()) > WALK_TIMER_SWITCH_TIME){
@@ -172,6 +174,8 @@ public class Player extends Entity {
 
         if(!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             resetVerticalAnimation();
+            body.getFixtureList().get(0).setFriction(DEFAULT_PLAYER_FRICTION);
+            //System.out.println("PLAYER NOT MOVING");
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.E)){
@@ -224,6 +228,8 @@ public class Player extends Entity {
     }
 
     public void setWalkTimer(float walkTimer) {
+        System.out.println("PLAYER IS WALKING");
+        this.body.getFixtureList().get(0).setFriction(MOVING_PLAYER_FRICTION);
         this.walkTimer = walkTimer;
     }
 

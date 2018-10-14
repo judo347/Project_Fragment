@@ -70,18 +70,7 @@ public abstract class Item{
 
     public abstract void dispose();
 
-    //TODO GETTERS FOR THIS AND ITEMTYPE
-    //TODO SET ID?
-
-
-    public Body getBody() {
-        return body;
-    }
-
-    public ItemType getItemType() {
-        return itemType;
-    }
-
+    /** Used when an item is dropped. Chooses a pseudo random direction and applies force to item body.*/
     public void drop(Vector2 pos){
         if(!hasBeenImplused){
 
@@ -91,10 +80,21 @@ public abstract class Item{
             Random random = new Random();
             direction.rotate(random.nextInt(180));
 
-            System.out.println(direction.toString());
-
             hasBeenImplused = true;
             body.applyLinearImpulse(direction, new Vector2(pos.x, pos.y), true);
         }
+    }
+
+    //TODO GETTERS FOR THIS AND ITEMTYPE
+
+    //TODO SET ID?
+
+
+    public Body getBody() {
+        return body;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
     }
 }

@@ -64,17 +64,12 @@ public enum TileType {
                     number = 3;
             }
 
-            System.out.println("FOUND BEFORE" + pathToTile);
-            //pathToTile.replace("0.png", number + ".png");
+            //Replace current texture with the chosen tile
             pathToTile = pathToTile.substring(0, pathToTile.length() - 5);
             pathToTile = pathToTile + number + ".png";
-
-            System.out.println("FOUND AFTERR" + pathToTile);
             return new Texture(pathToTile);
         }
 
-
-        System.out.println(pathToTile);
         return new Texture(pathToTile);
     }
 
