@@ -49,7 +49,7 @@ public abstract class Item{
         fixtureDef.filter.maskBits = GameInfo.GROUNDTILE_CATAGORY_BITS; // Only collide with groundTile!
 
         Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(itemType.getId());
+        fixture.setUserData(this);
 
         fixture.setSensor(false);
 

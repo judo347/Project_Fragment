@@ -1,5 +1,6 @@
 package entities.Charactors;
 
+import Items.Item;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,6 +14,9 @@ import helpers.EntityType;
 import utilities.GameInfo;
 import entities.Entity;
 import world.GameMap;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player extends Entity {
 
@@ -38,6 +42,8 @@ public class Player extends Entity {
     private float stateTime;
 
     private GameMap gameMap;
+
+    private ArrayList<Item> inventory = new ArrayList<>();
 
     private static final float FEET_OFFSET = -0.35f;
     public static final String FEET_ID = "feet";
@@ -146,6 +152,8 @@ public class Player extends Entity {
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             getBody().applyForce(new Vector2(-1f,0), getBody().getWorldCenter(), true); //2nd arg where the force is used, 3rd wake the elements and calculate
 
+            //getBody().setLinearVelocity(new Vector2(-1f,0));
+
             //Update walk
             setWalkTimer(getWalkTimer() - Gdx.graphics.getDeltaTime());
             if(Math.abs(getWalkTimer()) > WALK_TIMER_SWITCH_TIME){
@@ -172,10 +180,12 @@ public class Player extends Entity {
             }
         }
 
+        //Not moving
         if(!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             resetVerticalAnimation();
             body.getFixtureList().get(0).setFriction(DEFAULT_PLAYER_FRICTION);
             //System.out.println("PLAYER NOT MOVING");
+            //body.setLinearVelocity(new Vector2(0,0));
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.E)){
@@ -228,7 +238,6 @@ public class Player extends Entity {
     }
 
     public void setWalkTimer(float walkTimer) {
-        System.out.println("PLAYER IS WALKING");
         this.body.getFixtureList().get(0).setFriction(MOVING_PLAYER_FRICTION);
         this.walkTimer = walkTimer;
     }
@@ -253,5 +262,15 @@ public class Player extends Entity {
 
     public TextureRegion getJumpSprite(float stateTime) {
         return (inAirTime > 0.14f) ? (TextureRegion)jumpMovement[1].getKeyFrame(stateTime, true) : (TextureRegion)jumpMovement[0].getKeyFrame(stateTime, true);
+    }
+
+    /** Adds the given item to the players inventory.
+     *  @return true if item was added, false if action failed. */
+    public boolean addItemToInventory(Item ... item){
+
+        //TODO maybe check if inventory is full or something?
+        inventory.addAll(Arrays.asList(item));
+
+        return true;
     }
 }

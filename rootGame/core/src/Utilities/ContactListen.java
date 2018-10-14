@@ -1,5 +1,7 @@
 package utilities;
 
+import Items.Consumable;
+import Items.Item;
 import com.badlogic.gdx.physics.box2d.*;
 import entities.Charactors.Player;
 import entities.Entity;
@@ -68,9 +70,13 @@ public class ContactListen implements ContactListener {
                 || contactObjectB.toString().equals(Player.FEET_ID)  && contactObjectAorPlayer.toString().equals(GroundTile.id))
             this.player.isInAir = false;
 
-        /*
+        System.out.println(contactObjectAorPlayer);
+        System.out.println(contactObjectB);
+
         //Item is touched
-        if()*/
+        if(contactObjectAorPlayer == this.player.getDefaultTypeId() && contactObjectB instanceof Consumable){
+            System.out.println("ITEM TOUCHED");
+        }
 
 
         //TODO Maybe update to check for the other object is a tile?

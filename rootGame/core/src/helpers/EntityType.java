@@ -45,7 +45,7 @@ public enum EntityType {
 
         switch (getTypeFromColor(color)){
             case PLAYER:            return new Player(gameMap, world, pos);
-            case CHEST:             return new Chest(world, pos); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
+            case CHEST:             return new Chest(world, pos, gameMap); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
             case PORTAL:            return new Portal(world, pos);
             case VENDOR:            return new Vendor(world, pos);
             case CRAFTING_TABLE:    return new CraftingTable(world, pos);

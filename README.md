@@ -1,4 +1,16 @@
 # TODO: #
+##### Player movement REWORK!
+
+- USE when player is not moving: body.setLinearVelocity(new Vector2(0,0));
+- USE when player is moving: getBody().setLinearVelocity(new Vector2(-1f,0));
+- Maybe fix friction?
+
+ContactListener not working on items: FIX!
+
+should all fixture.setUserData(this); be like that? Make them like that.
+
+Maybe create maskBits and such for all?
+
 should make object for inventory handling?
 Chest should extend StaticAnimatedProb (and have animations).
 Implement menus for portal (level select) and vendor (shops).

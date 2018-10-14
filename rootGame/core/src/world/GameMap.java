@@ -28,7 +28,7 @@ public class GameMap{
     private GameScene gameScene;
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
-    private ArrayList<Item> itemsList;
+    private ArrayList<Item> droppedItemsList;
     private int playerIndex;
     private int portalIndex;
 
@@ -53,7 +53,7 @@ public class GameMap{
     public GameMap(String mapName, World world, MainGame mainGame, GameScene gameScene) {
         this.entitiesList = new ArrayList<>();
         this.tilesList = new ArrayList<>();
-        this.itemsList = new ArrayList<>();
+        this.droppedItemsList = new ArrayList<>();
         this.mapName = mapName;
         this.world = world;
         this.mainGame = mainGame;
@@ -144,10 +144,13 @@ public class GameMap{
             groundTile.render(batch);
         }
 
+        for(Item item : droppedItemsList)
+            item.render(batch, delta);
+
         batch.end();
 
         //TODO DEBUG RENDERER
-        //debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
+        debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
 
         //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
         // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
@@ -164,6 +167,9 @@ public class GameMap{
         for(GroundTile groundTile : tilesList){
             groundTile.dispose();
         }
+
+        for(Item item : droppedItemsList)
+            item.dispose();
     }
 
     public ArrayList<Entity> getEntitiesList() {
@@ -210,5 +216,9 @@ public class GameMap{
     public void setScreenLevel(){
         //this.mainGame.setScreen(new LevelScene(mainGame, world));
         this.gameScene.changeLevel(GameScene.Level.LEVEL1);
+    }
+
+    public void addAllDroppedItems(ArrayList<Item> droppedItems){
+        droppedItemsList.addAll(droppedItems);
     }
 }
