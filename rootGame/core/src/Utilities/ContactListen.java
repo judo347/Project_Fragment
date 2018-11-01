@@ -70,8 +70,8 @@ public class ContactListen implements ContactListener {
                 || contactObjectB.toString().equals(Player.FEET_ID)  && contactObjectAorPlayer.toString().equals(GroundTile.id))
             this.player.isInAir = false;
 
-        System.out.println(contactObjectAorPlayer);
-        System.out.println(contactObjectB);
+        //System.out.println(contactObjectAorPlayer);
+        //System.out.println(contactObjectB);
 
         //Item is touched
         if(contactObjectAorPlayer == this.player.getDefaultTypeId() && contactObjectB instanceof Consumable){

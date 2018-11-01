@@ -150,7 +150,7 @@ public class GameMap{
         batch.end();
 
         //TODO DEBUG RENDERER
-        debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
+        //debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
 
         //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
         // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
