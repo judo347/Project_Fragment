@@ -39,22 +39,6 @@ public abstract class Item{
 
         Body body = world.createBody(bodyDef);
 
-        FixtureDef fixtureDef = getFixtureDef(false);
-        Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(this);
-
-        fixture.setSensor(false);
-
-
-
-        return body;
-    }
-
-    private FixtureDef getFixtureDef(boolean touchable){
-
-        if(body != null)
-            body.getFixtureList().clear();
-
         PolygonShape shape = new PolygonShape();
         shape.setAsBox((itemType.getWidth() / 2) / GameInfo.PPM, (itemType.getHeight() / 2) / GameInfo.PPM);
 
@@ -62,17 +46,16 @@ public abstract class Item{
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
 
-        if(!touchable)
-            fixtureDef.filter.maskBits = GameInfo.GROUNDTILE_CATAGORY_BITS; // Only collide with groundTile!
+        fixtureDef.filter.maskBits = GameInfo.GROUNDTILE_CATAGORY_BITS; // Only collide with groundTile!
 
-        return fixtureDef;
-    }
+        Fixture fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(this);
 
+        fixture.setSensor(false);
 
+        shape.dispose();
 
-    private void setTouchable(){
-
-        body.getFixtureList().get(0).setSensor(true);
+        return body;
     }
 
     public void update(float delta){
@@ -90,8 +73,6 @@ public abstract class Item{
     /** Used when an item is dropped. Chooses a pseudo random direction and applies force to item body.*/
     public void drop(Vector2 pos){
         if(!hasBeenImplused){
-
-            setTouchable();
 
             //Pick a random upwards direction
             //Vector2 direction = new Vector2(0.00001f, 0);
