@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import main.MainGame;
@@ -29,6 +30,7 @@ public class GameMap{
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
     private ArrayList<Item> droppedItemsList;
+    private ArrayList<Item> itemsToBeDropped;
     private int playerIndex;
     private int portalIndex;
 
@@ -54,6 +56,7 @@ public class GameMap{
         this.entitiesList = new ArrayList<>();
         this.tilesList = new ArrayList<>();
         this.droppedItemsList = new ArrayList<>();
+        this.itemsToBeDropped = new ArrayList<>();
         this.mapName = mapName;
         this.world = world;
         this.mainGame = mainGame;
@@ -118,6 +121,32 @@ public class GameMap{
         return -1; //no player exists //TODO exception!!
     }
 
+    /** Drops all items in itemsToBeDropped. */
+    public void dropItemsProcess(){
+        if(itemsToBeDropped.size() != 0){
+
+            for(Item item : new ArrayList<>(itemsToBeDropped)){
+
+                // Get nessesary tings
+                World itemsWorld = item.getWorld();
+                Vector2 pos = item.getInputPos();
+                //Destroy old body
+                item.destroyBody();
+
+                //Add new body
+                item.createAndSetBodyTouchable(itemsWorld, pos);
+                //Add that item to the itemsDroppedList
+                this.droppedItemsList.add(item);
+
+                //Remove item from remove list
+                itemsToBeDropped.remove(item); //TODO Check: does this remove item, or is not found?
+
+                //Activate item drop method
+                item.drop(pos);
+            }
+        }
+    }
+
     /** Updates game elements, like player movement and spirte/animation. */
     public void update(float delta){
         for(Entity entity : entitiesList){
@@ -127,6 +156,8 @@ public class GameMap{
 
     /** Renders all elements in this map. */
     public void render (SpriteBatch batch, float delta){
+
+        dropItemsProcess();
 
         update(delta);
 
@@ -219,6 +250,6 @@ public class GameMap{
     }
 
     public void addAllDroppedItems(ArrayList<Item> droppedItems){
-        droppedItemsList.addAll(droppedItems);
+        itemsToBeDropped.addAll(droppedItems);
     }
 }
