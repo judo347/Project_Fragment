@@ -22,6 +22,7 @@ import utilities.GameInfo;
 import scenes.GameScene;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GameMap{
 
@@ -31,6 +32,7 @@ public class GameMap{
     private ArrayList<GroundTile> tilesList;
     private ArrayList<Item> droppedItemsList;
     private ArrayList<Item> itemsToBeDropped;
+    private ArrayList<Item> playerPickupQueue; //TODO maybe create other item type, only display.
     private int playerIndex;
     private int portalIndex;
 
@@ -57,6 +59,7 @@ public class GameMap{
         this.tilesList = new ArrayList<>();
         this.droppedItemsList = new ArrayList<>();
         this.itemsToBeDropped = new ArrayList<>();
+        this.playerPickupQueue = new ArrayList<>();
         this.mapName = mapName;
         this.world = world;
         this.mainGame = mainGame;
@@ -158,6 +161,7 @@ public class GameMap{
     public void render (SpriteBatch batch, float delta){
 
         dropItemsProcess();
+        givePlayerPickups();
 
         update(delta);
 
@@ -251,5 +255,23 @@ public class GameMap{
 
     public void addAllDroppedItems(ArrayList<Item> droppedItems){
         itemsToBeDropped.addAll(droppedItems);
+    }
+
+    public void addItemToPlayerPickup(Item item){
+        droppedItemsList.remove(item);
+        playerPickupQueue.add(item);
+    }
+
+    private void givePlayerPickups(){
+
+        while(playerPickupQueue.size() != 0){
+
+            for(Item item : new ArrayList<>(playerPickupQueue)){
+                getPlayer().addItemToInventory(item);
+                playerPickupQueue.remove(item);
+            }
+        }
+
+        playerPickupQueue = new ArrayList<>();
     }
 }

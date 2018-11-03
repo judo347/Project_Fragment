@@ -198,6 +198,8 @@ public class Player extends Entity {
     /** Handles sprite movement with body. */
     public void updatePlayer(float deltaTime){
 
+        System.out.println("Player inventory size: " + inventory.size());
+
         this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
         this.feet.getPosition().set(pos.x * GameInfo.PPM, pos.y * GameInfo.PPM);
 
@@ -267,6 +269,10 @@ public class Player extends Entity {
     /** Adds the given item to the players inventory.
      *  @return true if item was added, false if action failed. */
     public boolean addItemToInventory(Item ... item){
+
+        for(Item itemObj : item){
+            itemObj.destroyBody();
+        }
 
         //TODO maybe check if inventory is full or something?
         inventory.addAll(Arrays.asList(item));
