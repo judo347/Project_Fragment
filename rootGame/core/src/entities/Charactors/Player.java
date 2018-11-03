@@ -198,8 +198,6 @@ public class Player extends Entity {
     /** Handles sprite movement with body. */
     public void updatePlayer(float deltaTime){
 
-        System.out.println("Player inventory size: " + inventory.size());
-
         this.sprite.setPosition(body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
         this.feet.getPosition().set(pos.x * GameInfo.PPM, pos.y * GameInfo.PPM);
 
