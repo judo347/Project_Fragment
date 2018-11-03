@@ -268,6 +268,10 @@ public class Player extends Entity {
      *  @return true if item was added, false if action failed. */
     public boolean addItemToInventory(Item ... item){
 
+        //Destroy bodies of items picked up.
+        for(Item itemObj : item)
+            itemObj.destroyBody();
+
         //TODO maybe check if inventory is full or something?
         inventory.addAll(Arrays.asList(item));
 

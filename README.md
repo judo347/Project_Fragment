@@ -1,4 +1,6 @@
 # TODO: #
+Maybe another item when picked up?  Item -> pickup -> SOMETHINGELSE?
+
 ##### Player movement REWORK!
 
 - USE when player is not moving: body.setLinearVelocity(new Vector2(0,0));
@@ -23,6 +25,8 @@ Tiles containing tilesheets and are not sprites
 - Should the Color/Tiles be an enum? YES? Containing: color, sprite/id.
 
 #### Improvements:
+
+Items: should not have a body until dropped.
 
 Dummy tiles should not be at bottom.
 
