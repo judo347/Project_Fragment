@@ -26,6 +26,8 @@ Tiles containing tilesheets and are not sprites
 
 #### Improvements:
 
+Items: should not have a body until dropped.
+
 Dummy tiles should not be at bottom.
 
 Movement not based on FPS
