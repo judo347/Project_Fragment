@@ -69,16 +69,9 @@ public class ContactListen implements ContactListener {
             }
 
             //Item is touched
-            if(contactObjectB instanceof Item){
-                System.out.println("ITEM TOUCHED");
+            if(contactObjectB instanceof Item)
                 gameMap.addItemToPlayerPickup((Item)contactObjectB);
-            }
         }
-
-
-
-
-
 
 
         //Feet is touching Ground

@@ -1,4 +1,6 @@
 # TODO: #
+Maybe another item when picked up?  Item -> pickup -> SOMETHINGELSE?
+
 ##### Player movement REWORK!
 
 - USE when player is not moving: body.setLinearVelocity(new Vector2(0,0));

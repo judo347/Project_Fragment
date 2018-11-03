@@ -90,6 +90,7 @@ public class Chest extends Entity {
         this.inventory = new ArrayList<>();
     }
 
+    /** Removes the given item from the chests inventory. */
     public void removeItem(Item item){
         inventory.remove(item);
     }

@@ -22,7 +22,6 @@ import utilities.GameInfo;
 import scenes.GameScene;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameMap{
 
@@ -124,20 +123,23 @@ public class GameMap{
         return -1; //no player exists //TODO exception!!
     }
 
-    /** Drops all items in itemsToBeDropped. */
-    public void dropItemsProcess(){
+    /** Drops all items in itemsToBeDropped.
+     * Items: itemsToBeDropped -> droppedItemsList. */
+    private void dropItemsProcess(){
         if(itemsToBeDropped.size() != 0){
 
             for(Item item : new ArrayList<>(itemsToBeDropped)){
 
-                // Get nessesary tings
+                // Get necessary properties
                 World itemsWorld = item.getWorld();
                 Vector2 pos = item.getInputPos();
+
                 //Destroy old body
                 item.destroyBody();
 
                 //Add new body
                 item.createAndSetBodyTouchable(itemsWorld, pos);
+
                 //Add that item to the itemsDroppedList
                 this.droppedItemsList.add(item);
 
@@ -151,7 +153,7 @@ public class GameMap{
     }
 
     /** Updates game elements, like player movement and spirte/animation. */
-    public void update(float delta){
+    private void update(float delta){
         for(Entity entity : entitiesList){
             entity.update(delta);
         }
@@ -253,15 +255,18 @@ public class GameMap{
         this.gameScene.changeLevel(GameScene.Level.LEVEL1);
     }
 
+    /** Takes a list of items and added them to itemsToBeDropped list. */
     public void addAllDroppedItems(ArrayList<Item> droppedItems){
         itemsToBeDropped.addAll(droppedItems);
     }
 
+    /** Moves the given item from the droppedItemsList -> palyerPickupQueue. */
     public void addItemToPlayerPickup(Item item){
         droppedItemsList.remove(item);
         playerPickupQueue.add(item);
     }
 
+    /** Moves all items in playerPickupQueue into the players inventory. */
     private void givePlayerPickups(){
 
         while(playerPickupQueue.size() != 0){
