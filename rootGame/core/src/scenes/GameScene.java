@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import main.MainGame;
+import ui.PlayAround;
 import world.GameMap;
 
 public class GameScene implements Screen{
@@ -23,6 +24,8 @@ public class GameScene implements Screen{
     private World world;
     private Level currentLevel;
 
+   // private PlayAround playAround;
+
     float stateTime;//Will be added up every frame while performing a task // How long an animation has been running
 
     public GameScene(MainGame game){
@@ -35,6 +38,7 @@ public class GameScene implements Screen{
         this.stateTime = 0f;
         this.world = new World(new Vector2(0,-9.8f), true); //Creating a world with gravity, true allows sleep = Dont calculate when nothing happens to elements.
         this.gameMap = new GameMap(currentLevel.levelPath, world, game, this);
+        //playAround = new PlayAround();
     }
 
     public void changeLevel(Level level){
@@ -47,6 +51,9 @@ public class GameScene implements Screen{
 
         stateTime += delta;
         gameMap.render(game.getBatch(), delta);
+
+        //playAround.getStage().act();
+        //playAround.getStage().draw();
     }
 
     @Override
