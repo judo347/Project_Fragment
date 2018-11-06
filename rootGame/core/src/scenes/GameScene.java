@@ -4,18 +4,27 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import main.MainGame;
-import ui.PlayAround;
 import world.GameMap;
 
 public class GameScene implements Screen{
 
     public enum Level{
-        TOWN("img/levels/town.png"), LEVEL1("img/levels/level1.png"), CHEST("img/levels/chest.png");
+        TOWN("img/levels/town.png", "Town"), LEVEL1("img/levels/level1.png", "Level 1"), CHEST("img/levels/chest.png", "Level 2");
 
-        private final String levelPath;
+        private final String path;
+        private final String name;
 
-        Level(String levelPath) {
-            this.levelPath = levelPath;
+        Level(String path, String name) {
+            this.path = path;
+            this.name = name;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 
@@ -37,7 +46,7 @@ public class GameScene implements Screen{
     private void initialize(){
         this.stateTime = 0f;
         this.world = new World(new Vector2(0,-9.8f), true); //Creating a world with gravity, true allows sleep = Dont calculate when nothing happens to elements.
-        this.gameMap = new GameMap(currentLevel.levelPath, world, game, this);
+        this.gameMap = new GameMap(currentLevel.path, world, game, this);
         //playAround = new PlayAround();
     }
 

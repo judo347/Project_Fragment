@@ -11,8 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import javafx.scene.control.Tab;
+import scenes.GameScene;
 import utilities.GameInfo;
 import utilities.ResourceManager;
+import world.GameMap;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Ui implements Disposable {
 
@@ -45,8 +51,20 @@ public class Ui implements Disposable {
         levelSelector.getTable().left();
 
         //levelSelector.setContent(); //TODO ADD CONTENT
+        System.out.println(getAllLevels());
 
         return levelSelector.getTable();
+    }
+
+    /** @return a list of the names of all levels. */
+    private ArrayList<String> getAllLevels(){
+
+        ArrayList<String> levelNames = new ArrayList<>();
+
+        for (GameScene.Level level : GameScene.Level.values())
+            levelNames.add(level.getName());
+
+        return levelNames;
     }
 
     private Table getInventoryTable(){
