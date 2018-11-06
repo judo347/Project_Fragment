@@ -1,9 +1,11 @@
 package ui;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import utilities.ResourceManager;
 
 public class UiTable{
@@ -30,7 +32,12 @@ public class UiTable{
         rootTable.row();
 
         rootTable.add(new Image(rm.boxLeft)).minSize(rm.boxSize,rm.boxSize).expandY().fill();
-        rootTable.add(new Image(rm.boxMiddle)).minSize(rm.boxSize,rm.boxSize).expandY().fill();
+
+        contentTable = new Table();
+        //rootTable.add(new Image(rm.boxMiddle)).minSize(rm.boxSize,rm.boxSize).expandY().fill();
+        contentTable.setBackground(new TextureRegionDrawable(rm.boxMiddle));
+        rootTable.add(contentTable).fill();
+
         rootTable.add(new Image(rm.boxRight)).minSize(rm.boxSize,rm.boxSize).expandY().fill();
 
         rootTable.row();
@@ -39,7 +46,7 @@ public class UiTable{
         rootTable.add(new Image(rm.boxDown)).minSize(rm.boxSize,rm.boxSize);
         rootTable.add(new Image(rm.boxDownRight)).size(rm.boxSize,rm.boxSize);
 
-        System.out.println("Table is set up!"); //TODO TEMP
+        //System.out.println("Table is set up!"); //TODO TEMP
     }
 
     //TODO

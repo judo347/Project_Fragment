@@ -28,7 +28,7 @@ public class ResourceManager {
     public TextureRegion boxDownLeft;
     public TextureRegion boxLeft;
     public TextureRegion boxMiddle;
-    public static int boxSize;
+    public int boxSize;
 
     public Texture texuture; //TODO textures
 
