@@ -28,6 +28,7 @@ public class ResourceManager {
     public TextureRegion boxDownLeft;
     public TextureRegion boxLeft;
     public TextureRegion boxMiddle;
+    public static int boxSize;
 
     public Texture texuture; //TODO textures
 
@@ -55,15 +56,17 @@ public class ResourceManager {
 
     private void setUiBox(){
         boxAtlas = assetManager.get("ui/img/box/box.atlas");
-        boxTopLeft = boxAtlas.findRegion("topleft");
-        boxTop = boxAtlas.findRegion("top");
-        boxTopRight = boxAtlas.findRegion("topright");
+        boxTopLeft = boxAtlas.findRegion("upleft");
+        boxTop = boxAtlas.findRegion("up");
+        boxTopRight = boxAtlas.findRegion("upright");
         boxRight = boxAtlas.findRegion("right");
         boxDownRight = boxAtlas.findRegion("downright");
         boxDown = boxAtlas.findRegion("down");
         boxDownLeft = boxAtlas.findRegion("downleft");
         boxLeft = boxAtlas.findRegion("left");
         boxMiddle = boxAtlas.findRegion("middle");
+        boxSize = boxDown.getRegionHeight();
+        System.out.println(boxSize);
     }
 
 

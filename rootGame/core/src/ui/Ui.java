@@ -1,32 +1,49 @@
 package ui;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import javafx.scene.control.Tab;
+import utilities.GameInfo;
 import utilities.ResourceManager;
 
 public class Ui implements Disposable {
 
+    //https://github.com/libgdx/libgdx/wiki/Table
 
+    private ResourceManager rm;
     private Stage stage;
-    private Table table;
+    private Table rootTable;
+
 
 
     public Ui(ResourceManager rm) {
-        stage = new Stage();
-        table = new Table();
-        table.setFillParent(true);
-        table.setDebug(true); //TODO for debugging
-        stage.addActor(table);
+        this.rm = rm;
+
+        stage = new Stage(new ScreenViewport());
+        stage.addActor(getLevelSelector());
 
         Skin skin = rm.skin;
 
         final TextButton button = new TextButton("Click Me!", skin, "default");
-        table.add(button);
+        //rootTable.add(button);
 
         //Gdx.input.setInputProcessor(stage);
+    }
+
+    private Table getLevelSelector(){
+
+        UiTable levelSelector = new UiTable(rm);
+        levelSelector.getTable().left();
+
+        return levelSelector.getTable();
     }
 
     public void render(){
@@ -34,6 +51,9 @@ public class Ui implements Disposable {
         stage.draw();
     }
 
+    public void resize(int width, int height){
+        stage.getViewport().update(width, height, true);
+    }
 
     @Override
     public void dispose() {
