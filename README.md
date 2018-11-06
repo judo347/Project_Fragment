@@ -26,6 +26,8 @@ Tiles containing tilesheets and are not sprites
 
 #### Improvements:
 
+Items in chests: their start pos should be in the middle of the chest and not in the left side
+
 AssetLoader
 
 Items: should not have a body until dropped.
