@@ -33,7 +33,7 @@ public class MainGame extends Game {
 
 		//table.add(new Dialog("hello", new Window.WindowStyle()));
 		//table.add(new Dialog("hello", new Window.WindowStyle()));
-        Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("ui/skin/uiskin.json"));
         final TextButton button = new TextButton("Click Me!", skin, "default");
 	    table.add(button);
 	}
@@ -50,4 +50,14 @@ public class MainGame extends Game {
     public SpriteBatch getBatch() {
         return this.batch;
     }
+
+    /*
+    TextureAtlas mAtlas;
+    TextureRegionDrawable drawableUp = new TextureRegionDrawable( mAtlas.findRegion("up") );
+    TextureRegionDrawable drawableDown = new TextureRegionDrawable( mAtlas.findRegion("down") );
+    TextureRegionDrawable drawableChecked = new TextureRegionDrawable( mAtlas.findRegion("checked") );
+
+    ButtonStyle btnStyle = new ButtonStyle(drawableUp, drawableDown, drawableChecked);
+    Button t = new Button(btnStyle);
+    */
 }
