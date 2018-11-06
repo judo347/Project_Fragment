@@ -28,7 +28,8 @@ public class Ui implements Disposable {
         this.rm = rm;
 
         stage = new Stage(new ScreenViewport());
-        stage.addActor(getLevelSelector());
+        stage.addActor(getLevelSelectorTable());
+        //stage.addActor(getInventoryTable());
 
         Skin skin = rm.skin;
 
@@ -38,12 +39,23 @@ public class Ui implements Disposable {
         //Gdx.input.setInputProcessor(stage);
     }
 
-    private Table getLevelSelector(){
+    private Table getLevelSelectorTable(){
 
         UiTable levelSelector = new UiTable(rm);
         levelSelector.getTable().left();
 
+        //levelSelector.setContent(); //TODO ADD CONTENT
+
         return levelSelector.getTable();
+    }
+
+    private Table getInventoryTable(){
+
+        UiTable inventoryTable = new UiTable(rm);
+
+        //levelSelector.setContent(); //TODO ADD CONTENT
+
+        return inventoryTable.getTable();
     }
 
     public void render(){

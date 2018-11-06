@@ -1,19 +1,21 @@
 package ui;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import utilities.ResourceManager;
 
+//https://github.com/libgdx/libgdx/wiki/Table
+
 public class UiTable{
 
-    Table rootTable;
     ResourceManager rm;
 
+    Table rootTable;
     Table contentTable;
+
+    private static final int edgePadding = 30;
 
     public UiTable(ResourceManager rm){
         this.rm = rm;
@@ -25,26 +27,26 @@ public class UiTable{
         rootTable.setFillParent(true);
         rootTable.setDebug(true); //TODO temp
 
-        rootTable.add(new Image(rm.boxTopLeft)).size(rm.boxSize,rm.boxSize);
-        rootTable.add(new Image(rm.boxTop)).minSize(rm.boxSize,rm.boxSize);
-        rootTable.add(new Image(rm.boxTopRight)).size(rm.boxSize,rm.boxSize);
+        rootTable.add(new Image(rm.boxTopLeft)).size(rm.boxSize,rm.boxSize).padTop(edgePadding).padLeft(edgePadding);
+        rootTable.add(new Image(rm.boxTop)).minSize(rm.boxSize,rm.boxSize).padTop(edgePadding);
+        rootTable.add(new Image(rm.boxTopRight)).size(rm.boxSize,rm.boxSize).padTop(edgePadding).padRight(edgePadding);
 
         rootTable.row();
 
-        rootTable.add(new Image(rm.boxLeft)).minSize(rm.boxSize,rm.boxSize).expandY().fill();
+        rootTable.add(new Image(rm.boxLeft)).minSize(rm.boxSize,rm.boxSize).expandY().fill().padLeft(edgePadding);
 
         contentTable = new Table();
         //rootTable.add(new Image(rm.boxMiddle)).minSize(rm.boxSize,rm.boxSize).expandY().fill();
         contentTable.setBackground(new TextureRegionDrawable(rm.boxMiddle));
         rootTable.add(contentTable).fill();
 
-        rootTable.add(new Image(rm.boxRight)).minSize(rm.boxSize,rm.boxSize).expandY().fill();
+        rootTable.add(new Image(rm.boxRight)).minSize(rm.boxSize,rm.boxSize).expandY().fill().padRight(edgePadding);
 
         rootTable.row();
 
-        rootTable.add(new Image(rm.boxDownLeft)).size(rm.boxSize,rm.boxSize);
-        rootTable.add(new Image(rm.boxDown)).minSize(rm.boxSize,rm.boxSize);
-        rootTable.add(new Image(rm.boxDownRight)).size(rm.boxSize,rm.boxSize);
+        rootTable.add(new Image(rm.boxDownLeft)).size(rm.boxSize,rm.boxSize).padLeft(edgePadding).padBottom(edgePadding);
+        rootTable.add(new Image(rm.boxDown)).minSize(rm.boxSize,rm.boxSize).padBottom(edgePadding);
+        rootTable.add(new Image(rm.boxDownRight)).size(rm.boxSize,rm.boxSize).padRight(edgePadding).padBottom(edgePadding);
 
         //System.out.println("Table is set up!"); //TODO TEMP
     }
