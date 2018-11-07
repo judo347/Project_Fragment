@@ -103,7 +103,7 @@ public class UiManager implements Disposable {
             button.addListener(new ChangeListener() { //TODO is maybe not working
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    showUi = false;
+                    removeAndHideUi();
                     gameScene.changeLevel(level);
                 }
             });
@@ -111,6 +111,11 @@ public class UiManager implements Disposable {
         }
 
         return buttons;
+    }
+
+    private void removeAndHideUi(){
+        showUi = false;
+        stage.clear();
     }
 
     /** @return a list of the names of all levels. */
