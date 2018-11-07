@@ -11,12 +11,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.EntityType;
+import helpers.Inventory;
 import utilities.GameInfo;
 import entities.Entity;
 import world.GameMap;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Player extends Entity {
 
@@ -43,7 +41,7 @@ public class Player extends Entity {
 
     private GameMap gameMap;
 
-    private ArrayList<Item> inventory = new ArrayList<>();
+    private Inventory inventory;
 
     private static final float FEET_OFFSET = -0.35f;
     public static final String FEET_ID = "feet";
@@ -71,6 +69,8 @@ public class Player extends Entity {
         this.body.setLinearDamping(0);
 
         setUpAnimations();
+
+        this.inventory = new Inventory();
     }
 
     /** Creates the body for the feet of the player. */
@@ -266,15 +266,7 @@ public class Player extends Entity {
 
     /** Adds the given item to the players inventory.
      *  @return true if item was added, false if action failed. */
-    public boolean addItemToInventory(Item ... item){
-
-        //Destroy bodies of items picked up.
-        for(Item itemObj : item)
-            itemObj.destroyBody();
-
-        //TODO maybe check if inventory is full or something?
-        inventory.addAll(Arrays.asList(item));
-
-        return true;
+    public void addItemToInventory(Item ... items){
+        this.inventory.addItems(items);
     }
 }
