@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class ResourceManager {
 
@@ -30,6 +31,21 @@ public class ResourceManager {
     public TextureRegion boxMiddle;
     public int boxSize;
 
+    //ITEMS
+        //Consumables //TODO Rewrite to use atlas when there is different images for sizes
+    public Texture consumableHpSmall;
+    public Texture consumableHpMedium;
+    public Texture consumableHpLarge;
+    public Texture consumableManaSmall;
+    public Texture consumableManaMedium;
+    public Texture consumableManaLarge;
+    public Texture consumableExpSmall;
+    public Texture consumableExpMedium;
+    public Texture consumableExpLarge;
+
+    //PLACEHOLDERS
+    public Texture blackSquare16;
+
     public Texture texuture; //TODO textures
 
     public Sound dead, jump; //TODO sounds
@@ -50,6 +66,8 @@ public class ResourceManager {
 
         //Set fields
         setUiBox();
+        setConsumables();
+        setPlaceholders();
         skin = new Skin(Gdx.files.internal("ui/skin/uiskin.json"));
         //TODO more..
     }
@@ -69,13 +87,27 @@ public class ResourceManager {
         System.out.println(boxSize);
     }
 
+    private void setConsumables(){
+        consumableHpSmall = new Texture("img/items/consumables/flask_hp.png");
+        consumableHpMedium = new Texture("img/items/consumables/flask_hp.png");
+        consumableHpLarge = new Texture("img/items/consumables/flask_hp.png");
+        consumableManaSmall = new Texture("img/items/consumables/flask_mana.png");
+        consumableManaMedium = new Texture("img/items/consumables/flask_mana.png");
+        consumableManaLarge = new Texture("img/items/consumables/flask_mana.png");
+        consumableExpSmall = new Texture("img/items/consumables/flask_exp.png");
+        consumableExpMedium = new Texture("img/items/consumables/flask_exp.png");
+        consumableExpLarge = new Texture("img/items/consumables/flask_exp.png");
+    }
 
+    private void setPlaceholders(){
+        blackSquare16 = new Texture("img/placeholder/blackSquare16.png");
+    }
 
     /** Disposes all needed assets. */
     public void dispose(){
-        assetManager.dispose();
         boxAtlas.dispose();
         skin.dispose();
+        assetManager.dispose();
         //TODO add
     }
 }

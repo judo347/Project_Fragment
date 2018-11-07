@@ -13,6 +13,7 @@ import utilities.GameInfo;
 import utilities.ResourceManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UiManager implements Disposable {
 
@@ -25,7 +26,7 @@ public class UiManager implements Disposable {
     private Skin skin;
     private boolean showUi = false;
 
-    private final int NUMBER_OF_VERTICAL_INVENTORY_CELLS = 10;
+    private final int NUMBER_OF_VERTICAL_INVENTORY_CELLS = 0;
 
     public enum UiType{
         INVENTORY, LEVEL_SELECTOR;
@@ -43,7 +44,7 @@ public class UiManager implements Disposable {
     }
 
     /** @param uiType the UI you want shown. */
-    public void showElement(UiType uiType){
+    public void showElement(UiType uiType, Inventory inventory){
 
         stage.clear();
 
@@ -54,7 +55,7 @@ public class UiManager implements Disposable {
             stage.addActor(getLevelSelectorTable());
         }else if(uiType == UiType.INVENTORY){
             showUi = true;
-            stage.addActor(getInventoryTable());
+            stage.addActor(getInventoryTable(inventory));
         }
         //TODO .. more
     }
@@ -88,20 +89,6 @@ public class UiManager implements Disposable {
         ArrayList<String> levelNames = getAllLevels();
         ArrayList<Button> buttons = new ArrayList<>();
 
-        /*
-        for (String levelName : levelNames) {
-            Button button = new TextButton(levelName, skin, "default"); //TODO maybe add custom style?
-            button.addListener(new ChangeListener() { //TODO is maybe not working
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    //TODO maybe hide ui?
-                    gameScene.changeLevel(Level);
-                    System.out.println("WHUT");
-                }
-            });
-            buttons.add(button);
-        }*/
-
         for (GameScene.Level level : GameScene.Level.values()) {
             Button button = new TextButton(level.getName(), skin, "default"); //TODO maybe add custom style?
             button.addListener(new ChangeListener() { //TODO is maybe not working
@@ -133,7 +120,7 @@ public class UiManager implements Disposable {
         return levelNames;
     }
 
-    private Table getInventoryTable(){
+    private Table getInventoryTable(Inventory givenInventory){
 
         UiTable inventoryTable = new UiTable(rm);
 
@@ -147,7 +134,7 @@ public class UiManager implements Disposable {
 
 
         //right table content = inventory
-        rightScrollPane = getRightInventorySide();
+        rightScrollPane = getRightInventorySide(givenInventory.getItems());
 
         //left table content = char + frag
         //TODO
@@ -160,19 +147,57 @@ public class UiManager implements Disposable {
         return inventoryTable.getTable();
     }
 
-    /** Returns the scrollPane containing the inventory. */
+
+    /** Returns the scrollPane containing the inventory.
     private ScrollPane getRightInventorySide(){
 
         // https://stackoverflow.com/questions/21559131/scene2d-ui-how-to-make-a-grid-table
         Table inventoryTable = new Table();
         ScrollPane scrollPane = new ScrollPane(inventoryTable);
         int rightTableMaxWidth = Gdx.graphics.getWidth() / 4; //TODO should be adjusted to handle space between cells
+        //int numberOfHorizontalCells = rightTableMaxWidth / GameInfo.ITEM_SIZE;
         int numberOfHorizontalCells = rightTableMaxWidth / GameInfo.ITEM_SIZE;
         inventoryTable.setWidth(numberOfHorizontalCells * GameInfo.ITEM_SIZE); //TODO should not be needed
 
         for(int i = 0; i < NUMBER_OF_VERTICAL_INVENTORY_CELLS; i++){
             for(int j = 0; j < numberOfHorizontalCells; j++){
-                Actor actor = new Image(rm.boxTop); //TODO Change to something else!!
+                Actor actor = new Image(rm.consumableHpLarge); //TODO Change to something else!!
+                inventoryTable.add(actor);
+            }
+            inventoryTable.row();
+        }
+
+        return scrollPane;
+    }
+    */
+
+    /** Returns the scrollPane containing the inventory. */
+    private ScrollPane getRightInventorySide(ArrayList<Item> itemsList){
+
+        if(itemsList.size() == 0)
+            return new ScrollPane(new Table()); //TODO SET SOME SORT OF MINIMUM SIZE
+
+        // https://stackoverflow.com/questions/21559131/scene2d-ui-how-to-make-a-grid-table
+        Table inventoryTable = new Table();
+        ScrollPane scrollPane = new ScrollPane(inventoryTable);
+        int rightTableMaxWidth = Gdx.graphics.getWidth() / 4; //TODO should be adjusted to handle space between cells
+        //int numberOfHorizontalCells = rightTableMaxWidth / GameInfo.ITEM_SIZE;
+        int numberOfHorizontalCells = rightTableMaxWidth / GameInfo.ITEM_SIZE;
+        inventoryTable.setWidth(numberOfHorizontalCells * GameInfo.ITEM_SIZE); //TODO should not be needed
+        int minimumNumberOfVerticalCells = (int)Math.ceil((double)itemsList.size() / numberOfHorizontalCells); //Calculate the minimum requred cells to display all items.
+        int numberofVerticalCells = (NUMBER_OF_VERTICAL_INVENTORY_CELLS < minimumNumberOfVerticalCells) ? minimumNumberOfVerticalCells : NUMBER_OF_VERTICAL_INVENTORY_CELLS;
+
+        ArrayList<Item> tempItems = new ArrayList(itemsList);
+
+        for(int i = 0; i < numberofVerticalCells; i++){
+            for(int j = 0; j < numberOfHorizontalCells; j++){
+                Actor actor;
+                if(tempItems.size() != 0){
+                    actor = new Image(tempItems.get(0).getTexture());
+                    tempItems.remove(0);
+                }else
+                    actor = new Image(rm.blackSquare16); //TODO Change to something else!!
+
                 inventoryTable.add(actor);
             }
             inventoryTable.row();
