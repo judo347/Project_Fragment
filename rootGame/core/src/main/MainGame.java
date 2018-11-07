@@ -25,7 +25,7 @@ public class MainGame extends Game {
 	@Override
 	public void render () {
 		super.render(); //Will pass render method to all other calls that implements screen.
-        ui.render();
+		ui.render();
 	}
 
     public SpriteBatch getBatch() {

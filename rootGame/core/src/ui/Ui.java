@@ -2,8 +2,9 @@ package ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -48,11 +49,12 @@ public class Ui implements Disposable {
         levelSelector.getTable().left();
 
         //Set content
-        ArrayList<Label> labels = getAllLevelLabels();
+        ArrayList<Button> buttons = getAllLevelLabels();
         VerticalGroup contentGroup = new VerticalGroup();
-        for(Label label : labels)
-            contentGroup.addActor(label);
+        for(Button button : buttons)
+            contentGroup.addActor(button);
 
+        contentGroup.pad(20);
         levelSelector.setContent(contentGroup);
         levelSelector.contentTable.top();
 
@@ -60,17 +62,23 @@ public class Ui implements Disposable {
     }
 
     /** @return a list of labels containing the names of all levels. */
-    private ArrayList<Label> getAllLevelLabels(){
+    private ArrayList<Button> getAllLevelLabels(){
 
         ArrayList<String> levelNames = getAllLevels();
-        ArrayList<Label> labels = new ArrayList<>();
+        ArrayList<Button> buttons = new ArrayList<>();
 
         for (String levelName : levelNames) {
-            Label label = new Label(levelName, skin);
-            labels.add(label);
+            Button button = new TextButton(levelName, skin, "default"); //TODO maybe add custom style?
+            button.addListener(new ChangeListener() { //TODO is maybe not working
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    System.out.println("WHUT");
+                }
+            });
+            buttons.add(button);
         }
 
-        return labels;
+        return buttons;
     }
 
     /** @return a list of the names of all levels. */
