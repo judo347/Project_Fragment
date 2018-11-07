@@ -1,5 +1,7 @@
 package ui;
 
+import Items.Consumable;
+import Items.Item;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -8,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import helpers.Inventory;
 import javafx.scene.control.Tab;
 import scenes.GameScene;
 import utilities.GameInfo;
@@ -96,7 +99,19 @@ public class Ui implements Disposable {
 
         UiTable inventoryTable = new UiTable(rm);
 
-        //levelSelector.setContent(); //TODO ADD CONTENT
+        //TODO Should getPlayer and getInventoy of that player
+        Inventory inventory = new Inventory();
+
+        Table contentTable = new Table();
+        Table leftTable = new Table();
+        Table rightTable = new Table();
+
+        //TODO
+
+        contentTable.add(leftTable);
+        contentTable.add(rightTable);
+
+        inventoryTable.setContent(contentTable);
 
         return inventoryTable.getTable();
     }
