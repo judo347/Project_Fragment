@@ -26,6 +26,8 @@ Tiles containing tilesheets and are not sprites
 
 #### Improvements:
 
+Freeze game when UI is open.
+
 Resourcemanager, create one.
 
 Items in chests: their start pos should be in the middle of the chest and not in the left side

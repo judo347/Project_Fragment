@@ -15,6 +15,7 @@ import entities.Probs.Chest;
 import entities.GroundTile;
 import entities.Probs.Portal;
 import ui.PlayAround;
+import ui.UiManager;
 import utilities.ContactListen;
 import entities.Entity;
 import helpers.EntityType;
@@ -28,6 +29,7 @@ public class GameMap{
 
     private MainGame mainGame;
     private GameScene gameScene;
+    private UiManager uiManager;
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
     private ArrayList<Item> droppedItemsList;
@@ -54,7 +56,7 @@ public class GameMap{
 
     protected String mapName; //TODO SHOULD BE UPGRADED TO MapTYPE? aka enum?
 
-    public GameMap(String mapName, World world, MainGame mainGame, GameScene gameScene) {
+    public GameMap(String mapName, World world, MainGame mainGame, GameScene gameScene, UiManager uiManager) {
         this.entitiesList = new ArrayList<>();
         this.tilesList = new ArrayList<>();
         this.droppedItemsList = new ArrayList<>();
@@ -64,6 +66,7 @@ public class GameMap{
         this.world = world;
         this.mainGame = mainGame;
         this.gameScene = gameScene;
+        this.uiManager = uiManager;
 
         //What we see on the screen
         this.box2DCamera = new OrthographicCamera();
@@ -73,7 +76,7 @@ public class GameMap{
 
         //Map loader
         MapLoader ml = new MapLoader();
-        ml.loadLevelImage(mapName, this.world, this);
+        ml.loadLevelImage(mapName, this.world, this, uiManager);
         this.entitiesList = ml.getEntitiesList();
         this.tilesList = ml.getTilesList();
         this.playerIndex = getPlayerIndex();

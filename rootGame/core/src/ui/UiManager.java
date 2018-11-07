@@ -1,27 +1,17 @@
 package ui;
 
-import Items.Consumable;
-import Items.Item;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import helpers.Inventory;
-import javafx.scene.control.Tab;
 import scenes.GameScene;
-import utilities.GameInfo;
 import utilities.ResourceManager;
-import world.GameMap;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class Ui implements Disposable {
+public class UiManager implements Disposable {
 
     //https://github.com/libgdx/libgdx/wiki/Table
 
@@ -29,21 +19,40 @@ public class Ui implements Disposable {
     private Stage stage;
     private Table rootTable;
     private Skin skin;
+    private boolean showUi = false;
 
+    public enum UiType{
+        INVENTORY, LEVEL_SELECTOR;
+    }
 
-    public Ui(ResourceManager rm) {
+    public UiManager(ResourceManager rm) {
         this.rm = rm;
         this.skin = rm.skin;
 
         stage = new Stage(new ScreenViewport());
-        stage.addActor(getLevelSelectorTable());
-        //stage.addActor(getInventoryTable());
-
 
         //final TextButton button = new TextButton("Click Me!", skin, "default");
-        //rootTable.add(button);
-
         //Gdx.input.setInputProcessor(stage);
+    }
+
+    /** @param uiType the UI you want shown. */
+    public void showElement(UiType uiType){
+
+        stage.clear();
+
+        if(uiType == UiType.LEVEL_SELECTOR){
+            showUi = true;
+            stage.addActor(getLevelSelectorTable());
+        }else if(uiType == UiType.INVENTORY){
+            showUi = true;
+            stage.addActor(getInventoryTable());
+        }
+        //TODO .. more
+    }
+
+    /** Called to hide ui. */
+    public void hideUi(){
+        this.showUi = false;
     }
 
     private Table getLevelSelectorTable(){
@@ -117,12 +126,18 @@ public class Ui implements Disposable {
     }
 
     public void render(){
-        stage.act();
-        stage.draw();
+        if(showUi){
+            stage.act();
+            stage.draw();
+        }
     }
 
     public void resize(int width, int height){
         stage.getViewport().update(width, height, true);
+    }
+
+    public boolean isShowUi() {
+        return showUi;
     }
 
     @Override

@@ -1,10 +1,8 @@
 package utilities;
 
-import Items.Consumable;
 import Items.Item;
 import com.badlogic.gdx.physics.box2d.*;
 import entities.Charactors.Player;
-import entities.Entity;
 import entities.GroundTile;
 import entities.Probs.Portal;
 import helpers.EntityType;
@@ -31,7 +29,6 @@ public class ContactListen implements ContactListener {
         this.player = player;
         this.gameMap = gameMap;
         this.portal = null;
-
     }
 
     private void setUserDataFromContact(Contact contact){
@@ -60,6 +57,7 @@ public class ContactListen implements ContactListener {
 
             //Portal is touched
             if(EntityType.PORTAL.isMatchingDefaultId(contactObjectB.toString())){
+                player.isPlayerTouchingPortal = true;
                 //todo do something
             }
 
@@ -79,14 +77,32 @@ public class ContactListen implements ContactListener {
                 || contactObjectB.toString().equals(Player.FEET_ID)  && contactObjectAorPlayer.toString().equals(GroundTile.id))
             this.player.isInAir = false;
 
-        //System.out.println(contactObjectAorPlayer);
-        //System.out.println(contactObjectB);
+        System.out.println(contactObjectAorPlayer);
+        System.out.println(contactObjectB);
     }
 
 
 
     @Override
     public void endContact(Contact contact) {
+
+        setUserDataFromContact(contact);
+        //If there is a player in contact - contactObjectA is the palyer.
+
+        //Is the contact with the player?
+        if(contactObjectAorPlayer == this.player.getDefaultTypeId()){
+
+            //Portal is touched
+            if(EntityType.PORTAL.isMatchingDefaultId(contactObjectB.toString())){
+                player.isPlayerTouchingPortal = false;
+                //todo do something
+            }
+
+            //Floating vendor is touched
+            if(EntityType.VENDOR.isMatchingDefaultId(contactObjectB.toString())){
+                //todo do something
+            }
+        }
 
     }
 

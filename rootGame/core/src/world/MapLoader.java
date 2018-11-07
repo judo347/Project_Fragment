@@ -1,6 +1,7 @@
 package world;
 
 import entities.Entity;
+import ui.UiManager;
 import utilities.GameInfo;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -31,7 +32,7 @@ public class MapLoader {
     /** Load an image of a level and creates to lists containing the entities and tiles.
      * @param levelImageLocation the location of the image to be loaded. TODO should be an enum or handled in another way.
      * @param world the world that contains the elements. */
-    public void loadLevelImage(String levelImageLocation, World world, GameMap gameMap){
+    public void loadLevelImage(String levelImageLocation, World world, GameMap gameMap, UiManager uiManager){
 
         this.world = world;
         this.gameMap = gameMap;
@@ -75,7 +76,7 @@ public class MapLoader {
                 }else if(entityType != null){ //Add entity
 
                     //Add entity
-                    entitiesList.add(EntityType.getEntity(color, world, currentPixelPos, gameMap)); //TODO null? HANDLE
+                    entitiesList.add(EntityType.getEntity(color, world, currentPixelPos, gameMap, uiManager)); //TODO null? HANDLE
 
                     //Add an unique id to chests
                     if(entitiesList.get(entitiesList.size()-1) instanceof Chest){

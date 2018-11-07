@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.EntityType;
 import helpers.Inventory;
+import ui.UiManager;
 import utilities.GameInfo;
 import entities.Entity;
 import world.GameMap;
@@ -23,6 +24,7 @@ public class Player extends Entity {
 
     public boolean isInAir = false;
     public boolean isPlayerMoving = false;
+    public boolean isPlayerTouchingPortal = false;
     public static final float DEFAULT_PLAYER_FRICTION = 0.8f;
     public static final float MOVING_PLAYER_FRICTION = 0.2f;
 
@@ -40,6 +42,7 @@ public class Player extends Entity {
     private float stateTime;
 
     private GameMap gameMap;
+    private UiManager uiManager;
 
     private Inventory inventory;
 
@@ -50,10 +53,11 @@ public class Player extends Entity {
     Animation[] jumpMovement;
     public static final int NUMBER_OF_JUMP_FRAMES = 2;
 
-    public Player(GameMap gameMap, World world, Vector2 pos){
+    public Player(GameMap gameMap, UiManager uiManager, World world, Vector2 pos){
         super(world, EntityType.PLAYER, pos);
 
         this.gameMap = gameMap;
+        this.uiManager = uiManager;
 
         this.feet = createFeet(world, pos);
 
@@ -150,6 +154,7 @@ public class Player extends Entity {
     public void playerControls(float deltaTime){
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            uiManager.hideUi();
             getBody().applyForce(new Vector2(-1f,0), getBody().getWorldCenter(), true); //2nd arg where the force is used, 3rd wake the elements and calculate
 
             //getBody().setLinearVelocity(new Vector2(-1f,0));
@@ -163,6 +168,7 @@ public class Player extends Entity {
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            uiManager.hideUi();
             getBody().applyForce(new Vector2(1f,0), getBody().getWorldCenter(), true); //Force = overtime, implulse = right away.
 
             //Update walk
@@ -177,6 +183,13 @@ public class Player extends Entity {
             if(!isInAir){
                 getBody().applyForce(new Vector2(0,80), getBody().getWorldCenter(), true);
                 isInAir = true;
+                uiManager.hideUi();
+            }
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.E)){
+            if(isPlayerTouchingPortal){
+                uiManager.showElement(UiManager.UiType.LEVEL_SELECTOR);
             }
         }
 
@@ -192,6 +205,10 @@ public class Player extends Entity {
             if(gameMap.isPlayerTouchingPortal())
                 gameMap.setScreenLevel();
                 //System.out.println("Activate awesome level selector!"); //TODO Display level selector
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.I)){
+            uiManager.showElement(UiManager.UiType.INVENTORY);
         }
     }
 
