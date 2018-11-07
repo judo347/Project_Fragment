@@ -201,11 +201,12 @@ public class Player extends Entity {
             //body.setLinearVelocity(new Vector2(0,0));
         }
 
+        /* //TODO IS THIS OK TO REMOVE?
         if(Gdx.input.isKeyPressed(Input.Keys.E)){
             if(gameMap.isPlayerTouchingPortal())
                 gameMap.setScreenLevel();
                 //System.out.println("Activate awesome level selector!"); //TODO Display level selector
-        }
+        }*/
 
         if(Gdx.input.isKeyPressed(Input.Keys.I)){
             uiManager.showElement(UiManager.UiType.INVENTORY);

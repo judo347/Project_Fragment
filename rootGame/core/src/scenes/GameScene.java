@@ -45,7 +45,7 @@ public class GameScene implements Screen{
         this.game = game;
         this.currentLevel = Level.TOWN;
         this.rm = new ResourceManager();
-        this.uiManager = new UiManager(rm);
+        this.uiManager = new UiManager(rm, this);
         initialize();
     }
 

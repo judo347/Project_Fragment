@@ -1,5 +1,6 @@
 package ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -16,6 +17,7 @@ public class UiManager implements Disposable {
     //https://github.com/libgdx/libgdx/wiki/Table
 
     private ResourceManager rm;
+    private GameScene gameScene;
     private Stage stage;
     private Table rootTable;
     private Skin skin;
@@ -25,8 +27,9 @@ public class UiManager implements Disposable {
         INVENTORY, LEVEL_SELECTOR;
     }
 
-    public UiManager(ResourceManager rm) {
+    public UiManager(ResourceManager rm, GameScene gameScene) {
         this.rm = rm;
+        this.gameScene = gameScene;
         this.skin = rm.skin;
 
         stage = new Stage(new ScreenViewport());
@@ -39,6 +42,8 @@ public class UiManager implements Disposable {
     public void showElement(UiType uiType){
 
         stage.clear();
+
+        Gdx.input.setInputProcessor(stage);
 
         if(uiType == UiType.LEVEL_SELECTOR){
             showUi = true;
@@ -79,12 +84,27 @@ public class UiManager implements Disposable {
         ArrayList<String> levelNames = getAllLevels();
         ArrayList<Button> buttons = new ArrayList<>();
 
+        /*
         for (String levelName : levelNames) {
             Button button = new TextButton(levelName, skin, "default"); //TODO maybe add custom style?
             button.addListener(new ChangeListener() { //TODO is maybe not working
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
+                    //TODO maybe hide ui?
+                    gameScene.changeLevel(Level);
                     System.out.println("WHUT");
+                }
+            });
+            buttons.add(button);
+        }*/
+
+        for (GameScene.Level level : GameScene.Level.values()) {
+            Button button = new TextButton(level.getName(), skin, "default"); //TODO maybe add custom style?
+            button.addListener(new ChangeListener() { //TODO is maybe not working
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    showUi = false;
+                    gameScene.changeLevel(level);
                 }
             });
             buttons.add(button);
