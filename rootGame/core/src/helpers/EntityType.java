@@ -2,6 +2,7 @@ package helpers;
 
 import entities.Entity;
 import entities.Probs.CraftingTable;
+import ui.UiManager;
 import utilities.EntityDimensions;
 import utilities.GameInfo;
 import com.badlogic.gdx.graphics.Color;
@@ -41,10 +42,10 @@ public enum EntityType {
      * @param world the world to place entity in.
      * @param pos the coordinates
      * @return an entity object matching the color given. Will return null if color is not matching a type. */
-    public static Entity getEntity(Color color, World world, Vector2 pos, GameMap gameMap){
+    public static Entity getEntity(Color color, World world, Vector2 pos, GameMap gameMap, UiManager uiManager){
 
         switch (getTypeFromColor(color)){
-            case PLAYER:            return new Player(gameMap, world, pos);
+            case PLAYER:            return new Player(gameMap, uiManager, world, pos);
             case CHEST:             return new Chest(world, pos, gameMap); //TODO SHOULD BE ABLE TO HANDLE MORE THAN ONE COLOR
             case PORTAL:            return new Portal(world, pos);
             case VENDOR:            return new Vendor(world, pos);

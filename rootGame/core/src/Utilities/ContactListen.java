@@ -1,10 +1,8 @@
 package utilities;
 
-import Items.Consumable;
 import Items.Item;
 import com.badlogic.gdx.physics.box2d.*;
 import entities.Charactors.Player;
-import entities.Entity;
 import entities.GroundTile;
 import entities.Probs.Portal;
 import helpers.EntityType;
@@ -31,7 +29,6 @@ public class ContactListen implements ContactListener {
         this.player = player;
         this.gameMap = gameMap;
         this.portal = null;
-
     }
 
     private void setUserDataFromContact(Contact contact){
@@ -49,46 +46,64 @@ public class ContactListen implements ContactListener {
     public void beginContact(Contact contact) {
 
         setUserDataFromContact(contact);
+        //If there is a player in contact - contactObjectA is the palyer.
 
-        //Chest is touched
-        if(contactObjectAorPlayer == this.player.getDefaultTypeId() && EntityType.CHEST.isMatchingDefaultId(contactObjectB.toString())){
-            gameMap.openChest(contactObjectB.toString());
+        //Is the contact with the player?
+        if(contactObjectAorPlayer == this.player.getDefaultTypeId()){
+
+            //Chest is touched
+            if(EntityType.CHEST.isMatchingDefaultId(contactObjectB.toString()))
+                gameMap.openChest(contactObjectB.toString());
+
+            //Portal is touched
+            if(EntityType.PORTAL.isMatchingDefaultId(contactObjectB.toString())){
+                player.isPlayerTouchingPortal = true;
+                //todo do something
+            }
+
+            //Floating vendor is touched
+            if(EntityType.VENDOR.isMatchingDefaultId(contactObjectB.toString())){
+                //todo do something
+            }
+
+            //Item is touched
+            if(contactObjectB instanceof Item)
+                gameMap.addItemToPlayerPickup((Item)contactObjectB);
         }
 
-        //Portal is touched
-        if(EntityType.PORTAL.isMatchingDefaultId(contactObjectB.toString()) && contactObjectAorPlayer == this.player.getDefaultTypeId()){
-            //todo do something
-        }
-
-        //Floating vendor is touched
-        if(EntityType.VENDOR.isMatchingDefaultId(contactObjectB.toString()) && contactObjectAorPlayer == this.player.getDefaultTypeId()){
-            //todo do something
-        }
 
         //Feet is touching Ground
         if(contactObjectAorPlayer.toString().equals(Player.FEET_ID) && contactObjectB.toString().equals(GroundTile.id)
                 || contactObjectB.toString().equals(Player.FEET_ID)  && contactObjectAorPlayer.toString().equals(GroundTile.id))
             this.player.isInAir = false;
 
+
         //System.out.println(contactObjectAorPlayer);
         //System.out.println(contactObjectB);
-
-        //Item is touched
-        if(contactObjectAorPlayer == this.player.getDefaultTypeId() && contactObjectB instanceof Consumable){
-            System.out.println("ITEM TOUCHED");
-        }
-
-
-        //TODO Maybe update to check for the other object is a tile?
-        if(contact.getFixtureA().getUserData() == this.player.getDefaultTypeId() || contact.getFixtureB().getUserData() == this.player.getDefaultTypeId()){
-
-        }
     }
 
 
 
     @Override
     public void endContact(Contact contact) {
+
+        setUserDataFromContact(contact);
+        //If there is a player in contact - contactObjectA is the palyer.
+
+        //Is the contact with the player?
+        if(contactObjectAorPlayer == this.player.getDefaultTypeId()){
+
+            //Portal is touched
+            if(EntityType.PORTAL.isMatchingDefaultId(contactObjectB.toString())){
+                player.isPlayerTouchingPortal = false;
+                //todo do something
+            }
+
+            //Floating vendor is touched
+            if(EntityType.VENDOR.isMatchingDefaultId(contactObjectB.toString())){
+                //todo do something
+            }
+        }
 
     }
 

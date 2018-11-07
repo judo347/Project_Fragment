@@ -7,6 +7,7 @@ import scenes.MenuScene;
 public class MainGame extends Game {
 
 	SpriteBatch batch; //You only have one sprite batch in a game!
+
 	
 	@Override
 	public void create () {

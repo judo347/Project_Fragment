@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import main.MainGame;
@@ -13,6 +14,8 @@ import entities.Charactors.Player;
 import entities.Probs.Chest;
 import entities.GroundTile;
 import entities.Probs.Portal;
+import ui.PlayAround;
+import ui.UiManager;
 import utilities.ContactListen;
 import entities.Entity;
 import helpers.EntityType;
@@ -26,9 +29,12 @@ public class GameMap{
 
     private MainGame mainGame;
     private GameScene gameScene;
+    private UiManager uiManager;
     private ArrayList<Entity> entitiesList;
     private ArrayList<GroundTile> tilesList;
     private ArrayList<Item> droppedItemsList;
+    private ArrayList<Item> itemsToBeDropped;
+    private ArrayList<Item> playerPickupQueue; //TODO maybe create other item type, only display.
     private int playerIndex;
     private int portalIndex;
 
@@ -50,14 +56,17 @@ public class GameMap{
 
     protected String mapName; //TODO SHOULD BE UPGRADED TO MapTYPE? aka enum?
 
-    public GameMap(String mapName, World world, MainGame mainGame, GameScene gameScene) {
+    public GameMap(String mapName, World world, MainGame mainGame, GameScene gameScene, UiManager uiManager) {
         this.entitiesList = new ArrayList<>();
         this.tilesList = new ArrayList<>();
         this.droppedItemsList = new ArrayList<>();
+        this.itemsToBeDropped = new ArrayList<>();
+        this.playerPickupQueue = new ArrayList<>();
         this.mapName = mapName;
         this.world = world;
         this.mainGame = mainGame;
         this.gameScene = gameScene;
+        this.uiManager = uiManager;
 
         //What we see on the screen
         this.box2DCamera = new OrthographicCamera();
@@ -67,7 +76,7 @@ public class GameMap{
 
         //Map loader
         MapLoader ml = new MapLoader();
-        ml.loadLevelImage(mapName, this.world, this);
+        ml.loadLevelImage(mapName, this.world, this, uiManager);
         this.entitiesList = ml.getEntitiesList();
         this.tilesList = ml.getTilesList();
         this.playerIndex = getPlayerIndex();
@@ -118,8 +127,37 @@ public class GameMap{
         return -1; //no player exists //TODO exception!!
     }
 
+    /** Drops all items in itemsToBeDropped.
+     * Items: itemsToBeDropped -> droppedItemsList. */
+    private void dropItemsProcess(){
+        if(itemsToBeDropped.size() != 0){
+
+            for(Item item : new ArrayList<>(itemsToBeDropped)){
+
+                // Get necessary properties
+                World itemsWorld = item.getWorld();
+                Vector2 pos = item.getInputPos();
+
+                //Destroy old body
+                item.destroyBody();
+
+                //Add new body
+                item.createAndSetBodyTouchable(itemsWorld, pos);
+
+                //Add that item to the itemsDroppedList
+                this.droppedItemsList.add(item);
+
+                //Remove item from remove list
+                itemsToBeDropped.remove(item); //TODO Check: does this remove item, or is not found?
+
+                //Activate item drop method
+                item.drop(pos);
+            }
+        }
+    }
+
     /** Updates game elements, like player movement and spirte/animation. */
-    public void update(float delta){
+    private void update(float delta){
         for(Entity entity : entitiesList){
             entity.update(delta);
         }
@@ -127,6 +165,9 @@ public class GameMap{
 
     /** Renders all elements in this map. */
     public void render (SpriteBatch batch, float delta){
+
+        dropItemsProcess();
+        givePlayerPickups();
 
         update(delta);
 
@@ -218,7 +259,28 @@ public class GameMap{
         this.gameScene.changeLevel(GameScene.Level.LEVEL1);
     }
 
+    /** Takes a list of items and added them to itemsToBeDropped list. */
     public void addAllDroppedItems(ArrayList<Item> droppedItems){
-        droppedItemsList.addAll(droppedItems);
+        itemsToBeDropped.addAll(droppedItems);
+    }
+
+    /** Moves the given item from the droppedItemsList -> palyerPickupQueue. */
+    public void addItemToPlayerPickup(Item item){
+        droppedItemsList.remove(item);
+        playerPickupQueue.add(item);
+    }
+
+    /** Moves all items in playerPickupQueue into the players inventory. */
+    private void givePlayerPickups(){
+
+        while(playerPickupQueue.size() != 0){
+
+            for(Item item : new ArrayList<>(playerPickupQueue)){
+                getPlayer().addItemToInventory(item);
+                playerPickupQueue.remove(item);
+            }
+        }
+
+        playerPickupQueue = new ArrayList<>();
     }
 }

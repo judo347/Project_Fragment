@@ -85,14 +85,12 @@ public class Chest extends Entity {
      * list (and removed from this chests inventory. */
     public void openChest(){
         this.isChestOpen = true;
-        for(Item item : inventory){
-            item.drop(pos);
-        }
 
         gameMap.addAllDroppedItems(inventory);
         this.inventory = new ArrayList<>();
     }
 
+    /** Removes the given item from the chests inventory. */
     public void removeItem(Item item){
         inventory.remove(item);
     }
