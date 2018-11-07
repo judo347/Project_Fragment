@@ -26,7 +26,7 @@ public class UiTable{
     private void setUpTable(){
         rootTable = new Table();
         rootTable.setFillParent(true);
-        rootTable.setDebug(true); //TODO temp
+        //rootTable.setDebug(true); //TODO temp DEBUGGER!!!!!!!!!!!!!!!!!!
 
         rootTable.add(new Image(rm.boxTopLeft)).size(rm.boxSize,rm.boxSize).padTop(edgePadding).padLeft(edgePadding);
         rootTable.add(new Image(rm.boxTop)).fill().minSize(rm.boxSize,rm.boxSize).padTop(edgePadding);
