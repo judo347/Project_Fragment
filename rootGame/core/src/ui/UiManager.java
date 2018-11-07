@@ -1,5 +1,6 @@
 package ui;
 
+import Items.Item;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import helpers.Inventory;
 import scenes.GameScene;
+import utilities.GameInfo;
 import utilities.ResourceManager;
 
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ public class UiManager implements Disposable {
     private Table rootTable;
     private Skin skin;
     private boolean showUi = false;
+
+    private final int NUMBER_OF_VERTICAL_INVENTORY_CELLS = 10;
 
     public enum UiType{
         INVENTORY, LEVEL_SELECTOR;
@@ -138,16 +142,43 @@ public class UiManager implements Disposable {
 
         Table contentTable = new Table();
         Table leftTable = new Table();
-        Table rightTable = new Table();
+        ScrollPane rightScrollPane;
 
+
+
+        //right table content = inventory
+        rightScrollPane = getRightInventorySide();
+
+        //left table content = char + frag
         //TODO
 
         contentTable.add(leftTable);
-        contentTable.add(rightTable);
+        contentTable.add(rightScrollPane);
 
         inventoryTable.setContent(contentTable);
 
         return inventoryTable.getTable();
+    }
+
+    /** Returns the scrollPane containing the inventory. */
+    private ScrollPane getRightInventorySide(){
+
+        // https://stackoverflow.com/questions/21559131/scene2d-ui-how-to-make-a-grid-table
+        Table inventoryTable = new Table();
+        ScrollPane scrollPane = new ScrollPane(inventoryTable);
+        int rightTableMaxWidth = Gdx.graphics.getWidth() / 4; //TODO should be adjusted to handle space between cells
+        int numberOfHorizontalCells = rightTableMaxWidth / GameInfo.ITEM_SIZE;
+        inventoryTable.setWidth(numberOfHorizontalCells * GameInfo.ITEM_SIZE); //TODO should not be needed
+
+        for(int i = 0; i < NUMBER_OF_VERTICAL_INVENTORY_CELLS; i++){
+            for(int j = 0; j < numberOfHorizontalCells; j++){
+                Actor actor = new Image(rm.boxTop); //TODO Change to something else!!
+                inventoryTable.add(actor);
+            }
+            inventoryTable.row();
+        }
+
+        return scrollPane;
     }
 
     public void render(){
