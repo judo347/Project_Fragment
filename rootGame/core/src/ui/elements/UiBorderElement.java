@@ -9,15 +9,17 @@ import utilities.ResourceManager;
 
 public class UiBorderElement {
 
-    enum UiBorderType{
-        INVENTORY_SLOT(15, "ui/img/inventorySlot/uiInventorySlot.atlas"), BACKGROUND(30, "ui/img/box/box.atlas");
+    public enum UiBorderType{
+        INVENTORY_SLOT(15, "ui/img/inventorySlot/uiInventorySlot.atlas", 4), BACKGROUND(30, "ui/img/box/box.atlas", 16);
 
         TextureAtlas atlas;
         int edgePadding;
+        int imageSize;
 
-        UiBorderType(int edgePadding, String atlasPath) {
+        UiBorderType(int edgePadding, String atlasPath, int imageSize) {
             this.atlas = new TextureAtlas("ui/img/box/box.atlas");
             this.edgePadding = edgePadding;
+            this.imageSize = imageSize;
         }
     }
 
@@ -25,7 +27,7 @@ public class UiBorderElement {
     private UiBorderType type;
 
     private Table rootTable;
-    private Table contentTable; //TODO maybe use Container?
+    public Table contentTable; //TODO maybe use Container?
 
     public UiBorderElement(ResourceManager rm, UiBorderType type){
         this.rm = rm;
@@ -37,7 +39,7 @@ public class UiBorderElement {
         rootTable = new Table();
         rootTable.setFillParent(true);
         rootTable.setDebug(true); //TODO temp
-        int textureSize = type.atlas.findRegion("top").getRegionWidth();
+        int textureSize = type.imageSize;
 
         rootTable.add(new Image(type.atlas.findRegion("topleft"))).size(textureSize,textureSize).padTop(type.edgePadding).padLeft(type.edgePadding);
         rootTable.add(new Image(type.atlas.findRegion("top"))).fill().minSize(textureSize,textureSize).padTop(type.edgePadding);

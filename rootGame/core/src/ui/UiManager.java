@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import helpers.Inventory;
 import scenes.GameScene;
+import ui.elements.UiBorderElement;
 import ui.elements.UiTable;
 import utilities.GameInfo;
 import utilities.ResourceManager;
@@ -67,7 +68,7 @@ public class UiManager implements Disposable {
 
     private Table getLevelSelectorTable(){
 
-        UiTable levelSelector = new UiTable(rm);
+        UiBorderElement levelSelector = new UiBorderElement(rm, UiBorderElement.UiBorderType.BACKGROUND);
         levelSelector.getTable().left();
 
         //Set content
