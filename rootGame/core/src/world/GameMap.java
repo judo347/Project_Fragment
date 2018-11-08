@@ -70,7 +70,8 @@ public class GameMap{
 
         //What we see on the screen
         this.box2DCamera = new OrthographicCamera();
-        this.box2DCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
+        //this.box2DCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
+        this.box2DCamera.setToOrtho(false, GameInfo.WIDTH/2f, GameInfo.HEIGHT/2f);
         this.box2DCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
         this.debugRenderer = new Box2DDebugRenderer();
 
@@ -174,6 +175,7 @@ public class GameMap{
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears the screen
 
+        batch.setProjectionMatrix(box2DCamera.combined);
         batch.begin();
         batch.draw(background,0,0);
 
@@ -189,6 +191,12 @@ public class GameMap{
             item.render(batch, delta);
 
         batch.end();
+
+        box2DCamera.position.set(getPlayer().getX(), getPlayer().getY() + getPlayer().getHeight()/2f, 0);
+        //box2DCamera.position.set(getPlayer().getX(), GameInfo.HEIGHT / 2f, 0);
+        box2DCamera.update();
+
+        //System.out.println(getPlayer().getX());
 
         //TODO DEBUG RENDERER
         debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
