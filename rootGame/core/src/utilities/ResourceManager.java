@@ -74,6 +74,7 @@ public class ResourceManager {
 
         //AssetManager loading section
         assetManager.load("ui/img/box/box.atlas", TextureAtlas.class);
+        assetManager.load("ui/img/inventorySlot/uiInventorySlot.atlas", TextureAtlas.class);
         //TODO more..
 
         assetManager.finishLoading();
