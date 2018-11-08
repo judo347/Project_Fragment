@@ -9,4 +9,6 @@ public class GameInfo {
 
     public static final short GROUNDTILE_CATAGORY_BITS = 0x0002;
 
+    public static final int ITEM_SIZE = 16;
+
 }

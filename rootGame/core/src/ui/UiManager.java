@@ -1,13 +1,17 @@
 package ui;
 
+import Items.Item;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import helpers.Inventory;
 import scenes.GameScene;
+import ui.elements.UiBorderElement;
+import utilities.GameInfo;
 import utilities.ResourceManager;
 
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ public class UiManager implements Disposable {
     private Table rootTable;
     private Skin skin;
     private boolean showUi = false;
+
+    private final int NUMBER_OF_VERTICAL_INVENTORY_CELLS = 0;
 
     public enum UiType{
         INVENTORY, LEVEL_SELECTOR;
@@ -39,7 +45,7 @@ public class UiManager implements Disposable {
     }
 
     /** @param uiType the UI you want shown. */
-    public void showElement(UiType uiType){
+    public void showElement(UiType uiType, Inventory inventory){
 
         stage.clear();
 
@@ -50,7 +56,7 @@ public class UiManager implements Disposable {
             stage.addActor(getLevelSelectorTable());
         }else if(uiType == UiType.INVENTORY){
             showUi = true;
-            stage.addActor(getInventoryTable());
+            stage.addActor(getInventoryTable(inventory));
         }
         //TODO .. more
     }
@@ -62,7 +68,7 @@ public class UiManager implements Disposable {
 
     private Table getLevelSelectorTable(){
 
-        UiTable levelSelector = new UiTable(rm);
+        UiBorderElement levelSelector = new UiBorderElement(rm, UiBorderElement.UiBorderType.BACKGROUND);
         levelSelector.getTable().left();
 
         //Set content
@@ -84,26 +90,12 @@ public class UiManager implements Disposable {
         ArrayList<String> levelNames = getAllLevels();
         ArrayList<Button> buttons = new ArrayList<>();
 
-        /*
-        for (String levelName : levelNames) {
-            Button button = new TextButton(levelName, skin, "default"); //TODO maybe add custom style?
-            button.addListener(new ChangeListener() { //TODO is maybe not working
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    //TODO maybe hide ui?
-                    gameScene.changeLevel(Level);
-                    System.out.println("WHUT");
-                }
-            });
-            buttons.add(button);
-        }*/
-
         for (GameScene.Level level : GameScene.Level.values()) {
             Button button = new TextButton(level.getName(), skin, "default"); //TODO maybe add custom style?
             button.addListener(new ChangeListener() { //TODO is maybe not working
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    showUi = false;
+                    removeAndHideUi();
                     gameScene.changeLevel(level);
                 }
             });
@@ -111,6 +103,11 @@ public class UiManager implements Disposable {
         }
 
         return buttons;
+    }
+
+    private void removeAndHideUi(){
+        showUi = false;
+        stage.clear();
     }
 
     /** @return a list of the names of all levels. */
@@ -124,25 +121,136 @@ public class UiManager implements Disposable {
         return levelNames;
     }
 
-    private Table getInventoryTable(){
+    private Table getInventoryTable(Inventory givenInventory){
 
-        UiTable inventoryTable = new UiTable(rm);
+        UiBorderElement inventoryTable = new UiBorderElement(rm, UiBorderElement.UiBorderType.BACKGROUND);
 
         //TODO Should getPlayer and getInventoy of that player
         Inventory inventory = new Inventory();
 
         Table contentTable = new Table();
         Table leftTable = new Table();
-        Table rightTable = new Table();
+        ScrollPane rightScrollPane;
 
-        //TODO
+        //right table content = inventory
+        rightScrollPane = getRightInventorySide(givenInventory.getItems());
+
+        //left table content = char + frag
+        leftTable = getLeftInventorySide();
 
         contentTable.add(leftTable);
-        contentTable.add(rightTable);
+        contentTable.add(rightScrollPane);
 
         inventoryTable.setContent(contentTable);
 
         return inventoryTable.getTable();
+    }
+
+    /** @return the scrollPane containing the inventory. */
+    private ScrollPane getRightInventorySide(ArrayList<Item> itemsList){
+
+        if(itemsList.size() == 0)
+            return new ScrollPane(new Table()); //TODO SET SOME SORT OF MINIMUM SIZE
+
+        // https://stackoverflow.com/questions/21559131/scene2d-ui-how-to-make-a-grid-table
+        Table inventoryTable = new Table();
+        ScrollPane scrollPane = new ScrollPane(inventoryTable);
+        int rightTableMaxWidth = Gdx.graphics.getWidth() / 4; //TODO should be adjusted to handle space between cells
+        //int numberOfHorizontalCells = rightTableMaxWidth / GameInfo.ITEM_SIZE;
+        int numberOfHorizontalCells = rightTableMaxWidth / GameInfo.ITEM_SIZE;
+        inventoryTable.setWidth(numberOfHorizontalCells * GameInfo.ITEM_SIZE); //TODO should not be needed
+        int minimumNumberOfVerticalCells = (int)Math.ceil((double)itemsList.size() / numberOfHorizontalCells); //Calculate the minimum requred cells to display all items.
+        int numberofVerticalCells = (NUMBER_OF_VERTICAL_INVENTORY_CELLS < minimumNumberOfVerticalCells) ? minimumNumberOfVerticalCells : NUMBER_OF_VERTICAL_INVENTORY_CELLS;
+
+        ArrayList<Item> tempItems = new ArrayList(itemsList);
+
+        for(int i = 0; i < numberofVerticalCells; i++){
+            for(int j = 0; j < numberOfHorizontalCells; j++){
+                Actor actor;
+                Table tempTable = new Table();
+                tempTable.setBackground(new TextureRegionDrawable(rm.boxDownLeft));
+                if(tempItems.size() != 0){
+                    tempTable = new Table();
+                    //actor = new Image(tempItems.get(0).getTexture());
+                    tempTable.add(new Image(tempItems.get(0).getTexture()));
+
+                    tempItems.remove(0);
+                }//else
+                    //actor = new Image(rm.invSlot); //TODO Change to something else!!
+                    //tempTable.add(new Image(rm.invSlot)); //TODO Change to something else!!
+
+                inventoryTable.add(tempTable);
+            }
+            inventoryTable.row();
+        }
+
+        return scrollPane;
+    }
+
+    /** @return the table containing the left side of the inventory: the equipment + more. */
+    private Table getLeftInventorySide(){ //TODO Should propperly take some input with the current equipment.
+
+        Table leftTable = new Table();
+        leftTable.setDebug(true); //TODO DEBUGGER
+
+        //First split
+        Table topEquip = new Table();
+        Table bottomMore = new Table();
+        leftTable.add(topEquip);
+        leftTable.row();
+        leftTable.add(bottomMore);
+
+        //Bottom split
+        Table bottomUpper = new Table();
+        Table bottomLower = new Table();
+        bottomMore.add(bottomUpper);
+        bottomMore.row();
+        bottomMore.add(bottomLower);
+
+        //Potion section
+        bottomUpper.add(new Image(rm.consumableHpLarge));
+        bottomUpper.add(new Image(rm.consumableHpLarge));
+        bottomUpper.add(new Image(rm.consumableHpLarge));
+
+        //Fragments section
+        bottomMore.add(new Label("Fragments:", rm.skin));
+        bottomMore.row();
+        bottomMore.add(new Image(rm.blackSquare16));
+        bottomMore.add(new Image(rm.blackSquare16));
+        bottomMore.add(new Image(rm.blackSquare16));
+        bottomMore.add(new Image(rm.blackSquare16));
+
+        //Left top: equipment
+        topEquip.add(getEquipmentTable()).center();
+
+        return leftTable;
+    }
+
+    /** @return the table containing the structure to show equipment. */
+    private Table getEquipmentTable(){
+
+        Table equipmentTable = new Table();
+
+        equipmentTable.add(new Image(rm.blackSquare16)); //Amulet
+        equipmentTable.add(new Image(rm.blackSquare16)); //Helmet
+        equipmentTable.add(new Image(rm.blackSquare16)); //Ring
+
+        equipmentTable.row();
+
+        equipmentTable.add(new Image(rm.blackSquare16)); //Main hand
+        equipmentTable.add(new Image(rm.blackSquare16)); //Chest slot
+        equipmentTable.add(new Image(rm.blackSquare16)); //Off hand
+
+        equipmentTable.row();
+
+        equipmentTable.add(new Image(rm.blackSquare16)); //Belt slot
+        equipmentTable.add(new Image(rm.blackSquare16)); //Gloves slot
+
+        equipmentTable.row();
+
+        equipmentTable.add(new Image(rm.blackSquare16)); //Boots slot
+
+        return equipmentTable;
     }
 
     public void render(){

@@ -189,7 +189,7 @@ public class Player extends Entity {
 
         if(Gdx.input.isKeyPressed(Input.Keys.E)){
             if(isPlayerTouchingPortal){
-                uiManager.showElement(UiManager.UiType.LEVEL_SELECTOR);
+                uiManager.showElement(UiManager.UiType.LEVEL_SELECTOR, inventory);
             }
         }
 
@@ -209,7 +209,7 @@ public class Player extends Entity {
         }*/
 
         if(Gdx.input.isKeyPressed(Input.Keys.I)){
-            uiManager.showElement(UiManager.UiType.INVENTORY);
+            uiManager.showElement(UiManager.UiType.INVENTORY, inventory);
         }
     }
 
