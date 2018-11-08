@@ -42,6 +42,7 @@ public class ResourceManager {
     public TextureRegion invSlotDownLeft;
     public TextureRegion invSlotLeft;
     public TextureRegion invSlotMiddle;
+    public Texture invSlot;
     public int inventorySlotSize;
 
 
@@ -114,6 +115,7 @@ public class ResourceManager {
          invSlotLeft = inventorySlotAtlas.findRegion("left");
          invSlotMiddle = inventorySlotAtlas.findRegion("middle");
          inventorySlotSize = invSlotDown.getRegionHeight();
+         invSlot = new Texture(Gdx.files.internal("ui/img/inventorySlot/inventorySlot.png"));
     }
 
     private void setConsumables(){

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import helpers.Inventory;
@@ -130,7 +131,7 @@ public class UiManager implements Disposable {
         Table contentTable = new Table();
         Table leftTable = new Table();
         ScrollPane rightScrollPane;
-        
+
         //right table content = inventory
         rightScrollPane = getRightInventorySide(givenInventory.getItems());
 
@@ -166,13 +167,19 @@ public class UiManager implements Disposable {
         for(int i = 0; i < numberofVerticalCells; i++){
             for(int j = 0; j < numberOfHorizontalCells; j++){
                 Actor actor;
+                Table tempTable = new Table();
+                tempTable.setBackground(new TextureRegionDrawable(rm.boxDownLeft));
                 if(tempItems.size() != 0){
-                    actor = new Image(tempItems.get(0).getTexture());
-                    tempItems.remove(0);
-                }else
-                    actor = new Image(rm.blackSquare16); //TODO Change to something else!!
+                    tempTable = new Table();
+                    //actor = new Image(tempItems.get(0).getTexture());
+                    tempTable.add(new Image(tempItems.get(0).getTexture()));
 
-                inventoryTable.add(actor);
+                    tempItems.remove(0);
+                }//else
+                    //actor = new Image(rm.invSlot); //TODO Change to something else!!
+                    //tempTable.add(new Image(rm.invSlot)); //TODO Change to something else!!
+
+                inventoryTable.add(tempTable);
             }
             inventoryTable.row();
         }

@@ -1,6 +1,7 @@
 package ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
@@ -76,6 +77,11 @@ public class UiBorderElement {
     public void setContent(WidgetGroup widget){ //TODO maybe container?
         this.contentTable.clearChildren();
         this.contentTable.add(widget);
+    }
+
+    public void setContent(Actor actor){
+        this.contentTable.clearChildren();
+        this.contentTable.add(actor);
     }
 
     public Table getTable() {
