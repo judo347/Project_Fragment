@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import utilities.ResourceManager;
 
+//https://github.com/libgdx/libgdx/wiki/Table
+
 public class UiBorderElement {
 
     public enum UiBorderType{
@@ -41,9 +43,9 @@ public class UiBorderElement {
         rootTable.setDebug(true); //TODO temp
         int textureSize = type.imageSize;
 
-        rootTable.add(new Image(type.atlas.findRegion("topleft"))).size(textureSize,textureSize).padTop(type.edgePadding).padLeft(type.edgePadding);
-        rootTable.add(new Image(type.atlas.findRegion("top"))).fill().minSize(textureSize,textureSize).padTop(type.edgePadding);
-        rootTable.add(new Image(type.atlas.findRegion("topright"))).size(textureSize,textureSize).padTop(type.edgePadding).padRight(type.edgePadding);
+        rootTable.add(new Image(type.atlas.findRegion("upleft"))).size(textureSize,textureSize).padTop(type.edgePadding).padLeft(type.edgePadding);
+        rootTable.add(new Image(type.atlas.findRegion("up"))).fill().minSize(textureSize,textureSize).padTop(type.edgePadding);
+        rootTable.add(new Image(type.atlas.findRegion("upright"))).size(textureSize,textureSize).padTop(type.edgePadding).padRight(type.edgePadding);
 
         rootTable.row();
 

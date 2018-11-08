@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import helpers.Inventory;
 import scenes.GameScene;
 import ui.elements.UiBorderElement;
-import ui.elements.UiTable;
 import utilities.GameInfo;
 import utilities.ResourceManager;
 
@@ -123,7 +122,7 @@ public class UiManager implements Disposable {
 
     private Table getInventoryTable(Inventory givenInventory){
 
-        UiTable inventoryTable = new UiTable(rm);
+        UiBorderElement inventoryTable = new UiBorderElement(rm, UiBorderElement.UiBorderType.BACKGROUND);
 
         //TODO Should getPlayer and getInventoy of that player
         Inventory inventory = new Inventory();
@@ -131,9 +130,7 @@ public class UiManager implements Disposable {
         Table contentTable = new Table();
         Table leftTable = new Table();
         ScrollPane rightScrollPane;
-
-
-
+        
         //right table content = inventory
         rightScrollPane = getRightInventorySide(givenInventory.getItems());
 
