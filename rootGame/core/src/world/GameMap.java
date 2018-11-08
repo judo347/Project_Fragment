@@ -71,7 +71,7 @@ public class GameMap{
         //What we see on the screen
         this.box2DCamera = new OrthographicCamera();
         //this.box2DCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
-        this.box2DCamera.setToOrtho(false, GameInfo.WIDTH/2f, GameInfo.HEIGHT/2f);
+        this.box2DCamera.setToOrtho(false, GameInfo.WIDTH, GameInfo.HEIGHT);
         this.box2DCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
         this.debugRenderer = new Box2DDebugRenderer();
 
