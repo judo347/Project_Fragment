@@ -54,6 +54,7 @@ public class OptionScene implements Screen{
 
             if(Gdx.input.isTouched()){
                 //game.setScreen(new MenuScene(game, world)); //TODO: Can i return to previous screen instead of creating a new one?
+                menuScene.resume();
                 game.setScreen(menuScene);
             }
         } else {

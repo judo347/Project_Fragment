@@ -28,6 +28,8 @@ public class MenuScene implements Screen {
     private Texture exitButtonActive;
     private Texture exitButtonInactive;
 
+    private double screenActiveCounter = 0;
+
     public MenuScene(MainGame game) {
         this.game = game;
         this.optionScene = new OptionScene(game, this);
@@ -46,6 +48,8 @@ public class MenuScene implements Screen {
 
     @Override
     public void render(float delta) {
+
+        screenActiveCounter += delta;
 
         Gdx.gl.glClearColor(0.2f,0.2f,0.2f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //Clears screen
@@ -91,7 +95,7 @@ public class MenuScene implements Screen {
         if(Gdx.input.getX() > exitButtonX && Gdx.input.getX() < exitButtonX + EXIT_BUTTON_WIDTH &&
                 Gdx.input.getY() < GameInfo.HEIGHT - EXIT_BUTTON_Y && Gdx.input.getY() > GameInfo.HEIGHT - EXIT_BUTTON_Y - exitButtonActive.getHeight()){
 
-            if(Gdx.input.isTouched()){
+            if(Gdx.input.isTouched() && screenActiveCounter > 1){
                 Gdx.app.exit();
             }
             game.getBatch().draw(exitButtonActive, exitButtonX, EXIT_BUTTON_Y, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
@@ -114,7 +118,7 @@ public class MenuScene implements Screen {
 
     @Override
     public void resume() {
-
+        screenActiveCounter = 0;
     }
 
     @Override
