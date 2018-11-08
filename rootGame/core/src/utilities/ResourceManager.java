@@ -19,7 +19,7 @@ public class ResourceManager {
 
         //BOX
     //public TextureAtlas boxAtlas;
-    public TextureAtlas boxAtlas;
+    private TextureAtlas boxAtlas;
     public TextureRegion boxTopLeft;
     public TextureRegion boxTop;
     public TextureRegion boxTopRight;
@@ -30,6 +30,20 @@ public class ResourceManager {
     public TextureRegion boxLeft;
     public TextureRegion boxMiddle;
     public int boxSize;
+
+        //INVENTORY SLOT
+    private TextureAtlas inventorySlotAtlas;
+    public TextureRegion invSlotTopLeft;
+    public TextureRegion invSlotTop;
+    public TextureRegion invSlotTopRight;
+    public TextureRegion invSlotRight;
+    public TextureRegion invSlotDownRight;
+    public TextureRegion invSlotDown;
+    public TextureRegion invSlotDownLeft;
+    public TextureRegion invSlotLeft;
+    public TextureRegion invSlotMiddle;
+    public int inventorySlotSize;
+
 
     //ITEMS
         //Consumables //TODO Rewrite to use atlas when there is different images for sizes
@@ -66,6 +80,7 @@ public class ResourceManager {
 
         //Set fields
         setUiBox();
+        setInventorySlots();
         setConsumables();
         setPlaceholders();
         skin = new Skin(Gdx.files.internal("ui/skin/uiskin.json"));
@@ -84,7 +99,20 @@ public class ResourceManager {
         boxLeft = boxAtlas.findRegion("left");
         boxMiddle = boxAtlas.findRegion("middle");
         boxSize = boxDown.getRegionHeight();
-        System.out.println(boxSize);
+    }
+
+    private void setInventorySlots(){
+         inventorySlotAtlas = assetManager.get("ui/img/inventorySlot/uiInventorySlot.atlas");
+         invSlotTopLeft = inventorySlotAtlas.findRegion("upleft");
+         invSlotTop = inventorySlotAtlas.findRegion("up");
+         invSlotTopRight = inventorySlotAtlas.findRegion("upright");
+         invSlotRight = inventorySlotAtlas.findRegion("right");
+         invSlotDownRight = inventorySlotAtlas.findRegion("downright");
+         invSlotDown = inventorySlotAtlas.findRegion("down");
+         invSlotDownLeft = inventorySlotAtlas.findRegion("downleft");
+         invSlotLeft = inventorySlotAtlas.findRegion("left");
+         invSlotMiddle = inventorySlotAtlas.findRegion("middle");
+         inventorySlotSize = invSlotDown.getRegionHeight();
     }
 
     private void setConsumables(){

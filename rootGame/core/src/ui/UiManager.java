@@ -9,11 +9,11 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import helpers.Inventory;
 import scenes.GameScene;
+import ui.elements.UiTable;
 import utilities.GameInfo;
 import utilities.ResourceManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class UiManager implements Disposable {
 
@@ -137,7 +137,7 @@ public class UiManager implements Disposable {
         rightScrollPane = getRightInventorySide(givenInventory.getItems());
 
         //left table content = char + frag
-        //TODO
+        leftTable = getLeftInventorySide();
 
         contentTable.add(leftTable);
         contentTable.add(rightScrollPane);
@@ -147,31 +147,7 @@ public class UiManager implements Disposable {
         return inventoryTable.getTable();
     }
 
-
-    /** Returns the scrollPane containing the inventory.
-    private ScrollPane getRightInventorySide(){
-
-        // https://stackoverflow.com/questions/21559131/scene2d-ui-how-to-make-a-grid-table
-        Table inventoryTable = new Table();
-        ScrollPane scrollPane = new ScrollPane(inventoryTable);
-        int rightTableMaxWidth = Gdx.graphics.getWidth() / 4; //TODO should be adjusted to handle space between cells
-        //int numberOfHorizontalCells = rightTableMaxWidth / GameInfo.ITEM_SIZE;
-        int numberOfHorizontalCells = rightTableMaxWidth / GameInfo.ITEM_SIZE;
-        inventoryTable.setWidth(numberOfHorizontalCells * GameInfo.ITEM_SIZE); //TODO should not be needed
-
-        for(int i = 0; i < NUMBER_OF_VERTICAL_INVENTORY_CELLS; i++){
-            for(int j = 0; j < numberOfHorizontalCells; j++){
-                Actor actor = new Image(rm.consumableHpLarge); //TODO Change to something else!!
-                inventoryTable.add(actor);
-            }
-            inventoryTable.row();
-        }
-
-        return scrollPane;
-    }
-    */
-
-    /** Returns the scrollPane containing the inventory. */
+    /** @return the scrollPane containing the inventory. */
     private ScrollPane getRightInventorySide(ArrayList<Item> itemsList){
 
         if(itemsList.size() == 0)
@@ -204,6 +180,72 @@ public class UiManager implements Disposable {
         }
 
         return scrollPane;
+    }
+
+    /** @return the table containing the left side of the inventory: the equipment + more. */
+    private Table getLeftInventorySide(){ //TODO Should propperly take some input with the current equipment.
+
+        Table leftTable = new Table();
+        leftTable.setDebug(true); //TODO DEBUGGER
+
+        //First split
+        Table topEquip = new Table();
+        Table bottomMore = new Table();
+        leftTable.add(topEquip);
+        leftTable.row();
+        leftTable.add(bottomMore);
+
+        //Bottom split
+        Table bottomUpper = new Table();
+        Table bottomLower = new Table();
+        bottomMore.add(bottomUpper);
+        bottomMore.row();
+        bottomMore.add(bottomLower);
+
+        //Potion section
+        bottomUpper.add(new Image(rm.consumableHpLarge));
+        bottomUpper.add(new Image(rm.consumableHpLarge));
+        bottomUpper.add(new Image(rm.consumableHpLarge));
+
+        //Fragments section
+        bottomMore.add(new Label("Fragments:", rm.skin));
+        bottomMore.row();
+        bottomMore.add(new Image(rm.blackSquare16));
+        bottomMore.add(new Image(rm.blackSquare16));
+        bottomMore.add(new Image(rm.blackSquare16));
+        bottomMore.add(new Image(rm.blackSquare16));
+
+        //Left top: equipment
+        topEquip.add(getEquipmentTable()).center();
+
+        return leftTable;
+    }
+
+    /** @return the table containing the structure to show equipment. */
+    private Table getEquipmentTable(){
+
+        Table equipmentTable = new Table();
+
+        equipmentTable.add(new Image(rm.blackSquare16)); //Amulet
+        equipmentTable.add(new Image(rm.blackSquare16)); //Helmet
+        equipmentTable.add(new Image(rm.blackSquare16)); //Ring
+
+        equipmentTable.row();
+
+        equipmentTable.add(new Image(rm.blackSquare16)); //Main hand
+        equipmentTable.add(new Image(rm.blackSquare16)); //Chest slot
+        equipmentTable.add(new Image(rm.blackSquare16)); //Off hand
+
+        equipmentTable.row();
+
+        equipmentTable.add(new Image(rm.blackSquare16)); //Belt slot
+        equipmentTable.add(new Image(rm.blackSquare16)); //Gloves slot
+
+        equipmentTable.row();
+
+        equipmentTable.add(new Image(rm.blackSquare16)); //Boots slot
+
+        return equipmentTable;
     }
 
     public void render(){

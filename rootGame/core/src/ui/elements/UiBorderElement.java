@@ -1,0 +1,80 @@
+package ui.elements;
+
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import utilities.ResourceManager;
+
+public class UiBorderElement {
+
+    enum UiBorderType{
+        INVENTORY_SLOT(15, "ui/img/inventorySlot/uiInventorySlot.atlas"), BACKGROUND(30, "ui/img/box/box.atlas");
+
+        TextureAtlas atlas;
+        int edgePadding;
+
+        UiBorderType(int edgePadding, String atlasPath) {
+            this.atlas = new TextureAtlas("ui/img/box/box.atlas");
+            this.edgePadding = edgePadding;
+        }
+    }
+
+    private ResourceManager rm;
+    private UiBorderType type;
+
+    private Table rootTable;
+    private Table contentTable; //TODO maybe use Container?
+
+    public UiBorderElement(ResourceManager rm, UiBorderType type){
+        this.rm = rm;
+        this.type = type;
+        setUpTable();
+    }
+
+    private void setUpTable(){
+        rootTable = new Table();
+        rootTable.setFillParent(true);
+        rootTable.setDebug(true); //TODO temp
+        int textureSize = type.atlas.findRegion("top").getRegionWidth();
+
+        rootTable.add(new Image(type.atlas.findRegion("topleft"))).size(textureSize,textureSize).padTop(type.edgePadding).padLeft(type.edgePadding);
+        rootTable.add(new Image(type.atlas.findRegion("top"))).fill().minSize(textureSize,textureSize).padTop(type.edgePadding);
+        rootTable.add(new Image(type.atlas.findRegion("topright"))).size(textureSize,textureSize).padTop(type.edgePadding).padRight(type.edgePadding);
+
+        rootTable.row();
+
+        rootTable.add(new Image(type.atlas.findRegion("left"))).minSize(textureSize,textureSize).expandY().fill().padLeft(type.edgePadding);
+
+        contentTable = new Table();
+        //rootTable.add(new Image(rm.boxMiddle)).minSize(rm.boxSize,rm.boxSize).expandY().fill();
+        contentTable.setBackground(new TextureRegionDrawable(type.atlas.findRegion("middle")));
+        rootTable.add(contentTable).fill();
+
+        rootTable.add(new Image(type.atlas.findRegion("right"))).minSize(textureSize,textureSize).expandY().fill().padRight(type.edgePadding);
+
+        rootTable.row();
+
+        rootTable.add(new Image(type.atlas.findRegion("downleft"))).size(textureSize,textureSize).padLeft(type.edgePadding).padBottom(type.edgePadding);
+        rootTable.add(new Image(type.atlas.findRegion("down"))).fill().minSize(textureSize,textureSize).padBottom(type.edgePadding);
+        rootTable.add(new Image(type.atlas.findRegion("downright"))).size(textureSize,textureSize).padRight(type.edgePadding).padBottom(type.edgePadding);
+
+        //System.out.println("Table is set up!"); //TODO TEMP
+    }
+
+    //TODO
+    public void resize(){
+        //TODO
+    }
+
+    //TODO
+    public void setContent(WidgetGroup widget){ //TODO maybe container?
+        this.contentTable.clearChildren();
+        this.contentTable.add(widget);
+    }
+
+    public Table getTable() {
+        return rootTable;
+    }
+}

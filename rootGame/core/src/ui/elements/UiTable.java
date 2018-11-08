@@ -1,6 +1,5 @@
-package ui;
+package ui.elements;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
@@ -11,10 +10,10 @@ import utilities.ResourceManager;
 
 public class UiTable{
 
-    ResourceManager rm;
+    private ResourceManager rm;
 
-    Table rootTable;
-    Table contentTable; //TODO maybe use Container?
+    private Table rootTable;
+    public Table contentTable; //TODO maybe use Container?
 
     private static final int edgePadding = 30;
 
