@@ -30,8 +30,8 @@ public class Player extends Entity {
 
     Animation[] verticalMovement;
     public static final float ANIMATION_SPEED = 0.5f;
-    public static final int HERO_WIDTH_PIXEL = 32;
-    public static final int HERO_HEIGHT_PIXEL = 64;
+    public static final int HERO_WIDTH_PIXEL = 96;
+    public static final int HERO_HEIGHT_PIXEL = 192;
     public static final int NUMBER_OF_VERTICAL_FRAMES = 5;
     public static final float WALK_TIMER_SWITCH_TIME = 0.15f;
     private float walkTimer;

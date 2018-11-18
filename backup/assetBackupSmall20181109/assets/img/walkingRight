@@ -1,0 +1,20 @@
+
+walkingRight.png
+size: 152,100
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+walkingRight
+  rotate: false
+  xy: 0, 0
+  size: 75, 100
+  orig: 75, 100
+  offset: 0, 0
+  index: 0
+walkingRight
+  rotate: false
+  xy: 77, 0
+  size: 75, 100
+  orig: 75, 100
+  offset: 0, 0
+  index: 1

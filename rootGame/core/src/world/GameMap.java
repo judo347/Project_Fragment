@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -44,6 +45,7 @@ public class GameMap{
 
     private OrthographicCamera box2DCamera;
     private Box2DDebugRenderer debugRenderer;
+    //private Matrix4 debugMatrix;
 
     //Get from MapLoader??
     private int mapWidth;
@@ -73,6 +75,10 @@ public class GameMap{
         //this.box2DCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
         this.box2DCamera.setToOrtho(false, GameInfo.WIDTH, GameInfo.HEIGHT);
         this.box2DCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT /2f, 0); //Pos of camera //TODO: Can we set to follow player on x-axis? maybe at another place?
+
+        //Debugger
+        //this.debugMatrix = new Matrix4(box2DCamera.combined);
+        //this.debugMatrix.scale(GameInfo.WIDTH, GameInfo.HEIGHT,1f);
         this.debugRenderer = new Box2DDebugRenderer();
 
         //Map loader
@@ -200,6 +206,7 @@ public class GameMap{
 
         //TODO DEBUG RENDERER
         debugRenderer.render(world, box2DCamera.combined); //Render what the camera sees
+        //debugRenderer.render(world, debugMatrix); //Render what the camera sees
 
         //How many times to calculate physics in one second // 1/60f wil calculate physics 60 times each second // Gdx.graphics.getDeltaTime() = calculate every frame.
         // 2nd and 3rd param is collision between elements, they determine of precise they are. Higher = more precise
